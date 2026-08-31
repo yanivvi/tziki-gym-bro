@@ -1,4 +1,4 @@
-import { buildWorkoutFromProfile, getLibraryMeta } from "./generator.js";
+import { buildWorkoutFromProfile, getLibraryMeta, findSwapCandidates, suggestProgression } from "./generator.js";
 
 const EQUIPMENT_OPTIONS = [
   "bodyweight",
@@ -86,9 +86,39 @@ function lastLoadForExercise(exerciseId) {
   const store = loadStore();
   for (const session of store.history) {
     const load = session.loads?.[exerciseId];
-    if (load) return load;
+    if (load) return { load, feel: session.feel || null };
   }
   return null;
+}
+
+function lastHistoryEntry(exerciseId) {
+  return lastLoadForExercise(exerciseId);
+}
+
+function sessionProfile() {
+  const w = state.session?.workout;
+  return {
+    equipment: w?.profile?.equipment || checkedValues($("equipment-checks")),
+    level: w?.profile?.level || $("level")?.value || "intermediate",
+    constraints: w?.profile?.constraints || checkedValues($("constraint-checks")),
+  };
+}
+
+function usedExerciseIds(exceptId) {
+  const used = new Set();
+  for (const block of state.session?.workout?.blocks || []) {
+    for (const ex of block.exercises || []) {
+      if (ex.exercise_id && ex.exercise_id !== exceptId) used.add(ex.exercise_id);
+    }
+  }
+  return used;
+}
+
+function progressionFor(exerciseId) {
+  const hist = lastHistoryEntry(exerciseId);
+  if (!hist) return null;
+  const full = state.exercises.find((e) => e.id === exerciseId);
+  return suggestProgression(hist.feel, hist.load, full);
 }
 
 const state = {
@@ -98,6 +128,7 @@ const state = {
   templates: [],
   selectedId: null,
   session: null,
+  swapOpenKey: null,
 };
 
 function $(id) {
@@ -257,11 +288,13 @@ function showExercise(id) {
   const rx = ex.default_prescription || {};
   const img = mediaUrl(ex);
   const last = lastLoadForExercise(id);
-  const lastHint = last
-    ? last.type === "bodyweight"
-      ? "Last load: bodyweight"
-      : `Last load: ${last.kg} kg`
-    : "";
+  const prog = progressionFor(id);
+  let lastHint = "";
+  if (last?.load?.type === "bodyweight") lastHint = "Last load: bodyweight";
+  else if (last?.load && last.load.kg !== "" && last.load.kg != null) {
+    lastHint = `Last load: ${last.load.kg} kg`;
+  }
+  if (prog?.text) lastHint = [lastHint, prog.text].filter(Boolean).join(" · ");
   detail.innerHTML = `
     ${img ? `<img class="detail-art" src="${escapeHtml(img)}" alt="${escapeHtml(ex.name)} illustration" />` : ""}
     <h2>${escapeHtml(ex.name)}</h2>
@@ -358,9 +391,13 @@ function startSession(workout) {
   const loads = {};
   for (const block of workout.blocks || []) {
     for (const ex of block.exercises || []) {
-      const prev = lastLoadForExercise(ex.exercise_id);
-      if (prev) loads[ex.exercise_id] = { ...prev };
-      else {
+      const hist = lastLoadForExercise(ex.exercise_id);
+      const prog = progressionFor(ex.exercise_id);
+      if (prog?.load) {
+        loads[ex.exercise_id] = { ...prog.load };
+      } else if (hist?.load) {
+        loads[ex.exercise_id] = { ...hist.load };
+      } else {
         const full = state.exercises.find((e) => e.id === ex.exercise_id);
         const onlyBw = (full?.equipment || []).length === 1 && full.equipment[0] === "bodyweight";
         loads[ex.exercise_id] = onlyBw
@@ -369,6 +406,7 @@ function startSession(workout) {
       }
     }
   }
+  state.swapOpenKey = null;
   state.session = {
     id: sessionId(),
     started_at: new Date().toISOString(),
@@ -381,18 +419,50 @@ function startSession(workout) {
   persistActiveSession();
 }
 
-function formatLoadHint(load) {
-  if (!load) return "";
-  if (load.type === "bodyweight") return "Last: BW";
-  if (load.kg !== "" && load.kg != null) return `Last: ${load.kg} kg`;
+function formatLoadHint(hist) {
+  if (!hist?.load) return "";
+  if (hist.load.type === "bodyweight") return "Last: BW";
+  if (hist.load.kg !== "" && hist.load.kg != null) return `Last: ${hist.load.kg} kg`;
   return "";
 }
 
-function loadControlHtml(exerciseId) {
+function swapPanelHtml(exerciseId, blockIdx, exIdx) {
+  const key = `${blockIdx}:${exIdx}`;
+  if (state.swapOpenKey !== key) return "";
+  const current = state.exercises.find((e) => e.id === exerciseId);
+  const candidates = findSwapCandidates(
+    current,
+    state.exercises,
+    sessionProfile(),
+    usedExerciseIds(exerciseId)
+  );
+  if (candidates.length === 0) {
+    return `<div class="swap-panel"><p class="move-meta">No matching swaps for your equipment/constraints.</p></div>`;
+  }
+  const items = candidates
+    .map((c) => {
+      const img = mediaUrl(c);
+      return `
+        <button type="button" class="swap-option" data-swap-to="${escapeHtml(c.id)}" data-block-idx="${blockIdx}" data-ex-idx="${exIdx}">
+          ${img ? `<img src="${escapeHtml(img)}" alt="" loading="lazy" />` : ""}
+          <span>
+            <strong>${escapeHtml(c.name)}</strong>
+            <em>${escapeHtml(c.primary_pattern)} · ${escapeHtml(c.skill)}</em>
+          </span>
+        </button>`;
+    })
+    .join("");
+  return `<div class="swap-panel"><p class="swap-panel-label">Swap with</p>${items}</div>`;
+}
+
+function loadControlHtml(exerciseId, blockIdx, exIdx) {
   const load = state.session?.loads?.[exerciseId] || { type: "kg", kg: "" };
   const isBw = load.type === "bodyweight";
   const hist = lastLoadForExercise(exerciseId);
+  const prog = progressionFor(exerciseId);
   const hint = formatLoadHint(hist);
+  const key = `${blockIdx}:${exIdx}`;
+  const swapOpen = state.swapOpenKey === key;
   return `
     <div class="load-row" data-exercise-id="${escapeHtml(exerciseId)}">
       <div class="load-toggle" role="group" aria-label="Load type">
@@ -404,8 +474,11 @@ function loadControlHtml(exerciseId) {
         <input type="number" inputmode="decimal" min="0" step="0.5" placeholder="kg"
           value="${escapeHtml(isBw ? "" : load.kg ?? "")}" data-load-kg />
       </label>
+      <button type="button" class="btn-swap${swapOpen ? " is-active" : ""}" data-swap-toggle="${escapeHtml(key)}">Swap</button>
       ${hint ? `<span class="progress-hint">${escapeHtml(hint)}</span>` : ""}
     </div>
+    ${prog ? `<p class="progression-tip progression-${escapeHtml(prog.kind)}">${escapeHtml(prog.text)}</p>` : ""}
+    ${swapPanelHtml(exerciseId, blockIdx, exIdx)}
   `;
 }
 
@@ -423,20 +496,20 @@ function renderWorkout() {
   const feel = state.session.feel;
 
   const blocksHtml = (workout.blocks || [])
-    .map((block) => {
+    .map((block, blockIdx) => {
       const moves = (block.exercises || [])
-        .map((ex) => {
+        .map((ex, exIdx) => {
           const p = ex.prescription || {};
           const full = state.exercises.find((e) => e.id === ex.exercise_id);
           const img = full ? mediaUrl(full) : null;
           return `
-            <div class="move">
+            <div class="move" data-block-idx="${blockIdx}" data-ex-idx="${exIdx}">
               ${img ? `<img class="move-art" src="${escapeHtml(img)}" alt="" loading="lazy" />` : ""}
               <div class="move-body">
                 <p class="move-title">${escapeHtml(ex.name)}</p>
                 <p class="move-meta">${escapeHtml(ex.primary_pattern)} · ${escapeHtml(p.sets ?? "")} × ${escapeHtml(p.reps ?? "")} · rest ${escapeHtml(p.rest_sec ?? "")}s</p>
                 <p class="move-meta">${escapeHtml(ex.cue_short || "")}</p>
-                ${loadControlHtml(ex.exercise_id)}
+                ${loadControlHtml(ex.exercise_id, blockIdx, exIdx)}
               </div>
             </div>
           `;
@@ -483,6 +556,48 @@ function renderWorkout() {
   bindSessionControls(out);
 }
 
+function applySwap(blockIdx, exIdx, newExerciseId) {
+  const block = state.session?.workout?.blocks?.[blockIdx];
+  const current = block?.exercises?.[exIdx];
+  const next = state.exercises.find((e) => e.id === newExerciseId);
+  if (!current || !next) return;
+
+  const oldId = current.exercise_id;
+  const rx = next.default_prescription || current.prescription || {};
+  block.exercises[exIdx] = {
+    ...current,
+    exercise_id: next.id,
+    name: next.name,
+    primary_pattern: next.primary_pattern,
+    family_id: next.family_id,
+    stance: next.stance,
+    cue_short: next.cue_short,
+    prescription: {
+      sets: rx.sets,
+      reps: rx.reps,
+      rest_sec: rx.rest_sec,
+      load: rx.load,
+      notes: rx.notes,
+    },
+  };
+
+  if (oldId !== next.id) {
+    const oldLoad = state.session.loads[oldId];
+    delete state.session.loads[oldId];
+    const hist = lastLoadForExercise(next.id);
+    const prog = progressionFor(next.id);
+    state.session.loads[next.id] = prog?.load
+      ? { ...prog.load }
+      : hist?.load
+        ? { ...hist.load }
+        : oldLoad || { type: "kg", kg: "" };
+  }
+
+  state.swapOpenKey = null;
+  persistActiveSession();
+  renderWorkout();
+}
+
 function bindSessionControls(root) {
   root.querySelectorAll(".load-row").forEach((row) => {
     const exerciseId = row.dataset.exerciseId;
@@ -506,6 +621,20 @@ function bindSessionControls(root) {
         kg: raw === "" ? "" : Number(raw),
       };
       persistActiveSession();
+    });
+  });
+
+  root.querySelectorAll("[data-swap-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.swapToggle;
+      state.swapOpenKey = state.swapOpenKey === key ? null : key;
+      renderWorkout();
+    });
+  });
+
+  root.querySelectorAll("[data-swap-to]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      applySwap(Number(btn.dataset.blockIdx), Number(btn.dataset.exIdx), btn.dataset.swapTo);
     });
   });
 
@@ -539,6 +668,7 @@ function bindSessionControls(root) {
     store.activeSession = null;
     saveStore(store);
     state.session = null;
+    state.swapOpenKey = null;
     const out = $("workout-out");
     out.classList.remove("empty");
     out.innerHTML = `
@@ -548,9 +678,10 @@ function bindSessionControls(root) {
           <p class="move-meta">Feel: ${escapeHtml(finished.feel)} · stored on this device</p>
         </div>
       </div>
-      <p class="move-meta">Build another workout when you’re ready — last loads will prefill.</p>
+      <p class="move-meta">Next session will suggest load changes from this feel.</p>
     `;
     $("generate-status").textContent = `Finished · ${store.history.length} session(s) in history`;
+    renderOverview();
   });
 }
 

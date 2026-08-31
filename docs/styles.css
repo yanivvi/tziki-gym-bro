@@ -955,3 +955,162 @@ html[dir="rtl"] .brand-mark {
 .demo-link:hover {
   border-bottom-color: var(--accent);
 }
+
+/* Mobile tap targets + rest timer + print */
+.tab,
+.theme-toggle,
+.btn-primary,
+.btn-secondary,
+.feel-btn,
+.btn-swap,
+.btn-rest,
+.load-type {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn-rest {
+  appearance: none;
+  margin-top: 0.55rem;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.btn-rest:active,
+.feel-btn:active,
+.btn-primary:active,
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+.move-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.rest-timer {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 40;
+  padding: 0.75rem clamp(1rem, 4vw, 2.5rem) calc(0.75rem + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--navy) 92%, black);
+  color: var(--accent-ink);
+  box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme="dark"] .rest-timer {
+  background: color-mix(in srgb, #0e1524 90%, var(--accent));
+  color: var(--ink);
+}
+
+.rest-timer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.rest-timer-inner strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.rest-timer .btn-secondary {
+  color: inherit;
+  border-color: color-mix(in srgb, currentColor 35%, transparent);
+  background: transparent;
+}
+
+body:has(.rest-timer:not([hidden])) {
+  padding-bottom: 5.5rem;
+}
+
+@media (max-width: 720px) {
+  .top {
+    align-items: stretch;
+  }
+
+  .top-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tabs {
+    flex: 1;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 0.85rem 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .ex-card,
+  .generate-form,
+  .workout-out,
+  .plan-card {
+    border-radius: 0.85rem;
+  }
+
+  .load-kg input {
+    width: 6.5rem;
+    min-height: 44px;
+    font-size: 1rem;
+  }
+}
+
+@media print {
+  .noise,
+  .top-actions,
+  .filters,
+  .plan-card,
+  .generate-form,
+  .session-progress,
+  .backup-section,
+  .history-section,
+  .rest-timer,
+  .btn-rest,
+  .btn-swap,
+  .load-row,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  .workout-out {
+    border: none;
+    box-shadow: none;
+    background: white;
+  }
+
+  .move-art {
+    max-width: 72px;
+  }
+
+  a.demo-link {
+    color: black;
+    text-decoration: underline;
+  }
+}

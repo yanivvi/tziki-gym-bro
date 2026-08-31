@@ -416,10 +416,22 @@ const state = {
   profiles: [],
   templates: [],
   plans: [],
+  videos: {},
   selectedId: null,
   session: null,
   swapOpenKey: null,
+  rest: null,
 };
+
+let restTickHandle = null;
+
+function haptic(pattern = 12) {
+  try {
+    if (navigator.vibrate) navigator.vibrate(pattern);
+  } catch {
+    /* optional */
+  }
+}
 
 function $(id) {
   return document.getElementById(id);
@@ -538,12 +550,123 @@ function mediaUrl(ex) {
 }
 
 function demoUrl(ex) {
+  if (!ex) return null;
   const raw = ex?.media?.video;
   if (typeof raw === "string" && /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(raw)) {
     return raw;
   }
-  const q = encodeURIComponent(`${ex.name} exercise form`);
+  const id = state.videos?.[ex.id];
+  if (typeof id === "string" && /^[\w-]{6,20}$/.test(id)) {
+    return `https://www.youtube.com/watch?v=${id}`;
+  }
+  const q = encodeURIComponent(`${ex.name} exercise form Athlean-X`);
   return `https://www.youtube.com/results?search_query=${q}`;
+}
+
+function formatRest(sec) {
+  const s = Math.max(0, Math.ceil(sec));
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${m}:${String(r).padStart(2, "0")}`;
+}
+
+function stopRestTimer() {
+  if (restTickHandle) {
+    clearInterval(restTickHandle);
+    restTickHandle = null;
+  }
+  state.rest = null;
+  const bar = $("rest-timer");
+  if (bar) bar.hidden = true;
+}
+
+function tickRestTimer() {
+  const bar = $("rest-timer");
+  const count = $("rest-timer-count");
+  if (!state.rest || !bar || !count) return;
+  const left = (state.rest.endsAt - Date.now()) / 1000;
+  if (left <= 0) {
+    count.textContent = "0:00";
+    haptic([40, 60, 40]);
+    stopRestTimer();
+    return;
+  }
+  count.textContent = formatRest(left);
+  bar.hidden = false;
+}
+
+function startRestTimer(seconds, label) {
+  const sec = Number(seconds) || 60;
+  stopRestTimer();
+  state.rest = {
+    endsAt: Date.now() + sec * 1000,
+    total: sec,
+    label: label || t("rest"),
+  };
+  const labelEl = $("rest-timer-label");
+  if (labelEl) labelEl.textContent = state.rest.label;
+  haptic(18);
+  tickRestTimer();
+  restTickHandle = setInterval(tickRestTimer, 250);
+}
+
+function workoutShareText(session) {
+  const w = session?.workout;
+  if (!w) return "";
+  const lines = [
+    state.session?.plan?.dayLabel || w.template?.name || "Workout",
+    `${w.profile?.goal || ""} · ${w.profile?.level || ""} · ~${w.estimated_minutes || "?"} min`,
+    "",
+  ];
+  for (const block of w.blocks || []) {
+    lines.push(`## ${block.label || block.type}`);
+    for (const ex of block.exercises || []) {
+      const p = ex.prescription || {};
+      const load = session.loads?.[ex.exercise_id];
+      let loadTxt = "";
+      if (load?.type === "bodyweight") loadTxt = " · BW";
+      else if (load?.kg !== "" && load?.kg != null) loadTxt = ` · ${load.kg} kg`;
+      lines.push(`- ${ex.name}: ${p.sets ?? "?"}×${p.reps ?? "?"}${loadTxt}`);
+      if (ex.cue_short) lines.push(`  cue: ${ex.cue_short}`);
+    }
+    lines.push("");
+  }
+  if (session.feel) lines.push(`Feel: ${session.feel}`);
+  lines.push("Tziki Gym Bro");
+  return lines.join("\n");
+}
+
+async function shareSession() {
+  if (!state.session) return;
+  const text = workoutShareText(state.session);
+  const title = state.session.plan?.dayLabel || state.session.workout?.template?.name || "Workout";
+  try {
+    if (navigator.share) {
+      await navigator.share({ title, text });
+      haptic(20);
+      return;
+    }
+    await navigator.clipboard.writeText(text);
+    haptic(20);
+    const status = $("session-save-status");
+    if (status) status.textContent = t("share_copied");
+  } catch {
+    const status = $("session-save-status");
+    if (status) status.textContent = t("share_failed");
+  }
+}
+
+function printSession() {
+  if (!state.session) return;
+  haptic(10);
+  window.print();
+}
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
 }
 
 function renderExerciseList() {
@@ -854,6 +977,7 @@ function startSession(workout) {
     workout,
   };
   persistActiveSession();
+  haptic(25);
   speakWorkoutStartPrompt();
 }
 
@@ -951,6 +1075,9 @@ function renderWorkout() {
                 ${cue ? `<p class="move-cue"><span class="cue-label">${escapeHtml(t("cue"))}:</span> ${escapeHtml(cue)}</p>` : ""}
                 ${demo ? `<p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>` : ""}
                 ${loadControlHtml(ex.exercise_id, blockIdx, exIdx)}
+                <div class="move-actions">
+                  <button type="button" class="btn-rest" data-rest-sec="${escapeHtml(p.rest_sec ?? 60)}" data-rest-name="${escapeHtml(ex.name)}">${escapeHtml(t("rest_start"))}</button>
+                </div>
               </div>
             </div>
           `;
@@ -994,6 +1121,8 @@ function renderWorkout() {
       </div>
       <div class="session-actions">
         <button type="button" class="btn-secondary" id="save-session-btn">${escapeHtml(t("save_progress"))}</button>
+        <button type="button" class="btn-secondary" id="share-session-btn">${escapeHtml(t("share_session"))}</button>
+        <button type="button" class="btn-secondary" id="print-session-btn">${escapeHtml(t("print_session"))}</button>
         <button type="button" class="btn-primary" id="finish-session-btn">${escapeHtml(t("finish_session"))}</button>
       </div>
       <p id="session-save-status" class="status" role="status"></p>
@@ -1085,9 +1214,16 @@ function bindSessionControls(root) {
     });
   });
 
+  root.querySelectorAll("[data-rest-sec]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      startRestTimer(btn.dataset.restSec, `${t("rest")} · ${btn.dataset.restName || ""}`);
+    });
+  });
+
   root.querySelectorAll("[data-feel]").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.session.feel = btn.dataset.feel;
+      haptic(15);
       persistActiveSession();
       renderWorkout();
     });
@@ -1096,6 +1232,15 @@ function bindSessionControls(root) {
   $("save-session-btn")?.addEventListener("click", () => {
     persistActiveSession();
     persistForm();
+    haptic(12);
+  });
+
+  $("share-session-btn")?.addEventListener("click", () => {
+    shareSession();
+  });
+
+  $("print-session-btn")?.addEventListener("click", () => {
+    printSession();
   });
 
   $("finish-session-btn")?.addEventListener("click", () => {
@@ -1117,6 +1262,8 @@ function bindSessionControls(root) {
     advancePlanAfterFinish(finished);
     state.session = null;
     state.swapOpenKey = null;
+    stopRestTimer();
+    haptic([30, 40, 30]);
     const out = $("workout-out");
     out.classList.remove("empty");
     const next = currentPlanDay();
@@ -1164,6 +1311,11 @@ function renderOverview() {
 async function init() {
   applyI18n(getLang());
   initTheme();
+  registerServiceWorker();
+  $("rest-timer-skip")?.addEventListener("click", () => {
+    stopRestTimer();
+    haptic(10);
+  });
   $("theme-toggle")?.addEventListener("click", () => {
     applyTheme(currentTheme() === "dark" ? "light" : "dark");
   });
@@ -1195,17 +1347,19 @@ async function init() {
   $("workout-out").textContent = t("workout_empty");
   setTab("generate");
 
-  const [exercises, templates, profiles, plans] = await Promise.all([
+  const [exercises, templates, profiles, plans, videos] = await Promise.all([
     loadJson("./data/exercises.json"),
     loadJson("./data/templates.json"),
     loadJson("./data/profiles.json"),
     loadJson("./data/plans.json"),
+    loadJson("./data/videos.json").catch(() => ({})),
   ]);
 
   state.exercises = Array.isArray(exercises) ? exercises : exercises.exercises || [];
   state.templates = Array.isArray(templates) ? templates : templates.templates || [];
   state.profiles = Array.isArray(profiles) ? profiles : profiles.profiles || [];
   state.plans = Array.isArray(plans) ? plans : plans.plans || [];
+  state.videos = videos && typeof videos === "object" && !Array.isArray(videos) ? videos : {};
   state.meta = getLibraryMeta(state.exercises, state.templates, state.profiles);
 
   fillSelect($("filter-pattern"), uniqueSorted(state.exercises.map((e) => e.primary_pattern)), {

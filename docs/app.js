@@ -682,6 +682,34 @@ function persistActiveSession() {
   }
 }
 
+function speakWorkoutStartPrompt() {
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+  let spoken = false;
+  const speak = () => {
+    if (spoken) return;
+    spoken = true;
+    try {
+      synth.cancel();
+      const utter = new SpeechSynthesisUtterance("הם רבים אבל אנחנו ננצח!");
+      utter.lang = "he-IL";
+      utter.rate = 0.95;
+      const heVoice = synth
+        .getVoices()
+        .find((v) => (v.lang || "").toLowerCase().startsWith("he"));
+      if (heVoice) utter.voice = heVoice;
+      synth.speak(utter);
+    } catch {
+      /* speech optional */
+    }
+  };
+  if (synth.getVoices().length > 0) speak();
+  else {
+    synth.addEventListener("voiceschanged", speak, { once: true });
+    setTimeout(speak, 400);
+  }
+}
+
 function startSession(workout) {
   const loads = {};
   for (const block of workout.blocks || []) {
@@ -712,6 +740,7 @@ function startSession(workout) {
     workout,
   };
   persistActiveSession();
+  speakWorkoutStartPrompt();
 }
 
 function formatLoadHint(hist) {

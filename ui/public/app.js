@@ -1,5 +1,11 @@
 import { buildWorkoutFromProfile, findSwapCandidates, suggestProgression } from "./generator.js";
 import { applyI18n, getLang, setLang, t } from "./i18n.js";
+import {
+  saveVoiceClip,
+  loadVoiceClip,
+  clearVoiceClip,
+  playVoiceClip,
+} from "./voice-clip.js";
 
 const EQUIPMENT_OPTIONS = [
   "bodyweight",
@@ -695,7 +701,7 @@ function persistActiveSession() {
   }
 }
 
-function speakWorkoutStartPrompt() {
+function speakWorkoutStartPromptTts() {
   const synth = window.speechSynthesis;
   if (!synth) return;
   let spoken = false;
@@ -721,6 +727,114 @@ function speakWorkoutStartPrompt() {
     synth.addEventListener("voiceschanged", speak, { once: true });
     setTimeout(speak, 400);
   }
+}
+
+async function speakWorkoutStartPrompt() {
+  try {
+    const played = await playVoiceClip();
+    if (played) return;
+  } catch {
+    /* fall through to TTS */
+  }
+  speakWorkoutStartPromptTts();
+}
+
+async function refreshVoiceClipStatus() {
+  const status = $("voice-clip-status");
+  const preview = $("voice-preview-btn");
+  const clearBtn = $("voice-clear-btn");
+  if (!status) return;
+  try {
+    const clip = await loadVoiceClip();
+    const has = Boolean(clip?.blob);
+    status.textContent = has ? t("voice_ready") : t("voice_none");
+    if (preview) preview.disabled = !has;
+    if (clearBtn) clearBtn.disabled = !has;
+  } catch {
+    status.textContent = t("voice_none");
+    if (preview) preview.disabled = true;
+    if (clearBtn) clearBtn.disabled = true;
+  }
+}
+
+function bindVoiceClipControls() {
+  const status = () => $("voice-clip-status");
+  let mediaRecorder = null;
+  let chunks = [];
+
+  const setStatus = (msg) => {
+    const el = status();
+    if (el) el.textContent = msg;
+  };
+
+  $("voice-upload-input")?.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    try {
+      await saveVoiceClip(file);
+      setStatus(t("voice_saved"));
+      await refreshVoiceClipStatus();
+    } catch (err) {
+      setStatus(err.message?.includes("large") ? t("voice_too_large") : err.message || "Failed");
+    }
+  });
+
+  $("voice-preview-btn")?.addEventListener("click", async () => {
+    const ok = await playVoiceClip();
+    if (!ok) speakWorkoutStartPromptTts();
+  });
+
+  $("voice-clear-btn")?.addEventListener("click", async () => {
+    await clearVoiceClip();
+    setStatus(t("voice_cleared"));
+    await refreshVoiceClipStatus();
+  });
+
+  $("voice-record-btn")?.addEventListener("click", async () => {
+    const btn = $("voice-record-btn");
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      mediaRecorder.stop();
+      return;
+    }
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setStatus(t("voice_mic_denied"));
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      chunks = [];
+      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : MediaRecorder.isTypeSupported("audio/webm")
+          ? "audio/webm"
+          : "";
+      mediaRecorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data?.size) chunks.push(e.data);
+      };
+      mediaRecorder.onstop = async () => {
+        stream.getTracks().forEach((tr) => tr.stop());
+        btn.textContent = t("voice_record");
+        const blob = new Blob(chunks, { type: mediaRecorder.mimeType || "audio/webm" });
+        mediaRecorder = null;
+        chunks = [];
+        try {
+          await saveVoiceClip(blob);
+          setStatus(t("voice_saved"));
+          await refreshVoiceClipStatus();
+        } catch (err) {
+          setStatus(err.message?.includes("large") ? t("voice_too_large") : err.message || "Failed");
+        }
+      };
+      mediaRecorder.start();
+      btn.textContent = t("voice_recording");
+    } catch {
+      setStatus(t("voice_mic_denied"));
+    }
+  });
+
+  refreshVoiceClipStatus();
 }
 
 function startSession(workout) {
@@ -1077,6 +1191,7 @@ async function init() {
     renderPlanCard();
     renderOverview();
     renderExerciseList();
+    refreshVoiceClipStatus();
     applyTheme(currentTheme());
   });
 
@@ -1108,21 +1223,21 @@ async function init() {
   state.plans = Array.isArray(plans) ? plans : plans.plans || [];
 
   fillSelect($("filter-pattern"), uniqueSorted(state.exercises.map((e) => e.primary_pattern)), {
-    blankLabel: "All patterns",
+    blankLabel: t("all_patterns"),
   });
   fillSelect(
     $("filter-equipment"),
     uniqueSorted(state.exercises.flatMap((e) => e.equipment || [])),
-    { blankLabel: "Any" }
+    { blankLabel: t("any") }
   );
   fillSelect(
     $("template-select"),
-    state.templates.map((t) => ({ value: t.id, label: t.name }))
+    state.templates.map((tmpl) => ({ value: tmpl.id, label: tmpl.name }))
   );
   fillSelect(
     $("profile-select"),
     state.profiles.map((p) => ({ value: p.id, label: `${p.name} (${p.level})` })),
-    { blankLabel: "Custom" }
+    { blankLabel: t("custom") }
   );
   fillSelect(
     $("plan-select"),
@@ -1154,6 +1269,7 @@ async function init() {
   });
 
   bindBackupControls();
+  bindVoiceClipControls();
 
   $("profile-select").addEventListener("change", () => {
     const id = $("profile-select").value;
@@ -1185,7 +1301,6 @@ async function init() {
         profile,
         template: $("template-select").value || null,
       });
-      // Client-side warm-up/cooldown (API server may lag behind)
       const { augmentWarmupCooldown, createRng } = await import("./generator.js");
       workout = augmentWarmupCooldown(workout, state.exercises, profile, createRng(workout.seed || 1));
       startSession(workout);

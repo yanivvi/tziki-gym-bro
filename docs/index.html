@@ -171,6 +171,20 @@
         <p class="lede" data-i18n="history_lede">Finished workouts on this device — used for load suggestions and plan variety.</p>
         <div id="history-list" class="history-list"></div>
       </div>
+      <div class="backup-section" id="voice-clip-section">
+        <h2 data-i18n="voice_title">Workout start voice</h2>
+        <p class="lede" data-i18n="voice_lede">Upload or record your own clip. It plays when a workout starts; system Hebrew TTS is the fallback.</p>
+        <p id="voice-clip-status" class="status" role="status" data-i18n="voice_none">No custom clip yet — using spoken TTS.</p>
+        <div class="backup-actions">
+          <label class="btn-secondary backup-import">
+            <span data-i18n="voice_upload">Upload audio</span>
+            <input type="file" id="voice-upload-input" accept="audio/*" hidden />
+          </label>
+          <button type="button" class="btn-secondary" id="voice-record-btn" data-i18n="voice_record">Record</button>
+          <button type="button" class="btn-secondary" id="voice-preview-btn" data-i18n="voice_preview" disabled>Preview</button>
+          <button type="button" class="btn-secondary" id="voice-clear-btn" data-i18n="voice_clear" disabled>Clear</button>
+        </div>
+      </div>
       <div class="backup-section">
         <h2 data-i18n="backup_title">Backup</h2>
         <p class="lede" data-i18n="backup_lede">Progress lives in this browser only. Export a file to keep it safe, or restore on another device.</p>

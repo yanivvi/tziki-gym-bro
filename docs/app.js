@@ -1,4 +1,5 @@
 import { buildWorkoutFromProfile, getLibraryMeta, findSwapCandidates, suggestProgression } from "./generator.js";
+import { applyI18n, getLang, setLang, t } from "./i18n.js";
 
 const EQUIPMENT_OPTIONS = [
   "bodyweight",
@@ -216,7 +217,7 @@ function renderPlanCard() {
 
   const info = currentPlanDay();
   if (!info) {
-    desc.textContent = "Pick a plan to unlock Today’s session.";
+    desc.textContent = t("plan_desc_empty");
     today.hidden = true;
     today.textContent = "";
     buildBtn.disabled = true;
@@ -283,7 +284,7 @@ function renderHistory() {
   const store = loadStore();
   const rows = (store.history || []).slice(0, 12);
   if (rows.length === 0) {
-    list.innerHTML = `<p class="move-meta">No finished sessions yet.</p>`;
+    list.innerHTML = `<p class="move-meta">${escapeHtml(t("history_empty"))}</p>`;
     return;
   }
   list.innerHTML = rows
@@ -445,8 +446,8 @@ function applyTheme(theme) {
   const btn = $("theme-toggle");
   if (btn) {
     btn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-    btn.textContent = next === "dark" ? "Light" : "Dark";
-    btn.title = next === "dark" ? "Switch to light mode" : "Switch to dark mode";
+    btn.textContent = next === "dark" ? t("theme_light") : t("theme_dark");
+    btn.title = next === "dark" ? t("theme_to_light") : t("theme_to_dark");
   }
 }
 
@@ -530,6 +531,15 @@ function mediaUrl(ex) {
   return `./illustrations/${name}`;
 }
 
+function demoUrl(ex) {
+  const raw = ex?.media?.video;
+  if (typeof raw === "string" && /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(raw)) {
+    return raw;
+  }
+  const q = encodeURIComponent(`${ex.name} exercise form`);
+  return `https://www.youtube.com/results?search_query=${q}`;
+}
+
 function renderExerciseList() {
   const list = $("exercise-list");
   const rows = filteredExercises().sort((a, b) => a.name.localeCompare(b.name));
@@ -578,10 +588,12 @@ function showExercise(id) {
     lastHint = `Last load: ${last.load.kg} kg`;
   }
   if (prog?.text) lastHint = [lastHint, prog.text].filter(Boolean).join(" · ");
+  const demo = demoUrl(ex);
   detail.innerHTML = `
     ${img ? `<img class="detail-art" src="${escapeHtml(img)}" alt="${escapeHtml(ex.name)} illustration" />` : ""}
     <h2>${escapeHtml(ex.name)}</h2>
     <p class="cue">${escapeHtml(ex.cue_long || ex.cue_short || "")}</p>
+    <p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>
     <div class="meta-row">
       <span class="chip accent">${escapeHtml(ex.primary_pattern)}</span>
       <span class="chip">${escapeHtml(ex.skill)}</span>
@@ -720,7 +732,7 @@ function swapPanelHtml(exerciseId, blockIdx, exIdx) {
     usedExerciseIds(exerciseId)
   );
   if (candidates.length === 0) {
-    return `<div class="swap-panel"><p class="move-meta">No matching swaps for your equipment/constraints.</p></div>`;
+    return `<div class="swap-panel"><p class="move-meta">${escapeHtml(t("swap_none"))}</p></div>`;
   }
   const items = candidates
     .map((c) => {
@@ -735,7 +747,7 @@ function swapPanelHtml(exerciseId, blockIdx, exIdx) {
         </button>`;
     })
     .join("");
-  return `<div class="swap-panel"><p class="swap-panel-label">Swap with</p>${items}</div>`;
+  return `<div class="swap-panel"><p class="swap-panel-label">${escapeHtml(t("swap_with"))}</p>${items}</div>`;
 }
 
 function loadControlHtml(exerciseId, blockIdx, exIdx) {
@@ -757,7 +769,7 @@ function loadControlHtml(exerciseId, blockIdx, exIdx) {
         <input type="number" inputmode="decimal" min="0" step="0.5" placeholder="kg"
           value="${escapeHtml(isBw ? "" : load.kg ?? "")}" data-load-kg />
       </label>
-      <button type="button" class="btn-swap${swapOpen ? " is-active" : ""}" data-swap-toggle="${escapeHtml(key)}">Swap</button>
+      <button type="button" class="btn-swap${swapOpen ? " is-active" : ""}" data-swap-toggle="${escapeHtml(key)}">${escapeHtml(t("swap"))}</button>
       ${hint ? `<span class="progress-hint">${escapeHtml(hint)}</span>` : ""}
     </div>
     ${prog ? `<p class="progression-tip progression-${escapeHtml(prog.kind)}">${escapeHtml(prog.text)}</p>` : ""}
@@ -785,13 +797,16 @@ function renderWorkout() {
           const p = ex.prescription || {};
           const full = state.exercises.find((e) => e.id === ex.exercise_id);
           const img = full ? mediaUrl(full) : null;
+          const demo = full ? demoUrl(full) : null;
+          const cue = ex.cue_short || full?.cue_short || "";
           return `
             <div class="move" data-block-idx="${blockIdx}" data-ex-idx="${exIdx}">
               ${img ? `<img class="move-art" src="${escapeHtml(img)}" alt="" loading="lazy" />` : ""}
               <div class="move-body">
                 <p class="move-title">${escapeHtml(ex.name)}</p>
                 <p class="move-meta">${escapeHtml(ex.primary_pattern)} · ${escapeHtml(p.sets ?? "")} × ${escapeHtml(p.reps ?? "")} · rest ${escapeHtml(p.rest_sec ?? "")}s</p>
-                <p class="move-meta">${escapeHtml(ex.cue_short || "")}</p>
+                ${cue ? `<p class="move-cue"><span class="cue-label">${escapeHtml(t("cue"))}:</span> ${escapeHtml(cue)}</p>` : ""}
+                ${demo ? `<p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>` : ""}
                 ${loadControlHtml(ex.exercise_id, blockIdx, exIdx)}
               </div>
             </div>
@@ -806,10 +821,16 @@ function renderWorkout() {
     .map((w) => `<p class="move-meta">${escapeHtml(w)}</p>`)
     .join("");
 
-  const feelButtons = FEEL_OPTIONS.map(
-    (opt) =>
-      `<button type="button" class="feel-btn${feel === opt.value ? " is-active" : ""}" data-feel="${opt.value}">${opt.label}</button>`
-  ).join("");
+  const feelButtons = [
+    { value: "good", label: t("feel_good") },
+    { value: "mid", label: t("feel_mid") },
+    { value: "bad", label: t("feel_bad") },
+  ]
+    .map(
+      (opt) =>
+        `<button type="button" class="feel-btn${feel === opt.value ? " is-active" : ""}" data-feel="${opt.value}">${escapeHtml(opt.label)}</button>`
+    )
+    .join("");
 
   out.innerHTML = `
     <div class="workout-head">
@@ -817,20 +838,20 @@ function renderWorkout() {
         <h2>${escapeHtml(state.session.plan?.dayLabel || workout.template?.name || "Workout")}</h2>
         <p class="move-meta">${escapeHtml(workout.profile?.goal || "")} · ${escapeHtml(workout.profile?.level || "")} · ~${escapeHtml(workout.estimated_minutes)} min${state.session.plan ? ` · cycle ${escapeHtml(state.session.plan.cycle)}` : ""}</p>
       </div>
-      <span class="badge ${coverageOk ? "ok" : "warn"}">${coverageOk ? "coverage ok" : "coverage gaps"}</span>
+      <span class="badge ${coverageOk ? "ok" : "warn"}">${coverageOk ? escapeHtml(t("coverage_ok")) : escapeHtml(t("coverage_gaps"))}</span>
     </div>
     ${warnings}
     ${blocksHtml || "<p class='move-meta'>No blocks generated.</p>"}
     <section class="session-progress">
-      <h3>Session progress</h3>
-      <p class="move-meta">Saved on this device only — reopen the app to continue where you left off.</p>
-      <div class="feel-row" role="group" aria-label="How was the session?">
-        <span class="feel-label">How was the session?</span>
+      <h3>${escapeHtml(t("session_progress"))}</h3>
+      <p class="move-meta">${escapeHtml(t("session_progress_lede"))}</p>
+      <div class="feel-row" role="group" aria-label="${escapeHtml(t("how_session"))}">
+        <span class="feel-label">${escapeHtml(t("how_session"))}</span>
         ${feelButtons}
       </div>
       <div class="session-actions">
-        <button type="button" class="btn-secondary" id="save-session-btn">Save progress</button>
-        <button type="button" class="btn-primary" id="finish-session-btn">Finish session</button>
+        <button type="button" class="btn-secondary" id="save-session-btn">${escapeHtml(t("save_progress"))}</button>
+        <button type="button" class="btn-primary" id="finish-session-btn">${escapeHtml(t("finish_session"))}</button>
       </div>
       <p id="session-save-status" class="status" role="status"></p>
     </section>
@@ -937,7 +958,7 @@ function bindSessionControls(root) {
   $("finish-session-btn")?.addEventListener("click", () => {
     if (!state.session.feel) {
       const status = $("session-save-status");
-      if (status) status.textContent = "Pick good / mid / bad before finishing.";
+      if (status) status.textContent = t("finish_need_feel");
       return;
     }
     const finished = {
@@ -962,7 +983,7 @@ function bindSessionControls(root) {
     out.innerHTML = `
       <div class="workout-head">
         <div>
-          <h2>Session saved</h2>
+          <h2>${escapeHtml(t("session_saved"))}</h2>
           <p class="move-meta">Feel: ${escapeHtml(finished.feel)} · stored on this device</p>
         </div>
       </div>
@@ -998,9 +1019,23 @@ function renderOverview() {
 }
 
 async function init() {
+  applyI18n(getLang());
   initTheme();
   $("theme-toggle")?.addEventListener("click", () => {
     applyTheme(currentTheme() === "dark" ? "light" : "dark");
+  });
+  $("lang-toggle")?.addEventListener("click", () => {
+    const next = setLang(getLang() === "he" ? "en" : "he");
+    applyI18n(next);
+    if (state.session) renderWorkout();
+    else {
+      $("workout-out").classList.add("empty");
+      $("workout-out").textContent = t("workout_empty");
+    }
+    renderPlanCard();
+    renderOverview();
+    renderExerciseList();
+    applyTheme(currentTheme());
   });
 
   document.querySelectorAll(".tab").forEach((btn) => {
@@ -1013,7 +1048,8 @@ async function init() {
   });
 
   $("workout-out").classList.add("empty");
-  $("workout-out").textContent = "Build a session to preview it here.";
+  $("workout-out").textContent = t("workout_empty");
+  setTab("generate");
 
   const [exercises, templates, profiles, plans] = await Promise.all([
     loadJson("./data/exercises.json"),
@@ -1029,26 +1065,26 @@ async function init() {
   state.meta = getLibraryMeta(state.exercises, state.templates, state.profiles);
 
   fillSelect($("filter-pattern"), uniqueSorted(state.exercises.map((e) => e.primary_pattern)), {
-    blankLabel: "All patterns",
+    blankLabel: t("all_patterns"),
   });
   fillSelect(
     $("filter-equipment"),
     uniqueSorted(state.exercises.flatMap((e) => e.equipment || [])),
-    { blankLabel: "Any" }
+    { blankLabel: t("any") }
   );
   fillSelect(
     $("template-select"),
-    state.templates.map((t) => ({ value: t.id, label: t.name }))
+    state.templates.map((tmpl) => ({ value: tmpl.id, label: tmpl.name }))
   );
   fillSelect(
     $("profile-select"),
     state.profiles.map((p) => ({ value: p.id, label: `${p.name} (${p.level})` })),
-    { blankLabel: "Custom" }
+    { blankLabel: t("custom") }
   );
   fillSelect(
     $("plan-select"),
     state.plans.map((p) => ({ value: p.id, label: p.name })),
-    { blankLabel: "No plan — one-off" }
+    { blankLabel: t("plan_none") }
   );
 
   renderChecks($("equipment-checks"), EQUIPMENT_OPTIONS, new Set(["bodyweight", "dbs", "bands"]));
@@ -1096,7 +1132,7 @@ async function init() {
     event.preventDefault();
     const status = $("generate-status");
     const btn = event.submitter || $("generate-form").querySelector('button[type="submit"]');
-    status.textContent = "Generating…";
+    status.textContent = t("generating");
     btn.disabled = true;
     try {
       const profile = collectProfile();
@@ -1123,7 +1159,7 @@ async function init() {
     state.session = store.activeSession;
     renderWorkout();
     setTab("generate");
-    $("generate-status").textContent = "Restored your last open session";
+    $("generate-status").textContent = t("restored_session");
   }
 }
 

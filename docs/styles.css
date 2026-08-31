@@ -918,3 +918,40 @@ main {
   cursor: pointer;
   margin: 0;
 }
+
+html[lang="he"] .brand-mark,
+html[dir="rtl"] .brand-mark {
+  font-family: "Heebo", var(--font-display), sans-serif;
+  max-width: 22ch;
+}
+
+.move-cue {
+  margin: 0.35rem 0 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.cue-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-inline-end: 0.35rem;
+}
+
+.move-demo {
+  margin: 0.35rem 0 0;
+}
+
+.demo-link {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.demo-link:hover {
+  border-bottom-color: var(--accent);
+}

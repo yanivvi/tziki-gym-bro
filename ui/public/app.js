@@ -1,4 +1,5 @@
 import { buildWorkoutFromProfile, findSwapCandidates, suggestProgression } from "./generator.js";
+import { applyI18n, getLang, setLang, t } from "./i18n.js";
 
 const EQUIPMENT_OPTIONS = [
   "bodyweight",
@@ -229,7 +230,7 @@ function renderPlanCard() {
 
   const info = currentPlanDay();
   if (!info) {
-    desc.textContent = "Pick a plan to unlock Today’s session.";
+    desc.textContent = t("plan_desc_empty");
     today.hidden = true;
     today.textContent = "";
     buildBtn.disabled = true;
@@ -296,7 +297,7 @@ function renderHistory() {
   const store = loadStore();
   const rows = (store.history || []).slice(0, 12);
   if (rows.length === 0) {
-    list.innerHTML = `<p class="move-meta">No finished sessions yet.</p>`;
+    list.innerHTML = `<p class="move-meta">${escapeHtml(t("history_empty"))}</p>`;
     return;
   }
   list.innerHTML = rows
@@ -319,6 +320,101 @@ function renderHistory() {
         </article>`;
     })
     .join("");
+}
+
+function setBackupStatus(message) {
+  const el = $("backup-status");
+  if (el) el.textContent = message || "";
+}
+
+function exportBackup() {
+  const store = loadStore();
+  const payload = {
+    app: "tziki-gym-bro",
+    exported_at: new Date().toISOString(),
+    store,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `tziki-gym-bro-backup-${stamp}.json`;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  setBackupStatus(`Exported ${store.history?.length || 0} session(s) · ${stamp}`);
+}
+
+function normalizeImportedStore(raw) {
+  const candidate = raw?.store && typeof raw.store === "object" ? raw.store : raw;
+  if (!candidate || typeof candidate !== "object") {
+    throw new Error("Invalid backup file");
+  }
+  if (candidate.version !== 1) {
+    throw new Error("Unsupported backup version");
+  }
+  return {
+    version: 1,
+    form: candidate.form || null,
+    activeSession: candidate.activeSession || null,
+    history: Array.isArray(candidate.history) ? candidate.history : [],
+    plan: candidate.plan || null,
+  };
+}
+
+async function importBackupFile(file) {
+  if (!file) return;
+  const text = await file.text();
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error("Backup is not valid JSON");
+  }
+  const next = normalizeImportedStore(parsed);
+  const current = loadStore();
+  const replace = window.confirm(
+    `Replace local data with this backup?\n\nBackup: ${next.history.length} session(s)\nCurrent: ${current.history.length} session(s)\n\nThis cannot be undone except by importing another backup.`
+  );
+  if (!replace) {
+    setBackupStatus("Import cancelled");
+    return;
+  }
+  saveStore(next);
+  state.session = next.activeSession?.workout && !next.activeSession.completed ? next.activeSession : null;
+  state.swapOpenKey = null;
+  restoreForm(next.form);
+  renderPlanCard();
+  renderOverview();
+  if (state.session) {
+    renderWorkout();
+    setTab("generate");
+  }
+  setBackupStatus(`Restored ${next.history.length} session(s)${next.plan ? " · plan enrolled" : ""}`);
+}
+
+function bindBackupControls() {
+  $("export-backup-btn")?.addEventListener("click", () => {
+    try {
+      exportBackup();
+    } catch (err) {
+      setBackupStatus(err.message || "Export failed");
+    }
+  });
+  $("import-backup-input")?.addEventListener("change", async (event) => {
+    const input = event.target;
+    const file = input.files?.[0];
+    try {
+      await importBackupFile(file);
+    } catch (err) {
+      setBackupStatus(err.message || "Import failed");
+    } finally {
+      input.value = "";
+    }
+  });
 }
 
 const state = {
@@ -363,8 +459,8 @@ function applyTheme(theme) {
   const btn = $("theme-toggle");
   if (btn) {
     btn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-    btn.textContent = next === "dark" ? "Light" : "Dark";
-    btn.title = next === "dark" ? "Switch to light mode" : "Switch to dark mode";
+    btn.textContent = next === "dark" ? t("theme_light") : t("theme_dark");
+    btn.title = next === "dark" ? t("theme_to_light") : t("theme_to_dark");
   }
 }
 
@@ -448,6 +544,15 @@ function mediaUrl(ex) {
   return `/illustrations/${name}`;
 }
 
+function demoUrl(ex) {
+  const raw = ex?.media?.video;
+  if (typeof raw === "string" && /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(raw)) {
+    return raw;
+  }
+  const q = encodeURIComponent(`${ex.name} exercise form`);
+  return `https://www.youtube.com/results?search_query=${q}`;
+}
+
 function renderExerciseList() {
   const list = $("exercise-list");
   const rows = filteredExercises().sort((a, b) => a.name.localeCompare(b.name));
@@ -496,10 +601,12 @@ function showExercise(id) {
     lastHint = `Last load: ${last.load.kg} kg`;
   }
   if (prog?.text) lastHint = [lastHint, prog.text].filter(Boolean).join(" · ");
+  const demo = demoUrl(ex);
   detail.innerHTML = `
     ${img ? `<img class="detail-art" src="${escapeHtml(img)}" alt="${escapeHtml(ex.name)} illustration" />` : ""}
     <h2>${escapeHtml(ex.name)}</h2>
     <p class="cue">${escapeHtml(ex.cue_long || ex.cue_short || "")}</p>
+    <p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>
     <div class="meta-row">
       <span class="chip accent">${escapeHtml(ex.primary_pattern)}</span>
       <span class="chip">${escapeHtml(ex.skill)}</span>
@@ -638,7 +745,7 @@ function swapPanelHtml(exerciseId, blockIdx, exIdx) {
     usedExerciseIds(exerciseId)
   );
   if (candidates.length === 0) {
-    return `<div class="swap-panel"><p class="move-meta">No matching swaps for your equipment/constraints.</p></div>`;
+    return `<div class="swap-panel"><p class="move-meta">${escapeHtml(t("swap_none"))}</p></div>`;
   }
   const items = candidates
     .map((c) => {
@@ -653,7 +760,7 @@ function swapPanelHtml(exerciseId, blockIdx, exIdx) {
         </button>`;
     })
     .join("");
-  return `<div class="swap-panel"><p class="swap-panel-label">Swap with</p>${items}</div>`;
+  return `<div class="swap-panel"><p class="swap-panel-label">${escapeHtml(t("swap_with"))}</p>${items}</div>`;
 }
 
 function loadControlHtml(exerciseId, blockIdx, exIdx) {
@@ -675,7 +782,7 @@ function loadControlHtml(exerciseId, blockIdx, exIdx) {
         <input type="number" inputmode="decimal" min="0" step="0.5" placeholder="kg"
           value="${escapeHtml(isBw ? "" : load.kg ?? "")}" data-load-kg />
       </label>
-      <button type="button" class="btn-swap${swapOpen ? " is-active" : ""}" data-swap-toggle="${escapeHtml(key)}">Swap</button>
+      <button type="button" class="btn-swap${swapOpen ? " is-active" : ""}" data-swap-toggle="${escapeHtml(key)}">${escapeHtml(t("swap"))}</button>
       ${hint ? `<span class="progress-hint">${escapeHtml(hint)}</span>` : ""}
     </div>
     ${prog ? `<p class="progression-tip progression-${escapeHtml(prog.kind)}">${escapeHtml(prog.text)}</p>` : ""}
@@ -703,13 +810,16 @@ function renderWorkout() {
           const p = ex.prescription || {};
           const full = state.exercises.find((e) => e.id === ex.exercise_id);
           const img = full ? mediaUrl(full) : null;
+          const demo = full ? demoUrl(full) : null;
+          const cue = ex.cue_short || full?.cue_short || "";
           return `
             <div class="move" data-block-idx="${blockIdx}" data-ex-idx="${exIdx}">
               ${img ? `<img class="move-art" src="${escapeHtml(img)}" alt="" loading="lazy" />` : ""}
               <div class="move-body">
                 <p class="move-title">${escapeHtml(ex.name)}</p>
                 <p class="move-meta">${escapeHtml(ex.primary_pattern)} · ${escapeHtml(p.sets ?? "")} × ${escapeHtml(p.reps ?? "")} · rest ${escapeHtml(p.rest_sec ?? "")}s</p>
-                <p class="move-meta">${escapeHtml(ex.cue_short || "")}</p>
+                ${cue ? `<p class="move-cue"><span class="cue-label">${escapeHtml(t("cue"))}:</span> ${escapeHtml(cue)}</p>` : ""}
+                ${demo ? `<p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>` : ""}
                 ${loadControlHtml(ex.exercise_id, blockIdx, exIdx)}
               </div>
             </div>
@@ -724,10 +834,16 @@ function renderWorkout() {
     .map((w) => `<p class="move-meta">${escapeHtml(w)}</p>`)
     .join("");
 
-  const feelButtons = FEEL_OPTIONS.map(
-    (opt) =>
-      `<button type="button" class="feel-btn${feel === opt.value ? " is-active" : ""}" data-feel="${opt.value}">${opt.label}</button>`
-  ).join("");
+  const feelButtons = [
+    { value: "good", label: t("feel_good") },
+    { value: "mid", label: t("feel_mid") },
+    { value: "bad", label: t("feel_bad") },
+  ]
+    .map(
+      (opt) =>
+        `<button type="button" class="feel-btn${feel === opt.value ? " is-active" : ""}" data-feel="${opt.value}">${escapeHtml(opt.label)}</button>`
+    )
+    .join("");
 
   out.innerHTML = `
     <div class="workout-head">
@@ -735,20 +851,20 @@ function renderWorkout() {
         <h2>${escapeHtml(state.session.plan?.dayLabel || workout.template?.name || "Workout")}</h2>
         <p class="move-meta">${escapeHtml(workout.profile?.goal || "")} · ${escapeHtml(workout.profile?.level || "")} · ~${escapeHtml(workout.estimated_minutes)} min${state.session.plan ? ` · cycle ${escapeHtml(state.session.plan.cycle)}` : ""}</p>
       </div>
-      <span class="badge ${coverageOk ? "ok" : "warn"}">${coverageOk ? "coverage ok" : "coverage gaps"}</span>
+      <span class="badge ${coverageOk ? "ok" : "warn"}">${coverageOk ? escapeHtml(t("coverage_ok")) : escapeHtml(t("coverage_gaps"))}</span>
     </div>
     ${warnings}
     ${blocksHtml || "<p class='move-meta'>No blocks generated.</p>"}
     <section class="session-progress">
-      <h3>Session progress</h3>
-      <p class="move-meta">Saved on this device only — reopen the app to continue where you left off.</p>
-      <div class="feel-row" role="group" aria-label="How was the session?">
-        <span class="feel-label">How was the session?</span>
+      <h3>${escapeHtml(t("session_progress"))}</h3>
+      <p class="move-meta">${escapeHtml(t("session_progress_lede"))}</p>
+      <div class="feel-row" role="group" aria-label="${escapeHtml(t("how_session"))}">
+        <span class="feel-label">${escapeHtml(t("how_session"))}</span>
         ${feelButtons}
       </div>
       <div class="session-actions">
-        <button type="button" class="btn-secondary" id="save-session-btn">Save progress</button>
-        <button type="button" class="btn-primary" id="finish-session-btn">Finish session</button>
+        <button type="button" class="btn-secondary" id="save-session-btn">${escapeHtml(t("save_progress"))}</button>
+        <button type="button" class="btn-primary" id="finish-session-btn">${escapeHtml(t("finish_session"))}</button>
       </div>
       <p id="session-save-status" class="status" role="status"></p>
     </section>
@@ -855,7 +971,7 @@ function bindSessionControls(root) {
   $("finish-session-btn")?.addEventListener("click", () => {
     if (!state.session.feel) {
       const status = $("session-save-status");
-      if (status) status.textContent = "Pick good / mid / bad before finishing.";
+      if (status) status.textContent = t("finish_need_feel");
       return;
     }
     const finished = {
@@ -880,7 +996,7 @@ function bindSessionControls(root) {
     out.innerHTML = `
       <div class="workout-head">
         <div>
-          <h2>Session saved</h2>
+          <h2>${escapeHtml(t("session_saved"))}</h2>
           <p class="move-meta">Feel: ${escapeHtml(finished.feel)} · stored on this device</p>
         </div>
       </div>
@@ -916,9 +1032,23 @@ function renderOverview() {
 }
 
 async function init() {
+  applyI18n(getLang());
   initTheme();
   $("theme-toggle")?.addEventListener("click", () => {
     applyTheme(currentTheme() === "dark" ? "light" : "dark");
+  });
+  $("lang-toggle")?.addEventListener("click", () => {
+    const next = setLang(getLang() === "he" ? "en" : "he");
+    applyI18n(next);
+    if (state.session) renderWorkout();
+    else {
+      $("workout-out").classList.add("empty");
+      $("workout-out").textContent = t("workout_empty");
+    }
+    renderPlanCard();
+    renderOverview();
+    renderExerciseList();
+    applyTheme(currentTheme());
   });
 
   document.querySelectorAll(".tab").forEach((btn) => {
@@ -931,7 +1061,8 @@ async function init() {
   });
 
   $("workout-out").classList.add("empty");
-  $("workout-out").textContent = "Build a session to preview it here.";
+  $("workout-out").textContent = t("workout_empty");
+  setTab("generate");
 
   const [meta, exercisesPayload, templatesPayload, profilesPayload, plans] = await Promise.all([
     api("GET", "/api/meta"),
@@ -967,7 +1098,7 @@ async function init() {
   fillSelect(
     $("plan-select"),
     state.plans.map((p) => ({ value: p.id, label: p.name })),
-    { blankLabel: "No plan — one-off" }
+    { blankLabel: t("plan_none") }
   );
 
   renderChecks($("equipment-checks"), EQUIPMENT_OPTIONS, new Set(["bodyweight", "dbs", "bands"]));
@@ -993,6 +1124,8 @@ async function init() {
     renderOverview();
   });
 
+  bindBackupControls();
+
   $("profile-select").addEventListener("change", () => {
     const id = $("profile-select").value;
     if (!id) return;
@@ -1013,16 +1146,19 @@ async function init() {
     event.preventDefault();
     const status = $("generate-status");
     const btn = event.submitter || $("generate-form").querySelector('button[type="submit"]');
-    status.textContent = "Generating…";
+    status.textContent = t("generating");
     btn.disabled = true;
     try {
       const profile = collectProfile();
       if (profile.equipment.length === 0) profile.equipment = ["bodyweight"];
       profile.avoid_ids = recentExerciseIds(2);
-      const { workout } = await api("POST", "/api/generate", {
+      let { workout } = await api("POST", "/api/generate", {
         profile,
         template: $("template-select").value || null,
       });
+      // Client-side warm-up/cooldown (API server may lag behind)
+      const { augmentWarmupCooldown, createRng } = await import("./generator.js");
+      workout = augmentWarmupCooldown(workout, state.exercises, profile, createRng(workout.seed || 1));
       startSession(workout);
       persistForm();
       renderWorkout();
@@ -1038,7 +1174,7 @@ async function init() {
     state.session = store.activeSession;
     renderWorkout();
     setTab("generate");
-    $("generate-status").textContent = "Restored your last open session";
+    $("generate-status").textContent = t("restored_session");
   }
 }
 

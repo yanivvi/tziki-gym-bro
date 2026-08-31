@@ -391,8 +391,10 @@ export function buildWorkoutFromProfile(profile, templateId) {
     typeof profile.seed === "number"
       ? profile.seed
       : hashString(`${resolvedTemplateId}:${profile.goal}:${profile.level}:${Date.now()}`);
-  const workout = generateWorkout(profile, template, pool, createRng(seed));
+  const rng = createRng(seed);
+  let workout = generateWorkout(profile, template, pool, rng);
   workout.seed = seed;
+  workout = augmentWarmupCooldown(workout, pool, profile, rng);
   return workout;
 }
 
@@ -413,4 +415,127 @@ export function getLibraryMeta() {
       level: p.level,
     })),
   };
+}
+
+const CONSTRAINT_WARMUP_PREFER = {
+  overhead_limited: ["face_pull", "open_book", "band_face_pull_to_external_rotation", "worlds_greatest_stretch"],
+  shoulder_irritable: ["face_pull", "open_book", "band_face_pull_to_external_rotation", "cat_cow"],
+  knee_sensitive: ["hip_90_90_switches", "glute_bridge", "cat_cow", "worlds_greatest_stretch"],
+  axial_spine_sensitive: ["bird_dog", "dead_bug", "curl_up_mcgill", "cat_cow"],
+  wrist_sensitive: ["open_book", "cat_cow", "hip_90_90_switches", "dead_bug"],
+};
+
+const DEFAULT_WARMUP = ["worlds_greatest_stretch", "cat_cow", "hip_90_90_switches", "open_book", "march_in_place"];
+const DEFAULT_COOLDOWN = ["cat_cow", "open_book", "dead_bug", "bird_dog", "curl_up_mcgill"];
+
+function workoutItemFromExercise(ex, slotId, kind) {
+  const base = { ...(ex.default_prescription || {}) };
+  if (kind === "warmup") {
+    base.sets = 1;
+    base.reps = base.reps || "6-10";
+    base.rest_sec = 20;
+    base.load = base.load || "bodyweight";
+    base.notes = [base.notes, "Warm-up quality — easy range."].filter(Boolean).join(" ");
+  } else {
+    base.sets = 1;
+    base.reps = base.reps || "5-8 easy";
+    base.rest_sec = 15;
+    base.load = "bodyweight";
+    base.notes = [base.notes, "Cooldown — breathe and ease down."].filter(Boolean).join(" ");
+  }
+  return {
+    slot_id: slotId,
+    exercise_id: ex.id,
+    name: ex.name,
+    primary_pattern: ex.primary_pattern,
+    family_id: ex.family_id,
+    stance: ex.stance,
+    cue_short: ex.cue_short,
+    prescription: base,
+  };
+}
+
+function pickByPreference(preferIds, pool, profile, used, count, rng) {
+  const byId = new Map(pool.map((e) => [e.id, e]));
+  const picked = [];
+  for (const id of preferIds) {
+    if (picked.length >= count) break;
+    const ex = byId.get(id);
+    if (!ex || used.has(ex.id)) continue;
+    if (!matchesEquipment(ex, profile.equipment || [])) continue;
+    if (!skillOk(ex.skill, profile.level || "beginner")) continue;
+    if (!constraintsOk(ex, profile.constraints || [])) continue;
+    picked.push(ex);
+    used.add(ex.id);
+  }
+  if (picked.length < count) {
+    const fillers = pool.filter(
+      (ex) =>
+        !used.has(ex.id) &&
+        (ex.primary_pattern === "corrective" || (ex.intents || []).includes("mobility")) &&
+        matchesEquipment(ex, profile.equipment || []) &&
+        skillOk(ex.skill, profile.level || "beginner") &&
+        constraintsOk(ex, profile.constraints || [])
+    );
+    while (picked.length < count && fillers.length) {
+      const i = Math.floor(rng() * fillers.length);
+      const ex = fillers.splice(i, 1)[0];
+      picked.push(ex);
+      used.add(ex.id);
+    }
+  }
+  return picked;
+}
+
+/**
+ * Prepend constraint-aware warm-up and append a short cooldown.
+ */
+export function augmentWarmupCooldown(workout, pool, profile, rng = Math.random) {
+  const used = new Set();
+  for (const block of workout.blocks || []) {
+    for (const ex of block.exercises || []) used.add(ex.exercise_id);
+  }
+
+  const preferWarm = [];
+  for (const c of profile.constraints || []) {
+    for (const id of CONSTRAINT_WARMUP_PREFER[c] || []) {
+      if (!preferWarm.includes(id)) preferWarm.push(id);
+    }
+  }
+  for (const id of DEFAULT_WARMUP) {
+    if (!preferWarm.includes(id)) preferWarm.push(id);
+  }
+
+  const warmCount = (profile.constraints || []).length > 0 ? 3 : 2;
+  const warmExercises = pickByPreference(preferWarm, pool, profile, used, warmCount, rng).map(
+    (ex, i) => workoutItemFromExercise(ex, `auto_warm_${i}`, "warmup")
+  );
+
+  const coolExercises = pickByPreference(DEFAULT_COOLDOWN, pool, profile, used, 2, rng).map(
+    (ex, i) => workoutItemFromExercise(ex, `auto_cool_${i}`, "cooldown")
+  );
+
+  const blocks = [...(workout.blocks || [])];
+  if (warmExercises.length) {
+    const first = blocks[0];
+    if (first && (first.type === "prep" || /prep|warm/i.test(first.label || ""))) {
+      first.exercises = [...warmExercises, ...(first.exercises || [])];
+      first.label = first.label || "Prep";
+    } else {
+      blocks.unshift({
+        type: "warmup",
+        label: "Warm-up",
+        exercises: warmExercises,
+      });
+    }
+  }
+  if (coolExercises.length) {
+    blocks.push({
+      type: "cooldown",
+      label: "Cooldown",
+      exercises: coolExercises,
+    });
+  }
+
+  return { ...workout, blocks };
 }

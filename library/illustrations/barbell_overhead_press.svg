@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" role="img" aria-label="Barbell Overhead Press">
+  <rect width="400" height="360" fill="#f7f4ee"/>
+  <text x="24" y="36" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8a8478" letter-spacing="0.06em">PUSH VERTICAL</text>
+  <text x="24" y="58" font-family="Syne, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#171512">Barbell Overhead Press</text>
+  <line x1="40" y1="320" x2="360" y2="320" stroke="#8a8478" stroke-width="2" opacity="0.5"/>
+  <circle cx="200.0" cy="137.0" r="14" fill="none" stroke="#171512" stroke-width="3"/>
+<line x1="200.0" y1="155.0" x2="200.0" y2="210.0" stroke="#171512" stroke-width="4" stroke-linecap="round"/>
+<line x1="200.0" y1="210.0" x2="204.3" y2="249.1" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="204.3" y1="249.1" x2="218.6" y2="284.4" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.0" y1="210.0" x2="195.7" y2="249.1" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="195.7" y1="249.1" x2="194.4" y2="287.1" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.0" y1="155.0" x2="194.2" y2="186.9" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="194.2" y1="186.9" x2="187.0" y2="159.8" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.0" y1="155.0" x2="205.8" y2="186.9" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="205.8" y1="186.9" x2="213.0" y2="159.8" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+    <line x1="150" y1="159.83230720284195" x2="250" y2="159.83230720284195" stroke="#d64b14" stroke-width="4" stroke-linecap="round"/>
+    <rect x="142" y="149.83230720284195" width="10" height="20" rx="2" fill="#d64b14"/>
+    <rect x="248" y="149.83230720284195" width="10" height="20" rx="2" fill="#d64b14"/>
+  
+</svg>

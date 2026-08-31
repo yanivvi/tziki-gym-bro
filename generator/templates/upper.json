@@ -1,0 +1,56 @@
+{
+  "id": "upper",
+  "name": "Upper body",
+  "description": "Horizontal/vertical push + pull, plus corrective or carry.",
+  "estimated_minutes_base": 45,
+  "blocks": [
+    {
+      "type": "prep",
+      "label": "Prep",
+      "slots": [
+        { "id": "prep", "patterns": ["corrective"], "intents": ["mobility", "stability"], "count": 1 }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Horizontal push",
+      "slots": [
+        { "id": "push_h", "patterns": ["push_horizontal"], "intents": ["strength", "hypertrophy"] }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Horizontal pull",
+      "slots": [
+        { "id": "pull_h", "patterns": ["pull_horizontal"], "intents": ["strength", "hypertrophy"] }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Vertical push",
+      "slots": [
+        { "id": "push_v", "patterns": ["push_vertical"], "intents": ["strength", "hypertrophy"] }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Vertical pull",
+      "slots": [
+        { "id": "pull_v", "patterns": ["pull_vertical"], "intents": ["strength", "hypertrophy"] }
+      ]
+    },
+    {
+      "type": "corrective",
+      "label": "Shoulder / core",
+      "slots": [
+        { "id": "corrective", "patterns": ["corrective", "rotate", "carry"], "intents": ["stability"], "count": 1 }
+      ]
+    }
+  ],
+  "coverage": {
+    "require_any": [
+      ["push_horizontal", "push_vertical"],
+      ["pull_horizontal", "pull_vertical"]
+    ]
+  }
+}

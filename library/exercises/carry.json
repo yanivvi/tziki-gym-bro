@@ -1,0 +1,203 @@
+[
+  {
+    "id": "farmer_carry",
+    "name": "Farmer Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "conditioning",
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "multi",
+    "family_id": "carry_loaded",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Heavy loads at sides; tall posture, walk smooth.",
+    "cue_long": "Pick up matching dumbbells or kettlebells. Pack shoulders, brace lightly, walk with short controlled steps. Dan John staple.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "20-40m",
+      "rest_sec": 90,
+      "load": "heavy but walkable",
+      "notes": "Or 30-45s walks."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/farmer_carry.png"
+    }
+  },
+  {
+    "id": "suitcase_carry",
+    "name": "Suitcase Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion",
+      "corrective"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "conditioning"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "unilateral",
+    "plane": "frontal",
+    "family_id": "carry_loaded",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Load in one hand; do not lean; walk tall.",
+    "cue_long": "Hold one dumbbell at the side. Resist side-bending. Switch hands each set. Excellent anti-lateral core training.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-30m",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/suitcase_carry.png"
+    }
+  },
+  {
+    "id": "front_rack_carry",
+    "name": "Front-Rack Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "conditioning"
+    ],
+    "equipment": [
+      "kettlebell",
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "multi",
+    "family_id": "carry_loaded",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bells racked at shoulders; ribs down, walk.",
+    "cue_long": "Clean kettlebells to front rack. Keep elbows up and trunk braced while walking. Challenges posture under anterior load.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-30m",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/front_rack_carry.png"
+    }
+  },
+  {
+    "id": "overhead_carry",
+    "name": "Overhead Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion",
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "kettlebell",
+      "dbs"
+    ],
+    "stance": "unilateral",
+    "plane": "multi",
+    "family_id": "carry_loaded",
+    "level": 4,
+    "skill": "advanced",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Lock out overhead; walk without leaning or flaring ribs.",
+    "cue_long": "Press one kettlebell or dumbbell overhead and walk. Only if overhead position is pain-free and stable.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "15-25m",
+      "rest_sec": 90,
+      "load": "RPE 6-7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/overhead_carry.png"
+    }
+  },
+  {
+    "id": "plate_hug_carry",
+    "name": "Plate Hug Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "conditioning",
+      "stability"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "multi",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Hug a plate to the chest; walk tall.",
+    "cue_long": "Hold a bumper or plate against the chest with both arms. Brace and walk. Simple gym carry when handles are busy.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40m",
+      "rest_sec": 75,
+      "load": "challenging hug",
+      "notes": "Uses weight plate, listed under barbell equipment access."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/plate_hug_carry.png"
+    }
+  }
+]

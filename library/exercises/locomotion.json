@@ -1,0 +1,232 @@
+[
+  {
+    "id": "march_in_place",
+    "name": "March in Place",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "corrective"
+    ],
+    "intents": [
+      "mobility",
+      "conditioning",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Tall posture; drive knees up with opposite arm swing.",
+    "cue_long": "Simple gait prep. March with controlled posture and opposite arm/leg rhythm. Warm-up staple.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "30-60s",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/march_in_place.png"
+    }
+  },
+  {
+    "id": "bear_crawl",
+    "name": "Bear Crawl",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "corrective"
+    ],
+    "intents": [
+      "conditioning",
+      "stability",
+      "strength"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "multi",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Knees hover; opposite hand/foot step; hips low and level.",
+    "cue_long": "On all fours with knees slightly off the floor. Crawl forward with opposite limbs. Keep hips from swaying high.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-20m",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/bear_crawl.png"
+    }
+  },
+  {
+    "id": "sled_push",
+    "name": "Sled Push",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "conditioning"
+    ],
+    "intents": [
+      "conditioning",
+      "strength",
+      "power"
+    ],
+    "equipment": [
+      "sled"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Forward lean into handles; drive legs, short powerful steps.",
+    "cue_long": "Load sled appropriately. Lean in, keep arms locked on handles, drive through the floor. Low joint stress conditioner.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "15-30m",
+      "rest_sec": 90,
+      "load": "challenging but moving",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/sled_push.png"
+    }
+  },
+  {
+    "id": "sled_drag",
+    "name": "Sled Drag (Backward or Forward)",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion"
+    ],
+    "intents": [
+      "conditioning",
+      "strength"
+    ],
+    "equipment": [
+      "sled"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Strap on; walk or backward drag with steady posture.",
+    "cue_long": "Attach strap to sled. Forward or backward walks. Backward often used for knee-friendly quad work.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "20-40m",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/sled_drag.png"
+    }
+  },
+  {
+    "id": "a_skip",
+    "name": "A-Skip",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion"
+    ],
+    "intents": [
+      "power",
+      "conditioning",
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Skip with knee drive and quick ground contact.",
+    "cue_long": "Rhythmic skip emphasizing knee lift and posture. Speed/movement-skill primer in EXOS-style sessions.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "15-20m",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Prep / power primer."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/a_skip.png"
+    }
+  },
+  {
+    "id": "box_jump",
+    "name": "Box Jump",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "squat"
+    ],
+    "intents": [
+      "power"
+    ],
+    "equipment": [
+      "box",
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Load, jump onto box, soft land, step down.",
+    "cue_long": "Choose a conservative box height. Jump, land quietly with soft knees, stand tall, step down (do not rebound off).",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "3-5",
+      "rest_sec": 120,
+      "load": "bodyweight",
+      "notes": "Power block; quality over height."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/box_jump.png"
+    }
+  }
+]

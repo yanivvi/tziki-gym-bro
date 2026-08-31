@@ -1,0 +1,428 @@
+[
+  {
+    "id": "wall_push_up",
+    "name": "Wall Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hands on wall, body straight, press away without shrugging.",
+    "cue_long": "Stand facing a wall, hands at chest height. Keep a rigid plank line from head to heels as you bend and straighten the elbows. Glutes and abs lightly braced.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-15",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": "Step feet back to increase difficulty."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/wall_push_up.png"
+    }
+  },
+  {
+    "id": "incline_push_up",
+    "name": "Incline Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hands on bench or box; rigid torso, chest to edge.",
+    "cue_long": "Place hands on a stable elevated surface. Lower chest toward the edge with elbows about 45 degrees from the torso. Drive through the palms to lock out.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/incline_push_up.png"
+    }
+  },
+  {
+    "id": "push_up",
+    "name": "Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Plank body, chest to floor, no sagging hips.",
+    "cue_long": "Hands under shoulders, body in one line. Lower until chest nearly touches the floor, then press up. Squeeze glutes to keep ribs down.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-15",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/push_up.png"
+    }
+  },
+  {
+    "id": "decline_push_up",
+    "name": "Decline Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Feet elevated; keep hips level and press evenly.",
+    "cue_long": "Feet on a low box, hands on floor. Maintain a straight line and full range without dumping into the low back.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-12",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/decline_push_up.png"
+    }
+  },
+  {
+    "id": "feet_elevated_push_up",
+    "name": "Feet-Elevated Push-Up (High)",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 5,
+    "skill": "advanced",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Higher feet elevation; own the plank under more load.",
+    "cue_long": "Same as decline push-up with a higher surface. Stop if shoulders shrug toward ears or hips sag.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-10",
+      "rest_sec": 120,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/feet_elevated_push_up.png"
+    }
+  },
+  {
+    "id": "db_floor_press",
+    "name": "Dumbbell Floor Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Upper arms touch floor; press without flaring hard.",
+    "cue_long": "Lie on the floor holding dumbbells. Lower until triceps gently touch the floor, pause, then press. Limits shoulder range safely.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_floor_press.png"
+    }
+  },
+  {
+    "id": "db_bench_press",
+    "name": "Dumbbell Bench Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Feet planted, soft arch, dumbbells travel over mid-chest.",
+    "cue_long": "Lie on a bench, retract shoulder blades lightly. Lower dumbbells with control, then press to lockout without slamming plates together.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-12",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_bench_press.png"
+    }
+  },
+  {
+    "id": "barbell_bench_press",
+    "name": "Barbell Bench Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable",
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Pull bar to chest, drive feet, press in a slight arc.",
+    "cue_long": "Set shoulder blades, feet on floor. Unrack, lower bar to mid/lower chest, then press up and slightly back. Use a spotter when near failure.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "5-8",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_bench_press.png"
+    }
+  },
+  {
+    "id": "close_grip_bench_press",
+    "name": "Close-Grip Bench Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable",
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hands just inside shoulders; elbows track close.",
+    "cue_long": "Narrower grip than standard bench. Emphasize triceps while keeping wrists stacked and shoulders stable.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/close_grip_bench_press.png"
+    }
+  },
+  {
+    "id": "band_chest_press",
+    "name": "Band Chest Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "stability"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Band behind back or anchored; press without losing rib position.",
+    "cue_long": "Anchor band at mid-chest height or wrap behind the back. Press forward while bracing the trunk. Great home option.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-20",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_chest_press.png"
+    }
+  },
+  {
+    "id": "machine_chest_press",
+    "name": "Machine Chest Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Seat so handles meet mid-chest; controlled tempo.",
+    "cue_long": "Adjust seat height so handles align with mid-chest. Press without locking out violently; keep shoulder blades on the pad.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/machine_chest_press.png"
+    }
+  }
+]

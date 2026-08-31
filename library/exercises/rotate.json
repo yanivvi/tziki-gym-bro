@@ -1,0 +1,269 @@
+[
+  {
+    "id": "pallof_press",
+    "name": "Pallof Press",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "strength"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": "anti_rotation",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Press handle straight out; resist being twisted.",
+    "cue_long": "Stand sideways to a cable or band at chest height. Press arms straight out and hold without rotating. Boyle anti-rotation staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side. Can hold 3-5s per rep."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/pallof_press.png"
+    }
+  },
+  {
+    "id": "half_kneeling_pallof",
+    "name": "Half-Kneeling Pallof Press",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective"
+    ],
+    "intents": [
+      "stability"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": "anti_rotation",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Half-kneeling; press out and own the hip/rib stack.",
+    "cue_long": "Inside knee down (or outside depending on coaching preference). Same Pallof press action with less ability to cheat via feet.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-10",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/half_kneeling_pallof.png"
+    }
+  },
+  {
+    "id": "cable_anti_rotation_hold",
+    "name": "Cable Anti-Rotation Hold",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": "anti_rotation",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Arms locked out in front; hold without twisting.",
+    "cue_long": "End position of a Pallof press held for time. Great endurance anti-rotation dose.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40s",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_anti_rotation_hold.png"
+    }
+  },
+  {
+    "id": "cable_chop",
+    "name": "Cable Chop",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate"
+    ],
+    "intents": [
+      "power",
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "produce_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "High to low chop across the body; hips and shoulders turn together.",
+    "cue_long": "Cable high. Chop down and across while rotating through the trunk with control. Cook chop/lift family.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_chop.png"
+    }
+  },
+  {
+    "id": "cable_lift",
+    "name": "Cable Lift",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate"
+    ],
+    "intents": [
+      "power",
+      "strength"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "produce_rotation",
+    "contraindications": [
+      "overhead_limited"
+    ],
+    "functional": true,
+    "cue_short": "Low to high lift across the body with braced rotation.",
+    "cue_long": "Cable low. Lift up and across diagonally. Pair with chops for full rotary pattern.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_lift.png"
+    }
+  },
+  {
+    "id": "med_ball_rotational_throw",
+    "name": "Med-Ball Rotational Throw",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate"
+    ],
+    "intents": [
+      "power"
+    ],
+    "equipment": [
+      "med_ball"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "produce_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Load the back hip, throw into wall hard, catch or reset.",
+    "cue_long": "Side-on to a wall. Rotate and throw the med ball into the wall. Power expression after strength base exists.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-8",
+      "rest_sec": 90,
+      "load": "light-moderate ball",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/med_ball_rotational_throw.png"
+    }
+  },
+  {
+    "id": "band_face_pull_to_external_rotation",
+    "name": "Band Face Pull to External Rotation",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective",
+      "pull_horizontal"
+    ],
+    "intents": [
+      "stability",
+      "hypertrophy",
+      "mobility"
+    ],
+    "equipment": [
+      "bands",
+      "cables"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Pull to face, then rotate hands back; pause.",
+    "cue_long": "Often used as corrective/shoulder health work. Pull band to face height, externally rotate, control return. Athlean-X style shoulder hygiene.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "light-moderate",
+      "notes": "Can also live under corrective."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_face_pull_to_external_rotation.png"
+    }
+  }
+]

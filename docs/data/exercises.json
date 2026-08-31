@@ -1,0 +1,3303 @@
+[
+  {
+    "id": "farmer_carry",
+    "name": "Farmer Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "conditioning",
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "multi",
+    "family_id": "carry_loaded",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Heavy loads at sides; tall posture, walk smooth.",
+    "cue_long": "Pick up matching dumbbells or kettlebells. Pack shoulders, brace lightly, walk with short controlled steps. Dan John staple.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "20-40m",
+      "rest_sec": 90,
+      "load": "heavy but walkable",
+      "notes": "Or 30-45s walks."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/farmer_carry.png"
+    }
+  },
+  {
+    "id": "suitcase_carry",
+    "name": "Suitcase Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion",
+      "corrective"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "conditioning"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "unilateral",
+    "plane": "frontal",
+    "family_id": "carry_loaded",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Load in one hand; do not lean; walk tall.",
+    "cue_long": "Hold one dumbbell at the side. Resist side-bending. Switch hands each set. Excellent anti-lateral core training.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-30m",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/suitcase_carry.png"
+    }
+  },
+  {
+    "id": "front_rack_carry",
+    "name": "Front-Rack Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "conditioning"
+    ],
+    "equipment": [
+      "kettlebell",
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "multi",
+    "family_id": "carry_loaded",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bells racked at shoulders; ribs down, walk.",
+    "cue_long": "Clean kettlebells to front rack. Keep elbows up and trunk braced while walking. Challenges posture under anterior load.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-30m",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/front_rack_carry.png"
+    }
+  },
+  {
+    "id": "overhead_carry",
+    "name": "Overhead Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion",
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "kettlebell",
+      "dbs"
+    ],
+    "stance": "unilateral",
+    "plane": "multi",
+    "family_id": "carry_loaded",
+    "level": 4,
+    "skill": "advanced",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Lock out overhead; walk without leaning or flaring ribs.",
+    "cue_long": "Press one kettlebell or dumbbell overhead and walk. Only if overhead position is pain-free and stable.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "15-25m",
+      "rest_sec": 90,
+      "load": "RPE 6-7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/overhead_carry.png"
+    }
+  },
+  {
+    "id": "plate_hug_carry",
+    "name": "Plate Hug Carry",
+    "primary_pattern": "carry",
+    "patterns": [
+      "carry",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "conditioning",
+      "stability"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "multi",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Hug a plate to the chest; walk tall.",
+    "cue_long": "Hold a bumper or plate against the chest with both arms. Brace and walk. Simple gym carry when handles are busy.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40m",
+      "rest_sec": 75,
+      "load": "challenging hug",
+      "notes": "Uses weight plate, listed under barbell equipment access."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/plate_hug_carry.png"
+    }
+  },
+  {
+    "id": "dead_bug",
+    "name": "Dead Bug",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "anti_extension",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Low back gently pressed down; opposite arm/leg reach without flaring ribs.",
+    "cue_long": "Lie on back, arms up, knees bent 90. Exhale and reach opposite arm and leg while keeping lumbar quiet. McGill-friendly anti-extension.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/dead_bug.png"
+    }
+  },
+  {
+    "id": "front_plank",
+    "name": "Front Plank",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "anti_extension",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Elbows under shoulders; long body; squeeze glutes.",
+    "cue_long": "Forearm plank. Push floor away, squeeze glutes, keep ribs and pelvis stacked. Prefer quality short holds over long sagging holds.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40s",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/front_plank.png"
+    }
+  },
+  {
+    "id": "ab_wheel_rollout",
+    "name": "Ab Wheel Rollout",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "anti_extension",
+    "level": 3,
+    "skill": "advanced",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive",
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "From knees, roll out only as far as ribs stay down.",
+    "cue_long": "Kneeling rollout with ab wheel or barbell. Brace hard, roll forward without lumbar extension, pull back. High demand anti-extension.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-10",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": "Requires ab wheel or barbell + plates."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/ab_wheel_rollout.png"
+    }
+  },
+  {
+    "id": "side_plank",
+    "name": "Side Plank",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "unilateral",
+    "plane": "frontal",
+    "family_id": "anti_lateral",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [
+      "shoulder_irritable",
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Elbow under shoulder; hips up; body in one line.",
+    "cue_long": "Side plank on forearm. Stack feet or stagger. Lift hips so body is straight. McGill Big 3 companion.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40s",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/side_plank.png"
+    }
+  },
+  {
+    "id": "suitcase_hold",
+    "name": "Suitcase Hold",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "carry"
+    ],
+    "intents": [
+      "stability",
+      "strength"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "unilateral",
+    "plane": "frontal",
+    "family_id": "anti_lateral",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Hold load at side while standing tall; do not lean.",
+    "cue_long": "Static version of suitcase carry. Great if space is limited. Switch sides each set.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "30-45s",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/suitcase_hold.png"
+    }
+  },
+  {
+    "id": "bird_dog",
+    "name": "Bird Dog",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "multi",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Opposite arm and leg reach; hips level; pause.",
+    "cue_long": "On all fours, reach opposite arm and leg without rotating hips. Pause, return, switch. McGill Big 3 staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-8",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Each side. 8-10s holds OK."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/bird_dog.png"
+    }
+  },
+  {
+    "id": "face_pull",
+    "name": "Face Pull",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "pull_horizontal"
+    ],
+    "intents": [
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Pull to face height; externally rotate at the end.",
+    "cue_long": "Rope at upper-chest/face height. Pull toward face, hands finish near ears with external rotation. Athlean-X corrective staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-20",
+      "rest_sec": 60,
+      "load": "light-moderate",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/face_pull.png"
+    }
+  },
+  {
+    "id": "hip_90_90_switches",
+    "name": "90/90 Hip Switches",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Both knees bent 90; switch sides with tall torso.",
+    "cue_long": "Seated 90/90 position. Transition side to side with control. Hip mobility prep for squats and lunges.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "6-10",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Each side. Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/hip_90_90_switches.png"
+    }
+  },
+  {
+    "id": "worlds_greatest_stretch",
+    "name": "World's Greatest Stretch",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "lunge"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "split",
+    "plane": "multi",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Lunge, hand down, rotate open toward front leg.",
+    "cue_long": "Long lunge with back knee soft or down. Hand inside front foot, rotate chest open. Dynamic mobility for hips and T-spine.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "5",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Each side. Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/worlds_greatest_stretch.png"
+    }
+  },
+  {
+    "id": "cat_cow",
+    "name": "Cat-Cow",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive",
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "On all fours; alternate rounding and arching slowly.",
+    "cue_long": "Gentle spinal mobility. Move segment by segment with breath. Prep, not a strength exercise.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "8-10",
+      "rest_sec": 20,
+      "load": "bodyweight",
+      "notes": "Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cat_cow.png"
+    }
+  },
+  {
+    "id": "open_book",
+    "name": "Open Book",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "rotate"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Side-lying; open top arm and follow with eyes/chest.",
+    "cue_long": "Lie on side with knees bent. Rotate the top arm open to stretch the T-spine. Keep knees stacked.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "6-8",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Each side. Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/open_book.png"
+    }
+  },
+  {
+    "id": "curl_up_mcgill",
+    "name": "McGill Curl-Up",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "One knee bent; hands under low back; lift head/shoulders slightly.",
+    "cue_long": "McGill Big 3 curl-up. Maintain natural lumbar curve with hands under low back. Tiny lift of head and shoulders; hold.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-8",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "8-10s holds. Switch bent leg between sets."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/curl_up_mcgill.png"
+    }
+  },
+  {
+    "id": "glute_bridge",
+    "name": "Glute Bridge",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "stability",
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Drive through heels; squeeze glutes at the top, ribs down.",
+    "cue_long": "Lie on back, knees bent. Push floor away to lift hips until shoulders-hips-knees align. Avoid overextending the low back.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-15",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/glute_bridge.png"
+    }
+  },
+  {
+    "id": "hip_hinge_drill",
+    "name": "Dowel Hip Hinge Drill",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge",
+      "corrective"
+    ],
+    "intents": [
+      "mobility",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Rod along spine stays in contact at head, mid-back, and sacrum.",
+    "cue_long": "Hold a dowel or broomstick along the back. Push hips back while keeping three contact points. Soft knees. Pattern practice before loading.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "8-10",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Prep / teaching drill."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/hip_hinge_drill.png"
+    }
+  },
+  {
+    "id": "db_rdl",
+    "name": "Dumbbell Romanian Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hips back, soft knees, dumbbells skim thighs; flat back.",
+    "cue_long": "Stand tall with dumbbells at sides. Hinge until you feel hamstring load, then drive hips forward to stand. Neutral neck.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_rdl.png"
+    }
+  },
+  {
+    "id": "trap_bar_deadlift",
+    "name": "Trap-Bar Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Stand inside trap bar; brace, push floor away, lock hips.",
+    "cue_long": "High handles preferred for many lifters. Set neutral spine, brace, drive through mid-foot. Often more spine-friendly than conventional for general pop.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "4-6",
+      "rest_sec": 180,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/trap_bar_deadlift.png"
+    }
+  },
+  {
+    "id": "barbell_rdl",
+    "name": "Barbell Romanian Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar stays close; hinge until hamstrings load, then stand.",
+    "cue_long": "Start standing with bar at hips. Soft knees, push hips back, bar tracks close to legs. Stop before lumbar rounds.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_rdl.png"
+    }
+  },
+  {
+    "id": "conventional_deadlift",
+    "name": "Conventional Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 6,
+    "skill": "advanced",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar over mid-foot; brace, push floor, finish with hips through.",
+    "cue_long": "Feet roughly hip-width, bar over mid-foot. Grip, wedge tight, brace hard. Push the floor away and lock out without hyperextending.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "3-5",
+      "rest_sec": 180,
+      "load": "RPE 7-8",
+      "notes": "Only after hinge competency."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/conventional_deadlift.png"
+    }
+  },
+  {
+    "id": "kb_deadlift",
+    "name": "Kettlebell Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_power",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hinge to kettlebell between feet; stand tall without yanking.",
+    "cue_long": "Bell between mid-feet. Hinge, grip handle, brace, stand by driving hips. Good teaching step before swings.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/kb_deadlift.png"
+    }
+  },
+  {
+    "id": "kb_swing",
+    "name": "Kettlebell Swing",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "power",
+      "conditioning",
+      "strength"
+    ],
+    "equipment": [
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_power",
+    "level": 2,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hike pass, snap hips; float bell to chest height, not a squat.",
+    "cue_long": "Athletic hinge. Hike the bell back, then explosively extend hips to float the bell. Arms stay loose; power from hips.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "10-15",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Power / conditioning."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/kb_swing.png"
+    }
+  },
+  {
+    "id": "db_swing",
+    "name": "Dumbbell Swing",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "power",
+      "conditioning"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_power",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hold one DB by the bell end; same hip-snap pattern as KB swing.",
+    "cue_long": "Use a single dumbbell held at one end if no kettlebell. Same hinge mechanics and bracing standards.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "10-15",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_swing.png"
+    }
+  },
+  {
+    "id": "single_leg_rdl",
+    "name": "Single-Leg Romanian Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge",
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell",
+      "bodyweight"
+    ],
+    "stance": "unilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "anti_rotation",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hinge on one leg; hips square, soft knee, reach back with free leg.",
+    "cue_long": "Stand on one leg, hinge while keeping hips level. Light touchdown of free foot allowed for beginners.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/single_leg_rdl.png"
+    }
+  },
+  {
+    "id": "cable_pull_through",
+    "name": "Cable Pull-Through",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Face away from stack; hinge and snap hips to standing.",
+    "cue_long": "Rope attachment between legs from low pulley. Hinge with flat back, then drive hips to stand. Spine-friendly hinge load.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-15",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_pull_through.png"
+    }
+  },
+  {
+    "id": "march_in_place",
+    "name": "March in Place",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "corrective"
+    ],
+    "intents": [
+      "mobility",
+      "conditioning",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Tall posture; drive knees up with opposite arm swing.",
+    "cue_long": "Simple gait prep. March with controlled posture and opposite arm/leg rhythm. Warm-up staple.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "30-60s",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/march_in_place.png"
+    }
+  },
+  {
+    "id": "bear_crawl",
+    "name": "Bear Crawl",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "corrective"
+    ],
+    "intents": [
+      "conditioning",
+      "stability",
+      "strength"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "multi",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Knees hover; opposite hand/foot step; hips low and level.",
+    "cue_long": "On all fours with knees slightly off the floor. Crawl forward with opposite limbs. Keep hips from swaying high.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-20m",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/bear_crawl.png"
+    }
+  },
+  {
+    "id": "sled_push",
+    "name": "Sled Push",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "conditioning"
+    ],
+    "intents": [
+      "conditioning",
+      "strength",
+      "power"
+    ],
+    "equipment": [
+      "sled"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Forward lean into handles; drive legs, short powerful steps.",
+    "cue_long": "Load sled appropriately. Lean in, keep arms locked on handles, drive through the floor. Low joint stress conditioner.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "15-30m",
+      "rest_sec": 90,
+      "load": "challenging but moving",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/sled_push.png"
+    }
+  },
+  {
+    "id": "sled_drag",
+    "name": "Sled Drag (Backward or Forward)",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion"
+    ],
+    "intents": [
+      "conditioning",
+      "strength"
+    ],
+    "equipment": [
+      "sled"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Strap on; walk or backward drag with steady posture.",
+    "cue_long": "Attach strap to sled. Forward or backward walks. Backward often used for knee-friendly quad work.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "20-40m",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/sled_drag.png"
+    }
+  },
+  {
+    "id": "a_skip",
+    "name": "A-Skip",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion"
+    ],
+    "intents": [
+      "power",
+      "conditioning",
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Skip with knee drive and quick ground contact.",
+    "cue_long": "Rhythmic skip emphasizing knee lift and posture. Speed/movement-skill primer in EXOS-style sessions.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "15-20m",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Prep / power primer."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/a_skip.png"
+    }
+  },
+  {
+    "id": "box_jump",
+    "name": "Box Jump",
+    "primary_pattern": "locomotion",
+    "patterns": [
+      "locomotion",
+      "squat"
+    ],
+    "intents": [
+      "power"
+    ],
+    "equipment": [
+      "box",
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Load, jump onto box, soft land, step down.",
+    "cue_long": "Choose a conservative box height. Jump, land quietly with soft knees, stand tall, step down (do not rebound off).",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "3-5",
+      "rest_sec": 120,
+      "load": "bodyweight",
+      "notes": "Power block; quality over height."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/box_jump.png"
+    }
+  },
+  {
+    "id": "split_squat",
+    "name": "Bodyweight Split Squat",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Long split stance; lower back knee toward floor, front shin mostly vertical.",
+    "cue_long": "Stagger feet. Drop the back knee toward the floor while keeping torso tall. Push through front mid-foot to stand. Switch legs.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "bodyweight",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/split_squat.png"
+    }
+  },
+  {
+    "id": "reverse_lunge",
+    "name": "Reverse Lunge",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "dbs"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Step back, drop knee, return; often knee-friendlier than forward lunge.",
+    "cue_long": "From standing, step back into a lunge, then drive through the front foot to return. Keep hips square.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/reverse_lunge.png"
+    }
+  },
+  {
+    "id": "walking_lunge",
+    "name": "Walking Lunge",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "conditioning"
+    ],
+    "equipment": [
+      "bodyweight",
+      "dbs"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Step forward, descend, then next step; torso tall.",
+    "cue_long": "Continuous forward lunges. Control the descent and avoid crashing the back knee. Use dumbbells when bodyweight is easy.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-16",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Total steps or per leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/walking_lunge.png"
+    }
+  },
+  {
+    "id": "rear_foot_elevated_split_squat",
+    "name": "Rear-Foot-Elevated Split Squat",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Back foot on bench; most load on front leg.",
+    "cue_long": "Place rear foot on a low bench. Descend until front thigh approaches parallel. Front foot far enough forward that knee tracks well. Boyle staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "bodyweight",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/rear_foot_elevated_split_squat.png"
+    }
+  },
+  {
+    "id": "db_rfess",
+    "name": "Dumbbell Rear-Foot-Elevated Split Squat",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "box"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Same RFESS pattern with dumbbells at sides.",
+    "cue_long": "Add dumbbells once bodyweight RFESS is stable for clean sets. Keep torso relatively upright.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_rfess.png"
+    }
+  },
+  {
+    "id": "step_up",
+    "name": "Step-Up",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "power"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box",
+      "dbs"
+    ],
+    "stance": "unilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Drive through whole front foot; stand tall without pushing off back toe hard.",
+    "cue_long": "Box roughly mid-shin to knee height. Step up fully, then control the descent. Avoid using the trailing leg as a springboard.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/step_up.png"
+    }
+  },
+  {
+    "id": "lateral_lunge",
+    "name": "Lateral Lunge",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "mobility",
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "dbs"
+    ],
+    "stance": "alternating",
+    "plane": "frontal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Step sideways, sit into that hip, other leg straight.",
+    "cue_long": "Wide step to the side, sit hips back into the working leg, then push back to center. Trains frontal-plane strength often missing in gym plans.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 75,
+      "load": "RPE 6-7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/lateral_lunge.png"
+    }
+  },
+  {
+    "id": "inverted_row",
+    "name": "Inverted Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Body straight; pull chest to bar, squeeze shoulder blades.",
+    "cue_long": "Hang under a bar or rings with heels on floor. Pull chest to the bar while keeping a rigid plank. Raise feet or lower bar to progress.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/inverted_row.png"
+    }
+  },
+  {
+    "id": "band_row",
+    "name": "Band Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "stability"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Pull elbows back; stop before shrugging up.",
+    "cue_long": "Anchor band at mid-torso. Row handles to the ribs with a tall chest and quiet neck.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-20",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_row.png"
+    }
+  },
+  {
+    "id": "db_row",
+    "name": "Single-Arm Dumbbell Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "unilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Hinge support hand on bench; row elbow to hip.",
+    "cue_long": "One knee and hand on bench, flat back. Row dumbbell toward the hip pocket without twisting the torso.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "RPE 7-8",
+      "notes": "Each arm."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_row.png"
+    }
+  },
+  {
+    "id": "cable_row",
+    "name": "Seated Cable Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 4,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Tall torso; pull to ribs, control the return.",
+    "cue_long": "Sit tall, slight knee bend. Pull handle to lower ribs, squeeze scapulae, then lengthen arms without rounding hard.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_row.png"
+    }
+  },
+  {
+    "id": "barbell_row",
+    "name": "Barbell Bent-Over Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hinge, brace, row bar to lower ribs without yanking.",
+    "cue_long": "Soft knee hinge to ~45 degrees torso. Brace, row bar toward lower ribs, keep neck neutral. Avoid using momentum.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_row.png"
+    }
+  },
+  {
+    "id": "chest_supported_row",
+    "name": "Chest-Supported Dumbbell Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Chest on incline bench; row without lower-back stress.",
+    "cue_long": "Set bench ~30 degrees. Lie prone and row dumbbells with full scapular motion. Spine-friendly horizontal pull.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/chest_supported_row.png"
+    }
+  },
+  {
+    "id": "machine_row",
+    "name": "Machine Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Chest pad set so you can reach without rounding.",
+    "cue_long": "Adjust chest pad and seat. Pull handles with control; avoid shrugging at the finish.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/machine_row.png"
+    }
+  },
+  {
+    "id": "band_lat_pulldown",
+    "name": "Band Lat Pulldown",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "strength"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Pull band down to collarbone; elbows toward ribs.",
+    "cue_long": "Anchor band high. Kneel or stand and pull handles down while keeping ribs stacked over pelvis.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_lat_pulldown.png"
+    }
+  },
+  {
+    "id": "lat_pulldown",
+    "name": "Lat Pulldown",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables",
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Pull bar to upper chest; no leaning back hard.",
+    "cue_long": "Sit tall, slight lean. Pull bar to upper chest with elbows driving down. Control the stretch at the top.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/lat_pulldown.png"
+    }
+  },
+  {
+    "id": "assisted_pull_up",
+    "name": "Assisted Pull-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar",
+      "machines",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Full hang to chin over bar with help from band or machine.",
+    "cue_long": "Use band or assist machine. Start from dead hang, pull until chin clears bar, lower with control.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-10",
+      "rest_sec": 120,
+      "load": "assist as needed",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/assisted_pull_up.png"
+    }
+  },
+  {
+    "id": "pull_up",
+    "name": "Pull-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Dead hang, pull chin over bar, no kip unless programmed.",
+    "cue_long": "Overhand grip slightly outside shoulders. Brace, pull elbows down, finish with chin over bar, lower fully.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "4-8",
+      "rest_sec": 150,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/pull_up.png"
+    }
+  },
+  {
+    "id": "weighted_pull_up",
+    "name": "Weighted Pull-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar",
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 5,
+    "skill": "advanced",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Same as pull-up with added load at waist or feet.",
+    "cue_long": "Add weight via belt, vest, or dumbbell between feet. Keep the same strict standards as bodyweight pull-ups.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "3-6",
+      "rest_sec": 180,
+      "load": "RPE 8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/weighted_pull_up.png"
+    }
+  },
+  {
+    "id": "chin_up",
+    "name": "Chin-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Underhand grip; pull chin over bar with control.",
+    "cue_long": "Supinated grip often more accessible than pull-ups. Same full range and braced trunk standards.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "4-8",
+      "rest_sec": 150,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/chin_up.png"
+    }
+  },
+  {
+    "id": "wall_push_up",
+    "name": "Wall Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hands on wall, body straight, press away without shrugging.",
+    "cue_long": "Stand facing a wall, hands at chest height. Keep a rigid plank line from head to heels as you bend and straighten the elbows. Glutes and abs lightly braced.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-15",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": "Step feet back to increase difficulty."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/wall_push_up.png"
+    }
+  },
+  {
+    "id": "incline_push_up",
+    "name": "Incline Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hands on bench or box; rigid torso, chest to edge.",
+    "cue_long": "Place hands on a stable elevated surface. Lower chest toward the edge with elbows about 45 degrees from the torso. Drive through the palms to lock out.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/incline_push_up.png"
+    }
+  },
+  {
+    "id": "push_up",
+    "name": "Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Plank body, chest to floor, no sagging hips.",
+    "cue_long": "Hands under shoulders, body in one line. Lower until chest nearly touches the floor, then press up. Squeeze glutes to keep ribs down.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-15",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/push_up.png"
+    }
+  },
+  {
+    "id": "decline_push_up",
+    "name": "Decline Push-Up",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Feet elevated; keep hips level and press evenly.",
+    "cue_long": "Feet on a low box, hands on floor. Maintain a straight line and full range without dumping into the low back.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-12",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/decline_push_up.png"
+    }
+  },
+  {
+    "id": "feet_elevated_push_up",
+    "name": "Feet-Elevated Push-Up (High)",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_bw",
+    "level": 5,
+    "skill": "advanced",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Higher feet elevation; own the plank under more load.",
+    "cue_long": "Same as decline push-up with a higher surface. Stop if shoulders shrug toward ears or hips sag.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-10",
+      "rest_sec": 120,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/feet_elevated_push_up.png"
+    }
+  },
+  {
+    "id": "db_floor_press",
+    "name": "Dumbbell Floor Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Upper arms touch floor; press without flaring hard.",
+    "cue_long": "Lie on the floor holding dumbbells. Lower until triceps gently touch the floor, pause, then press. Limits shoulder range safely.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_floor_press.png"
+    }
+  },
+  {
+    "id": "db_bench_press",
+    "name": "Dumbbell Bench Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Feet planted, soft arch, dumbbells travel over mid-chest.",
+    "cue_long": "Lie on a bench, retract shoulder blades lightly. Lower dumbbells with control, then press to lockout without slamming plates together.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-12",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_bench_press.png"
+    }
+  },
+  {
+    "id": "barbell_bench_press",
+    "name": "Barbell Bench Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable",
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Pull bar to chest, drive feet, press in a slight arc.",
+    "cue_long": "Set shoulder blades, feet on floor. Unrack, lower bar to mid/lower chest, then press up and slightly back. Use a spotter when near failure.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "5-8",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_bench_press.png"
+    }
+  },
+  {
+    "id": "close_grip_bench_press",
+    "name": "Close-Grip Bench Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_push_load",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable",
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hands just inside shoulders; elbows track close.",
+    "cue_long": "Narrower grip than standard bench. Emphasize triceps while keeping wrists stacked and shoulders stable.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/close_grip_bench_press.png"
+    }
+  },
+  {
+    "id": "band_chest_press",
+    "name": "Band Chest Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "stability"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Band behind back or anchored; press without losing rib position.",
+    "cue_long": "Anchor band at mid-chest height or wrap behind the back. Press forward while bracing the trunk. Great home option.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-20",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_chest_press.png"
+    }
+  },
+  {
+    "id": "machine_chest_press",
+    "name": "Machine Chest Press",
+    "primary_pattern": "push_horizontal",
+    "patterns": [
+      "push_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Seat so handles meet mid-chest; controlled tempo.",
+    "cue_long": "Adjust seat height so handles align with mid-chest. Press without locking out violently; keep shoulder blades on the pad.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/machine_chest_press.png"
+    }
+  },
+  {
+    "id": "pike_push_up",
+    "name": "Pike Push-Up",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive",
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Hips high, head toward floor between hands, press up.",
+    "cue_long": "From a pike position (hips elevated), bend elbows to lower the head toward the floor between the hands, then press back to the start.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-12",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/pike_push_up.png"
+    }
+  },
+  {
+    "id": "landmine_press",
+    "name": "Landmine Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Press on an arc; ribs down, no leaning back.",
+    "cue_long": "Anchor a barbell in a landmine. Press the sleeve upward/forward on an arc. Friendlier than strict overhead when shoulders are limited.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Can do half-kneeling or standing."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/landmine_press.png"
+    }
+  },
+  {
+    "id": "db_shoulder_press",
+    "name": "Standing Dumbbell Shoulder Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Brace hard; press up without leaning into lumbar extension.",
+    "cue_long": "Dumbbells at shoulder height. Squeeze glutes, brace abs, press overhead until elbows lock without shrugging excessively.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_shoulder_press.png"
+    }
+  },
+  {
+    "id": "seated_db_shoulder_press",
+    "name": "Seated Dumbbell Shoulder Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 4,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Back supported; press in a controlled vertical path.",
+    "cue_long": "Seated with back support reduces cheating via legs/low back. Press dumbbells overhead with even elbows.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/seated_db_shoulder_press.png"
+    }
+  },
+  {
+    "id": "barbell_overhead_press",
+    "name": "Barbell Overhead Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar from shoulders to lockout; move head through at the top.",
+    "cue_long": "Start with bar on front delts. Press up, move head slightly through as bar passes face, finish stacked over mid-foot.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "5-8",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_overhead_press.png"
+    }
+  },
+  {
+    "id": "band_overhead_press",
+    "name": "Band Overhead Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "stability"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Stand on band, press overhead without rib flare.",
+    "cue_long": "Stand on the band, handles at shoulders. Press overhead while keeping pelvis tucked under slightly and abs braced.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_overhead_press.png"
+    }
+  },
+  {
+    "id": "machine_shoulder_press",
+    "name": "Machine Shoulder Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Seat so handles start near shoulder height; press smoothly.",
+    "cue_long": "Adjust seat so start position is around shoulder height. Avoid slamming into end stops.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/machine_shoulder_press.png"
+    }
+  },
+  {
+    "id": "pallof_press",
+    "name": "Pallof Press",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "strength"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": "anti_rotation",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Press handle straight out; resist being twisted.",
+    "cue_long": "Stand sideways to a cable or band at chest height. Press arms straight out and hold without rotating. Boyle anti-rotation staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side. Can hold 3-5s per rep."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/pallof_press.png"
+    }
+  },
+  {
+    "id": "half_kneeling_pallof",
+    "name": "Half-Kneeling Pallof Press",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective"
+    ],
+    "intents": [
+      "stability"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": "anti_rotation",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Half-kneeling; press out and own the hip/rib stack.",
+    "cue_long": "Inside knee down (or outside depending on coaching preference). Same Pallof press action with less ability to cheat via feet.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-10",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/half_kneeling_pallof.png"
+    }
+  },
+  {
+    "id": "cable_anti_rotation_hold",
+    "name": "Cable Anti-Rotation Hold",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": "anti_rotation",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Arms locked out in front; hold without twisting.",
+    "cue_long": "End position of a Pallof press held for time. Great endurance anti-rotation dose.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40s",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_anti_rotation_hold.png"
+    }
+  },
+  {
+    "id": "cable_chop",
+    "name": "Cable Chop",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate"
+    ],
+    "intents": [
+      "power",
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "produce_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "High to low chop across the body; hips and shoulders turn together.",
+    "cue_long": "Cable high. Chop down and across while rotating through the trunk with control. Cook chop/lift family.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_chop.png"
+    }
+  },
+  {
+    "id": "cable_lift",
+    "name": "Cable Lift",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate"
+    ],
+    "intents": [
+      "power",
+      "strength"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "produce_rotation",
+    "contraindications": [
+      "overhead_limited"
+    ],
+    "functional": true,
+    "cue_short": "Low to high lift across the body with braced rotation.",
+    "cue_long": "Cable low. Lift up and across diagonally. Pair with chops for full rotary pattern.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_lift.png"
+    }
+  },
+  {
+    "id": "med_ball_rotational_throw",
+    "name": "Med-Ball Rotational Throw",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate"
+    ],
+    "intents": [
+      "power"
+    ],
+    "equipment": [
+      "med_ball"
+    ],
+    "stance": "split",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "produce_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Load the back hip, throw into wall hard, catch or reset.",
+    "cue_long": "Side-on to a wall. Rotate and throw the med ball into the wall. Power expression after strength base exists.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-8",
+      "rest_sec": 90,
+      "load": "light-moderate ball",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/med_ball_rotational_throw.png"
+    }
+  },
+  {
+    "id": "band_face_pull_to_external_rotation",
+    "name": "Band Face Pull to External Rotation",
+    "primary_pattern": "rotate",
+    "patterns": [
+      "rotate",
+      "corrective",
+      "pull_horizontal"
+    ],
+    "intents": [
+      "stability",
+      "hypertrophy",
+      "mobility"
+    ],
+    "equipment": [
+      "bands",
+      "cables"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Pull to face, then rotate hands back; pause.",
+    "cue_long": "Often used as corrective/shoulder health work. Pull band to face height, externally rotate, control return. Athlean-X style shoulder hygiene.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "light-moderate",
+      "notes": "Can also live under corrective."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_face_pull_to_external_rotation.png"
+    }
+  },
+  {
+    "id": "sit_to_stand",
+    "name": "Sit-to-Stand",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Sit to box with control, stand without using hands if possible.",
+    "cue_long": "Use a chair or box. Reach hips back, sit lightly, then stand. Raise box height to make easier.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/sit_to_stand.png"
+    }
+  },
+  {
+    "id": "box_squat",
+    "name": "Bodyweight Box Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Sit back to box, brief touch, drive up; knees track over toes.",
+    "cue_long": "Feet roughly shoulder-width. Hips back to the box, light touch without collapsing, then stand tall.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/box_squat.png"
+    }
+  },
+  {
+    "id": "goblet_squat",
+    "name": "Goblet Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "mobility"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hold weight at chest; elbows inside knees at the bottom.",
+    "cue_long": "Cup a dumbbell or kettlebell at the chest. Sit between the hips, keep chest tall, drive through mid-foot to stand. Excellent default squat.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/goblet_squat.png"
+    }
+  },
+  {
+    "id": "front_squat",
+    "name": "Front Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "knee_sensitive",
+      "wrist_sensitive",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar on front delts; elbows high; sit between hips.",
+    "cue_long": "Clean grip or cross-arm rack. Keep elbows up and torso upright. Descend to depth you own, then stand.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "4-8",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/front_squat.png"
+    }
+  },
+  {
+    "id": "back_squat",
+    "name": "Back Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Brace, sit down and back; knees track, finish tall.",
+    "cue_long": "Bar on upper back. Brace hard, break at hips and knees together, keep mid-foot pressure, stand to full lockout.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "4-8",
+      "rest_sec": 180,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/back_squat.png"
+    }
+  },
+  {
+    "id": "leg_press",
+    "name": "Leg Press",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Feet mid-platform; control depth without rounding low back.",
+    "cue_long": "Set feet roughly shoulder-width. Lower until thighs approach torso without lumbar peeling off the pad, then press.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-15",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/leg_press.png"
+    }
+  },
+  {
+    "id": "band_squat",
+    "name": "Band Goblet-Style Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "endurance",
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Stand on band, hold handles at shoulders, squat.",
+    "cue_long": "Feet on band, handles at shoulders like a goblet. Sit between hips and stand against band tension.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_squat.png"
+    }
+  }
+]

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" role="img" aria-label="Step-Up">
+  <rect width="400" height="360" fill="#f7f4ee"/>
+  <text x="24" y="36" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8a8478" letter-spacing="0.06em">LUNGE</text>
+  <text x="24" y="58" font-family="Syne, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#171512">Step-Up</text>
+  <line x1="40" y1="320" x2="360" y2="320" stroke="#8a8478" stroke-width="2" opacity="0.5"/>
+  <rect x="215" y="230" width="70" height="70" rx="4" fill="none" stroke="#8a8478" stroke-width="3"/><circle cx="180.0" cy="137.0" r="14" fill="none" stroke="#171512" stroke-width="3"/>
+<line x1="180.0" y1="155.0" x2="180.0" y2="210.0" stroke="#171512" stroke-width="4" stroke-linecap="round"/>
+<line x1="180.0" y1="210.0" x2="201.7" y2="240.6" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="201.7" y1="240.6" x2="239.1" y2="234.0" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="180.0" y1="210.0" x2="177.1" y2="249.4" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="177.1" y1="249.4" x2="177.1" y2="287.4" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="180.0" y1="155.0" x2="193.0" y2="182.7" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="193.0" y1="182.7" x2="211.0" y2="204.2" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="180.0" y1="155.0" x2="167.0" y2="182.7" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="167.0" y1="182.7" x2="149.0" y2="204.2" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#d64b14"/>
+      </marker>
+    </defs>
+    <line x1="200" y1="160" x2="230" y2="140" stroke="#d64b14" stroke-width="2.5" marker-end="url(#arr)" opacity="0.85"/>
+  
+</svg>

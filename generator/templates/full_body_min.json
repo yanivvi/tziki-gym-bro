@@ -1,0 +1,59 @@
+{
+  "id": "full_body_min",
+  "name": "Full body — minimum effective",
+  "description": "Dan John inspired: one hinge, squat or lunge, push, pull, carry, short corrective.",
+  "estimated_minutes_base": 35,
+  "blocks": [
+    {
+      "type": "strength",
+      "label": "Hinge",
+      "slots": [
+        { "id": "hinge", "patterns": ["hinge"], "intents": ["strength", "hypertrophy"], "prefer_family": "hinge_strength" }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Squat or lunge",
+      "slots": [
+        { "id": "squat_or_lunge", "patterns": ["squat", "lunge"], "intents": ["strength", "hypertrophy"], "prefer_unilateral_if_level": "intermediate" }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Push",
+      "slots": [
+        { "id": "push", "patterns": ["push_horizontal", "push_vertical"], "intents": ["strength", "hypertrophy"] }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Pull",
+      "slots": [
+        { "id": "pull", "patterns": ["pull_horizontal", "pull_vertical"], "intents": ["strength", "hypertrophy"] }
+      ]
+    },
+    {
+      "type": "carry",
+      "label": "Carry",
+      "slots": [
+        { "id": "carry", "patterns": ["carry"], "intents": ["strength", "stability", "conditioning"] }
+      ]
+    },
+    {
+      "type": "corrective",
+      "label": "Corrective / core",
+      "slots": [
+        { "id": "corrective", "patterns": ["corrective", "rotate"], "intents": ["stability", "mobility"], "core_roles": ["anti_extension", "anti_rotation", "anti_lateral_flexion"] }
+      ]
+    }
+  ],
+  "coverage": {
+    "require_any": [
+      ["hinge"],
+      ["squat", "lunge"],
+      ["push_horizontal", "push_vertical"],
+      ["pull_horizontal", "pull_vertical"],
+      ["carry", "rotate", "corrective"]
+    ]
+  }
+}

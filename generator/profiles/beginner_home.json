@@ -1,0 +1,10 @@
+{
+  "name": "Beginner home",
+  "goal": "general_health",
+  "level": "beginner",
+  "session_minutes": 40,
+  "equipment": ["bodyweight", "dbs", "bands"],
+  "constraints": [],
+  "session_type": "full_body_min",
+  "seed": 42
+}

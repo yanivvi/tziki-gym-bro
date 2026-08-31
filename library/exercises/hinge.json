@@ -1,0 +1,420 @@
+[
+  {
+    "id": "glute_bridge",
+    "name": "Glute Bridge",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "stability",
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Drive through heels; squeeze glutes at the top, ribs down.",
+    "cue_long": "Lie on back, knees bent. Push floor away to lift hips until shoulders-hips-knees align. Avoid overextending the low back.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-15",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/glute_bridge.png"
+    }
+  },
+  {
+    "id": "hip_hinge_drill",
+    "name": "Dowel Hip Hinge Drill",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge",
+      "corrective"
+    ],
+    "intents": [
+      "mobility",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Rod along spine stays in contact at head, mid-back, and sacrum.",
+    "cue_long": "Hold a dowel or broomstick along the back. Push hips back while keeping three contact points. Soft knees. Pattern practice before loading.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "8-10",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Prep / teaching drill."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/hip_hinge_drill.png"
+    }
+  },
+  {
+    "id": "db_rdl",
+    "name": "Dumbbell Romanian Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hips back, soft knees, dumbbells skim thighs; flat back.",
+    "cue_long": "Stand tall with dumbbells at sides. Hinge until you feel hamstring load, then drive hips forward to stand. Neutral neck.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_rdl.png"
+    }
+  },
+  {
+    "id": "trap_bar_deadlift",
+    "name": "Trap-Bar Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Stand inside trap bar; brace, push floor away, lock hips.",
+    "cue_long": "High handles preferred for many lifters. Set neutral spine, brace, drive through mid-foot. Often more spine-friendly than conventional for general pop.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "4-6",
+      "rest_sec": 180,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/trap_bar_deadlift.png"
+    }
+  },
+  {
+    "id": "barbell_rdl",
+    "name": "Barbell Romanian Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar stays close; hinge until hamstrings load, then stand.",
+    "cue_long": "Start standing with bar at hips. Soft knees, push hips back, bar tracks close to legs. Stop before lumbar rounds.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_rdl.png"
+    }
+  },
+  {
+    "id": "conventional_deadlift",
+    "name": "Conventional Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_strength",
+    "level": 6,
+    "skill": "advanced",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar over mid-foot; brace, push floor, finish with hips through.",
+    "cue_long": "Feet roughly hip-width, bar over mid-foot. Grip, wedge tight, brace hard. Push the floor away and lock out without hyperextending.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "3-5",
+      "rest_sec": 180,
+      "load": "RPE 7-8",
+      "notes": "Only after hinge competency."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/conventional_deadlift.png"
+    }
+  },
+  {
+    "id": "kb_deadlift",
+    "name": "Kettlebell Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_power",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hinge to kettlebell between feet; stand tall without yanking.",
+    "cue_long": "Bell between mid-feet. Hinge, grip handle, brace, stand by driving hips. Good teaching step before swings.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/kb_deadlift.png"
+    }
+  },
+  {
+    "id": "kb_swing",
+    "name": "Kettlebell Swing",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "power",
+      "conditioning",
+      "strength"
+    ],
+    "equipment": [
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_power",
+    "level": 2,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hike pass, snap hips; float bell to chest height, not a squat.",
+    "cue_long": "Athletic hinge. Hike the bell back, then explosively extend hips to float the bell. Arms stay loose; power from hips.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "10-15",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Power / conditioning."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/kb_swing.png"
+    }
+  },
+  {
+    "id": "db_swing",
+    "name": "Dumbbell Swing",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "power",
+      "conditioning"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "hinge_power",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hold one DB by the bell end; same hip-snap pattern as KB swing.",
+    "cue_long": "Use a single dumbbell held at one end if no kettlebell. Same hinge mechanics and bracing standards.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "10-15",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_swing.png"
+    }
+  },
+  {
+    "id": "single_leg_rdl",
+    "name": "Single-Leg Romanian Deadlift",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge",
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell",
+      "bodyweight"
+    ],
+    "stance": "unilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "anti_rotation",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hinge on one leg; hips square, soft knee, reach back with free leg.",
+    "cue_long": "Stand on one leg, hinge while keeping hips level. Light touchdown of free foot allowed for beginners.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/single_leg_rdl.png"
+    }
+  },
+  {
+    "id": "cable_pull_through",
+    "name": "Cable Pull-Through",
+    "primary_pattern": "hinge",
+    "patterns": [
+      "hinge"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Face away from stack; hinge and snap hips to standing.",
+    "cue_long": "Rope attachment between legs from low pulley. Hinge with flat back, then drive hips to stand. Spine-friendly hinge load.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-15",
+      "rest_sec": 75,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_pull_through.png"
+    }
+  }
+]

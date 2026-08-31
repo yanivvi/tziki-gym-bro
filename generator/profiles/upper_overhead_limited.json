@@ -1,0 +1,10 @@
+{
+  "name": "Overhead limited upper",
+  "goal": "muscle",
+  "level": "intermediate",
+  "session_minutes": 45,
+  "equipment": ["bodyweight", "dbs", "barbell", "bench", "cables", "bands", "pullup_bar"],
+  "constraints": ["overhead_limited", "shoulder_irritable"],
+  "session_type": "upper",
+  "seed": 99
+}

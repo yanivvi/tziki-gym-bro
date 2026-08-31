@@ -1,0 +1,458 @@
+[
+  {
+    "id": "dead_bug",
+    "name": "Dead Bug",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "anti_extension",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Low back gently pressed down; opposite arm/leg reach without flaring ribs.",
+    "cue_long": "Lie on back, arms up, knees bent 90. Exhale and reach opposite arm and leg while keeping lumbar quiet. McGill-friendly anti-extension.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/dead_bug.png"
+    }
+  },
+  {
+    "id": "front_plank",
+    "name": "Front Plank",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "anti_extension",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Elbows under shoulders; long body; squeeze glutes.",
+    "cue_long": "Forearm plank. Push floor away, squeeze glutes, keep ribs and pelvis stacked. Prefer quality short holds over long sagging holds.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40s",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/front_plank.png"
+    }
+  },
+  {
+    "id": "ab_wheel_rollout",
+    "name": "Ab Wheel Rollout",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "anti_extension",
+    "level": 3,
+    "skill": "advanced",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive",
+      "wrist_sensitive",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "From knees, roll out only as far as ribs stay down.",
+    "cue_long": "Kneeling rollout with ab wheel or barbell. Brace hard, roll forward without lumbar extension, pull back. High demand anti-extension.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-10",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": "Requires ab wheel or barbell + plates."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/ab_wheel_rollout.png"
+    }
+  },
+  {
+    "id": "side_plank",
+    "name": "Side Plank",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "unilateral",
+    "plane": "frontal",
+    "family_id": "anti_lateral",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [
+      "shoulder_irritable",
+      "wrist_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Elbow under shoulder; hips up; body in one line.",
+    "cue_long": "Side plank on forearm. Stack feet or stagger. Lift hips so body is straight. McGill Big 3 companion.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "20-40s",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/side_plank.png"
+    }
+  },
+  {
+    "id": "suitcase_hold",
+    "name": "Suitcase Hold",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "carry"
+    ],
+    "intents": [
+      "stability",
+      "strength"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "unilateral",
+    "plane": "frontal",
+    "family_id": "anti_lateral",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_lateral_flexion",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Hold load at side while standing tall; do not lean.",
+    "cue_long": "Static version of suitcase carry. Great if space is limited. Switch sides each set.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "30-45s",
+      "rest_sec": 60,
+      "load": "RPE 7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/suitcase_hold.png"
+    }
+  },
+  {
+    "id": "bird_dog",
+    "name": "Bird Dog",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "alternating",
+    "plane": "multi",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "wrist_sensitive",
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Opposite arm and leg reach; hips level; pause.",
+    "cue_long": "On all fours, reach opposite arm and leg without rotating hips. Pause, return, switch. McGill Big 3 staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-8",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "Each side. 8-10s holds OK."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/bird_dog.png"
+    }
+  },
+  {
+    "id": "face_pull",
+    "name": "Face Pull",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "pull_horizontal"
+    ],
+    "intents": [
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Pull to face height; externally rotate at the end.",
+    "cue_long": "Rope at upper-chest/face height. Pull toward face, hands finish near ears with external rotation. Athlean-X corrective staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-20",
+      "rest_sec": 60,
+      "load": "light-moderate",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/face_pull.png"
+    }
+  },
+  {
+    "id": "hip_90_90_switches",
+    "name": "90/90 Hip Switches",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Both knees bent 90; switch sides with tall torso.",
+    "cue_long": "Seated 90/90 position. Transition side to side with control. Hip mobility prep for squats and lunges.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "6-10",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Each side. Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/hip_90_90_switches.png"
+    }
+  },
+  {
+    "id": "worlds_greatest_stretch",
+    "name": "World's Greatest Stretch",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "lunge"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "split",
+    "plane": "multi",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Lunge, hand down, rotate open toward front leg.",
+    "cue_long": "Long lunge with back knee soft or down. Hand inside front foot, rotate chest open. Dynamic mobility for hips and T-spine.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "5",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Each side. Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/worlds_greatest_stretch.png"
+    }
+  },
+  {
+    "id": "cat_cow",
+    "name": "Cat-Cow",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive",
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "On all fours; alternate rounding and arching slowly.",
+    "cue_long": "Gentle spinal mobility. Move segment by segment with breath. Prep, not a strength exercise.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "8-10",
+      "rest_sec": 20,
+      "load": "bodyweight",
+      "notes": "Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cat_cow.png"
+    }
+  },
+  {
+    "id": "open_book",
+    "name": "Open Book",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective",
+      "rotate"
+    ],
+    "intents": [
+      "mobility"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "transverse",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Side-lying; open top arm and follow with eyes/chest.",
+    "cue_long": "Lie on side with knees bent. Rotate the top arm open to stretch the T-spine. Keep knees stacked.",
+    "default_prescription": {
+      "sets": 2,
+      "reps": "6-8",
+      "rest_sec": 30,
+      "load": "bodyweight",
+      "notes": "Each side. Prep block."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/open_book.png"
+    }
+  },
+  {
+    "id": "curl_up_mcgill",
+    "name": "McGill Curl-Up",
+    "primary_pattern": "corrective",
+    "patterns": [
+      "corrective"
+    ],
+    "intents": [
+      "stability",
+      "endurance"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "One knee bent; hands under low back; lift head/shoulders slightly.",
+    "cue_long": "McGill Big 3 curl-up. Maintain natural lumbar curve with hands under low back. Tiny lift of head and shoulders; hold.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-8",
+      "rest_sec": 45,
+      "load": "bodyweight",
+      "notes": "8-10s holds. Switch bent leg between sets."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/curl_up_mcgill.png"
+    }
+  }
+]

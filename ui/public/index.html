@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gym Trainer</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("gym-trainer-theme");
+        if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="top">
+    <div class="brand">
+      <p class="brand-mark">Gym Trainer</p>
+      <p class="brand-sub">Library · Generator · Preview</p>
+    </div>
+    <div class="top-actions">
+      <nav class="tabs" role="tablist">
+        <button type="button" class="tab is-active" data-tab="library" role="tab" aria-selected="true">Library</button>
+        <button type="button" class="tab" data-tab="generate" role="tab" aria-selected="false">Generate</button>
+        <button type="button" class="tab" data-tab="overview" role="tab" aria-selected="false">Overview</button>
+      </nav>
+      <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Toggle dark mode">Dark</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="panel-library" class="panel is-active" role="tabpanel">
+      <div class="panel-head">
+        <h1>Exercise library</h1>
+        <p class="lede" id="library-count">Loading…</p>
+      </div>
+      <div class="filters">
+        <label class="field">
+          <span>Search</span>
+          <input id="filter-q" type="search" placeholder="Name or cue" autocomplete="off" />
+        </label>
+        <label class="field">
+          <span>Pattern</span>
+          <select id="filter-pattern">
+            <option value="">All patterns</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Skill</span>
+          <select id="filter-skill">
+            <option value="">All skills</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Equipment</span>
+          <select id="filter-equipment">
+            <option value="">Any</option>
+          </select>
+        </label>
+      </div>
+      <div id="exercise-list" class="exercise-list"></div>
+      <aside id="exercise-detail" class="detail" hidden></aside>
+    </section>
+
+    <section id="panel-generate" class="panel" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h1>Generate a session</h1>
+        <p class="lede">Pick a sample profile or tune equipment and constraints, then build a workout from the library.</p>
+      </div>
+      <div class="generate-layout">
+        <form id="generate-form" class="generate-form">
+          <label class="field">
+            <span>Sample profile</span>
+            <select id="profile-select">
+              <option value="">Custom</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Template</span>
+            <select id="template-select"></select>
+          </label>
+          <label class="field">
+            <span>Goal</span>
+            <select id="goal">
+              <option value="general_health">General health</option>
+              <option value="muscle">Muscle</option>
+              <option value="strength">Strength</option>
+              <option value="fat_loss">Fat loss</option>
+              <option value="athleticism">Athleticism</option>
+              <option value="pain_management_support">Pain-aware support</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Level</span>
+            <select id="level">
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Minutes</span>
+            <select id="minutes">
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="45">45</option>
+              <option value="60" selected>60</option>
+              <option value="75">75</option>
+            </select>
+          </label>
+          <fieldset class="check-set">
+            <legend>Equipment</legend>
+            <div id="equipment-checks" class="checks"></div>
+          </fieldset>
+          <fieldset class="check-set">
+            <legend>Constraints</legend>
+            <div id="constraint-checks" class="checks"></div>
+          </fieldset>
+          <div class="flag-row">
+            <label class="check"><input type="checkbox" id="include_power" /> Include power</label>
+            <label class="check"><input type="checkbox" id="include_conditioning" /> Include conditioning</label>
+          </div>
+          <button type="submit" class="btn-primary">Build workout</button>
+          <p id="generate-status" class="status" role="status"></p>
+        </form>
+        <div id="workout-out" class="workout-out" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="panel-overview" class="panel" role="tabpanel" hidden>
+      <div class="panel-head">
+        <h1>What’s in the box</h1>
+        <p class="lede">Knowledge base → exercise library → session generator. This UI is a preview of those pieces.</p>
+      </div>
+      <div id="overview-stats" class="stat-grid"></div>
+      <div class="overview-copy">
+        <article>
+          <h2>Patterns</h2>
+          <p>Push, pull, hinge, squat, lunge, carry, rotate, locomotion, corrective — tagged for substitution and coverage checks.</p>
+        </article>
+        <article>
+          <h2>Hierarchy</h2>
+          <p>Prep and correctives before heavy load; power before strength when both appear; constraints soft-gate risky variations.</p>
+        </article>
+        <article>
+          <h2>Sources</h2>
+          <p>Principles distilled from Athlean-X, FMS/Cook, Boyle, Dan John, McGill, EXOS, and related systems — see <code>knowledge/</code>.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

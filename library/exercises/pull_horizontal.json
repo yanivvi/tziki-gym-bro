@@ -1,0 +1,263 @@
+[
+  {
+    "id": "inverted_row",
+    "name": "Inverted Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Body straight; pull chest to bar, squeeze shoulder blades.",
+    "cue_long": "Hang under a bar or rings with heels on floor. Pull chest to the bar while keeping a rigid plank. Raise feet or lower bar to progress.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/inverted_row.png"
+    }
+  },
+  {
+    "id": "band_row",
+    "name": "Band Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "stability"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Pull elbows back; stop before shrugging up.",
+    "cue_long": "Anchor band at mid-torso. Row handles to the ribs with a tall chest and quiet neck.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-20",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_row.png"
+    }
+  },
+  {
+    "id": "db_row",
+    "name": "Single-Arm Dumbbell Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "unilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": "anti_rotation",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Hinge support hand on bench; row elbow to hip.",
+    "cue_long": "One knee and hand on bench, flat back. Row dumbbell toward the hip pocket without twisting the torso.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "RPE 7-8",
+      "notes": "Each arm."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_row.png"
+    }
+  },
+  {
+    "id": "cable_row",
+    "name": "Seated Cable Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 4,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Tall torso; pull to ribs, control the return.",
+    "cue_long": "Sit tall, slight knee bend. Pull handle to lower ribs, squeeze scapulae, then lengthen arms without rounding hard.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/cable_row.png"
+    }
+  },
+  {
+    "id": "barbell_row",
+    "name": "Barbell Bent-Over Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "horizontal_pull",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hinge, brace, row bar to lower ribs without yanking.",
+    "cue_long": "Soft knee hinge to ~45 degrees torso. Brace, row bar toward lower ribs, keep neck neutral. Avoid using momentum.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_row.png"
+    }
+  },
+  {
+    "id": "chest_supported_row",
+    "name": "Chest-Supported Dumbbell Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Chest on incline bench; row without lower-back stress.",
+    "cue_long": "Set bench ~30 degrees. Lie prone and row dumbbells with full scapular motion. Spine-friendly horizontal pull.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/chest_supported_row.png"
+    }
+  },
+  {
+    "id": "machine_row",
+    "name": "Machine Row",
+    "primary_pattern": "pull_horizontal",
+    "patterns": [
+      "pull_horizontal"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Chest pad set so you can reach without rounding.",
+    "cue_long": "Adjust chest pad and seat. Pull handles with control; avoid shrugging at the finish.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/machine_row.png"
+    }
+  }
+]

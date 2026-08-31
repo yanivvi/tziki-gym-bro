@@ -1,0 +1,518 @@
+[
+  {
+    "id": "a_skip",
+    "name": "A-Skip",
+    "cue_short": "Skip with knee drive and quick ground contact.",
+    "primary_pattern": "locomotion"
+  },
+  {
+    "id": "ab_wheel_rollout",
+    "name": "Ab Wheel Rollout",
+    "cue_short": "From knees, roll out only as far as ribs stay down.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "assisted_pull_up",
+    "name": "Assisted Pull-Up",
+    "cue_short": "Full hang to chin over bar with help from band or machine.",
+    "primary_pattern": "pull_vertical"
+  },
+  {
+    "id": "back_squat",
+    "name": "Back Squat",
+    "cue_short": "Brace, sit down and back; knees track, finish tall.",
+    "primary_pattern": "squat"
+  },
+  {
+    "id": "band_chest_press",
+    "name": "Band Chest Press",
+    "cue_short": "Band behind back or anchored; press without losing rib position.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "band_face_pull_to_external_rotation",
+    "name": "Band Face Pull to External Rotation",
+    "cue_short": "Pull to face, then rotate hands back; pause.",
+    "primary_pattern": "rotate"
+  },
+  {
+    "id": "band_lat_pulldown",
+    "name": "Band Lat Pulldown",
+    "cue_short": "Pull band down to collarbone; elbows toward ribs.",
+    "primary_pattern": "pull_vertical"
+  },
+  {
+    "id": "band_overhead_press",
+    "name": "Band Overhead Press",
+    "cue_short": "Stand on band, press overhead without rib flare.",
+    "primary_pattern": "push_vertical"
+  },
+  {
+    "id": "band_row",
+    "name": "Band Row",
+    "cue_short": "Pull elbows back; stop before shrugging up.",
+    "primary_pattern": "pull_horizontal"
+  },
+  {
+    "id": "band_squat",
+    "name": "Band Goblet-Style Squat",
+    "cue_short": "Stand on band, hold handles at shoulders, squat.",
+    "primary_pattern": "squat"
+  },
+  {
+    "id": "barbell_bench_press",
+    "name": "Barbell Bench Press",
+    "cue_short": "Pull bar to chest, drive feet, press in a slight arc.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "barbell_overhead_press",
+    "name": "Barbell Overhead Press",
+    "cue_short": "Bar from shoulders to lockout; move head through at the top.",
+    "primary_pattern": "push_vertical"
+  },
+  {
+    "id": "barbell_rdl",
+    "name": "Barbell Romanian Deadlift",
+    "cue_short": "Bar stays close; hinge until hamstrings load, then stand.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "barbell_row",
+    "name": "Barbell Bent-Over Row",
+    "cue_short": "Hinge, brace, row bar to lower ribs without yanking.",
+    "primary_pattern": "pull_horizontal"
+  },
+  {
+    "id": "bear_crawl",
+    "name": "Bear Crawl",
+    "cue_short": "Knees hover; opposite hand/foot step; hips low and level.",
+    "primary_pattern": "locomotion"
+  },
+  {
+    "id": "bird_dog",
+    "name": "Bird Dog",
+    "cue_short": "Opposite arm and leg reach; hips level; pause.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "box_jump",
+    "name": "Box Jump",
+    "cue_short": "Load, jump onto box, soft land, step down.",
+    "primary_pattern": "locomotion"
+  },
+  {
+    "id": "box_squat",
+    "name": "Bodyweight Box Squat",
+    "cue_short": "Sit back to box, brief touch, drive up; knees track over toes.",
+    "primary_pattern": "squat"
+  },
+  {
+    "id": "cable_anti_rotation_hold",
+    "name": "Cable Anti-Rotation Hold",
+    "cue_short": "Arms locked out in front; hold without twisting.",
+    "primary_pattern": "rotate"
+  },
+  {
+    "id": "cable_chop",
+    "name": "Cable Chop",
+    "cue_short": "High to low chop across the body; hips and shoulders turn together.",
+    "primary_pattern": "rotate"
+  },
+  {
+    "id": "cable_lift",
+    "name": "Cable Lift",
+    "cue_short": "Low to high lift across the body with braced rotation.",
+    "primary_pattern": "rotate"
+  },
+  {
+    "id": "cable_pull_through",
+    "name": "Cable Pull-Through",
+    "cue_short": "Face away from stack; hinge and snap hips to standing.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "cable_row",
+    "name": "Seated Cable Row",
+    "cue_short": "Tall torso; pull to ribs, control the return.",
+    "primary_pattern": "pull_horizontal"
+  },
+  {
+    "id": "cat_cow",
+    "name": "Cat-Cow",
+    "cue_short": "On all fours; alternate rounding and arching slowly.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "chest_supported_row",
+    "name": "Chest-Supported Dumbbell Row",
+    "cue_short": "Chest on incline bench; row without lower-back stress.",
+    "primary_pattern": "pull_horizontal"
+  },
+  {
+    "id": "chin_up",
+    "name": "Chin-Up",
+    "cue_short": "Underhand grip; pull chin over bar with control.",
+    "primary_pattern": "pull_vertical"
+  },
+  {
+    "id": "close_grip_bench_press",
+    "name": "Close-Grip Bench Press",
+    "cue_short": "Hands just inside shoulders; elbows track close.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "conventional_deadlift",
+    "name": "Conventional Deadlift",
+    "cue_short": "Bar over mid-foot; brace, push floor, finish with hips through.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "curl_up_mcgill",
+    "name": "McGill Curl-Up",
+    "cue_short": "One knee bent; hands under low back; lift head/shoulders slightly.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "db_bench_press",
+    "name": "Dumbbell Bench Press",
+    "cue_short": "Feet planted, soft arch, dumbbells travel over mid-chest.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "db_floor_press",
+    "name": "Dumbbell Floor Press",
+    "cue_short": "Upper arms touch floor; press without flaring hard.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "db_rdl",
+    "name": "Dumbbell Romanian Deadlift",
+    "cue_short": "Hips back, soft knees, dumbbells skim thighs; flat back.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "db_rfess",
+    "name": "Dumbbell Rear-Foot-Elevated Split Squat",
+    "cue_short": "Same RFESS pattern with dumbbells at sides.",
+    "primary_pattern": "lunge"
+  },
+  {
+    "id": "db_row",
+    "name": "Single-Arm Dumbbell Row",
+    "cue_short": "Hinge support hand on bench; row elbow to hip.",
+    "primary_pattern": "pull_horizontal"
+  },
+  {
+    "id": "db_shoulder_press",
+    "name": "Standing Dumbbell Shoulder Press",
+    "cue_short": "Brace hard; press up without leaning into lumbar extension.",
+    "primary_pattern": "push_vertical"
+  },
+  {
+    "id": "db_swing",
+    "name": "Dumbbell Swing",
+    "cue_short": "Hold one DB by the bell end; same hip-snap pattern as KB swing.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "dead_bug",
+    "name": "Dead Bug",
+    "cue_short": "Low back gently pressed down; opposite arm/leg reach without flaring ribs.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "decline_push_up",
+    "name": "Decline Push-Up",
+    "cue_short": "Feet elevated; keep hips level and press evenly.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "face_pull",
+    "name": "Face Pull",
+    "cue_short": "Pull to face height; externally rotate at the end.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "farmer_carry",
+    "name": "Farmer Carry",
+    "cue_short": "Heavy loads at sides; tall posture, walk smooth.",
+    "primary_pattern": "carry"
+  },
+  {
+    "id": "feet_elevated_push_up",
+    "name": "Feet-Elevated Push-Up (High)",
+    "cue_short": "Higher feet elevation; own the plank under more load.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "front_plank",
+    "name": "Front Plank",
+    "cue_short": "Elbows under shoulders; long body; squeeze glutes.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "front_rack_carry",
+    "name": "Front-Rack Carry",
+    "cue_short": "Bells racked at shoulders; ribs down, walk.",
+    "primary_pattern": "carry"
+  },
+  {
+    "id": "front_squat",
+    "name": "Front Squat",
+    "cue_short": "Bar on front delts; elbows high; sit between hips.",
+    "primary_pattern": "squat"
+  },
+  {
+    "id": "glute_bridge",
+    "name": "Glute Bridge",
+    "cue_short": "Drive through heels; squeeze glutes at the top, ribs down.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "goblet_squat",
+    "name": "Goblet Squat",
+    "cue_short": "Hold weight at chest; elbows inside knees at the bottom.",
+    "primary_pattern": "squat"
+  },
+  {
+    "id": "half_kneeling_pallof",
+    "name": "Half-Kneeling Pallof Press",
+    "cue_short": "Half-kneeling; press out and own the hip/rib stack.",
+    "primary_pattern": "rotate"
+  },
+  {
+    "id": "hip_90_90_switches",
+    "name": "90/90 Hip Switches",
+    "cue_short": "Both knees bent 90; switch sides with tall torso.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "hip_hinge_drill",
+    "name": "Dowel Hip Hinge Drill",
+    "cue_short": "Rod along spine stays in contact at head, mid-back, and sacrum.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "incline_push_up",
+    "name": "Incline Push-Up",
+    "cue_short": "Hands on bench or box; rigid torso, chest to edge.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "inverted_row",
+    "name": "Inverted Row",
+    "cue_short": "Body straight; pull chest to bar, squeeze shoulder blades.",
+    "primary_pattern": "pull_horizontal"
+  },
+  {
+    "id": "kb_deadlift",
+    "name": "Kettlebell Deadlift",
+    "cue_short": "Hinge to kettlebell between feet; stand tall without yanking.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "kb_swing",
+    "name": "Kettlebell Swing",
+    "cue_short": "Hike pass, snap hips; float bell to chest height, not a squat.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "landmine_press",
+    "name": "Landmine Press",
+    "cue_short": "Press on an arc; ribs down, no leaning back.",
+    "primary_pattern": "push_vertical"
+  },
+  {
+    "id": "lat_pulldown",
+    "name": "Lat Pulldown",
+    "cue_short": "Pull bar to upper chest; no leaning back hard.",
+    "primary_pattern": "pull_vertical"
+  },
+  {
+    "id": "lateral_lunge",
+    "name": "Lateral Lunge",
+    "cue_short": "Step sideways, sit into that hip, other leg straight.",
+    "primary_pattern": "lunge"
+  },
+  {
+    "id": "leg_press",
+    "name": "Leg Press",
+    "cue_short": "Feet mid-platform; control depth without rounding low back.",
+    "primary_pattern": "squat"
+  },
+  {
+    "id": "machine_chest_press",
+    "name": "Machine Chest Press",
+    "cue_short": "Seat so handles meet mid-chest; controlled tempo.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "machine_row",
+    "name": "Machine Row",
+    "cue_short": "Chest pad set so you can reach without rounding.",
+    "primary_pattern": "pull_horizontal"
+  },
+  {
+    "id": "machine_shoulder_press",
+    "name": "Machine Shoulder Press",
+    "cue_short": "Seat so handles start near shoulder height; press smoothly.",
+    "primary_pattern": "push_vertical"
+  },
+  {
+    "id": "march_in_place",
+    "name": "March in Place",
+    "cue_short": "Tall posture; drive knees up with opposite arm swing.",
+    "primary_pattern": "locomotion"
+  },
+  {
+    "id": "med_ball_rotational_throw",
+    "name": "Med-Ball Rotational Throw",
+    "cue_short": "Load the back hip, throw into wall hard, catch or reset.",
+    "primary_pattern": "rotate"
+  },
+  {
+    "id": "open_book",
+    "name": "Open Book",
+    "cue_short": "Side-lying; open top arm and follow with eyes/chest.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "overhead_carry",
+    "name": "Overhead Carry",
+    "cue_short": "Lock out overhead; walk without leaning or flaring ribs.",
+    "primary_pattern": "carry"
+  },
+  {
+    "id": "pallof_press",
+    "name": "Pallof Press",
+    "cue_short": "Press handle straight out; resist being twisted.",
+    "primary_pattern": "rotate"
+  },
+  {
+    "id": "pike_push_up",
+    "name": "Pike Push-Up",
+    "cue_short": "Hips high, head toward floor between hands, press up.",
+    "primary_pattern": "push_vertical"
+  },
+  {
+    "id": "plate_hug_carry",
+    "name": "Plate Hug Carry",
+    "cue_short": "Hug a plate to the chest; walk tall.",
+    "primary_pattern": "carry"
+  },
+  {
+    "id": "pull_up",
+    "name": "Pull-Up",
+    "cue_short": "Dead hang, pull chin over bar, no kip unless programmed.",
+    "primary_pattern": "pull_vertical"
+  },
+  {
+    "id": "push_up",
+    "name": "Push-Up",
+    "cue_short": "Plank body, chest to floor, no sagging hips.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "rear_foot_elevated_split_squat",
+    "name": "Rear-Foot-Elevated Split Squat",
+    "cue_short": "Back foot on bench; most load on front leg.",
+    "primary_pattern": "lunge"
+  },
+  {
+    "id": "reverse_lunge",
+    "name": "Reverse Lunge",
+    "cue_short": "Step back, drop knee, return; often knee-friendlier than forward lunge.",
+    "primary_pattern": "lunge"
+  },
+  {
+    "id": "seated_db_shoulder_press",
+    "name": "Seated Dumbbell Shoulder Press",
+    "cue_short": "Back supported; press in a controlled vertical path.",
+    "primary_pattern": "push_vertical"
+  },
+  {
+    "id": "side_plank",
+    "name": "Side Plank",
+    "cue_short": "Elbow under shoulder; hips up; body in one line.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "single_leg_rdl",
+    "name": "Single-Leg Romanian Deadlift",
+    "cue_short": "Hinge on one leg; hips square, soft knee, reach back with free leg.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "sit_to_stand",
+    "name": "Sit-to-Stand",
+    "cue_short": "Sit to box with control, stand without using hands if possible.",
+    "primary_pattern": "squat"
+  },
+  {
+    "id": "sled_drag",
+    "name": "Sled Drag (Backward or Forward)",
+    "cue_short": "Strap on; walk or backward drag with steady posture.",
+    "primary_pattern": "locomotion"
+  },
+  {
+    "id": "sled_push",
+    "name": "Sled Push",
+    "cue_short": "Forward lean into handles; drive legs, short powerful steps.",
+    "primary_pattern": "locomotion"
+  },
+  {
+    "id": "split_squat",
+    "name": "Bodyweight Split Squat",
+    "cue_short": "Long split stance; lower back knee toward floor, front shin mostly vertical.",
+    "primary_pattern": "lunge"
+  },
+  {
+    "id": "step_up",
+    "name": "Step-Up",
+    "cue_short": "Drive through whole front foot; stand tall without pushing off back toe hard.",
+    "primary_pattern": "lunge"
+  },
+  {
+    "id": "suitcase_carry",
+    "name": "Suitcase Carry",
+    "cue_short": "Load in one hand; do not lean; walk tall.",
+    "primary_pattern": "carry"
+  },
+  {
+    "id": "suitcase_hold",
+    "name": "Suitcase Hold",
+    "cue_short": "Hold load at side while standing tall; do not lean.",
+    "primary_pattern": "corrective"
+  },
+  {
+    "id": "trap_bar_deadlift",
+    "name": "Trap-Bar Deadlift",
+    "cue_short": "Stand inside trap bar; brace, push floor away, lock hips.",
+    "primary_pattern": "hinge"
+  },
+  {
+    "id": "walking_lunge",
+    "name": "Walking Lunge",
+    "cue_short": "Step forward, descend, then next step; torso tall.",
+    "primary_pattern": "lunge"
+  },
+  {
+    "id": "wall_push_up",
+    "name": "Wall Push-Up",
+    "cue_short": "Hands on wall, body straight, press away without shrugging.",
+    "primary_pattern": "push_horizontal"
+  },
+  {
+    "id": "weighted_pull_up",
+    "name": "Weighted Pull-Up",
+    "cue_short": "Same as pull-up with added load at waist or feet.",
+    "primary_pattern": "pull_vertical"
+  },
+  {
+    "id": "worlds_greatest_stretch",
+    "name": "World's Greatest Stretch",
+    "cue_short": "Lunge, hand down, rotate open toward front leg.",
+    "primary_pattern": "corrective"
+  }
+]

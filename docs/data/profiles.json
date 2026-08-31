@@ -1,0 +1,83 @@
+[
+  {
+    "name": "Beginner home",
+    "goal": "general_health",
+    "level": "beginner",
+    "session_minutes": 40,
+    "equipment": [
+      "bodyweight",
+      "dbs",
+      "bands"
+    ],
+    "constraints": [],
+    "session_type": "full_body_min",
+    "seed": 42,
+    "id": "beginner_home"
+  },
+  {
+    "name": "Intermediate gym",
+    "goal": "athleticism",
+    "level": "intermediate",
+    "session_minutes": 60,
+    "equipment": [
+      "bodyweight",
+      "dbs",
+      "barbell",
+      "bench",
+      "pullup_bar",
+      "cables",
+      "kettlebell",
+      "bands",
+      "box",
+      "med_ball"
+    ],
+    "constraints": [],
+    "session_type": "full_body_athlete",
+    "include_power": true,
+    "include_conditioning": false,
+    "seed": 7,
+    "id": "intermediate_gym"
+  },
+  {
+    "name": "Knee sensitive lower",
+    "goal": "strength",
+    "level": "beginner",
+    "session_minutes": 45,
+    "equipment": [
+      "bodyweight",
+      "dbs",
+      "kettlebell",
+      "cables",
+      "bands",
+      "box"
+    ],
+    "constraints": [
+      "knee_sensitive"
+    ],
+    "session_type": "lower",
+    "seed": 3,
+    "id": "lower_knee_sensitive"
+  },
+  {
+    "name": "Overhead limited upper",
+    "goal": "muscle",
+    "level": "intermediate",
+    "session_minutes": 45,
+    "equipment": [
+      "bodyweight",
+      "dbs",
+      "barbell",
+      "bench",
+      "cables",
+      "bands",
+      "pullup_bar"
+    ],
+    "constraints": [
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "session_type": "upper",
+    "seed": 99,
+    "id": "upper_overhead_limited"
+  }
+]

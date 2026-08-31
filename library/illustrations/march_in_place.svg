@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" role="img" aria-label="March in Place">
+  <rect width="400" height="360" fill="#f7f4ee"/>
+  <text x="24" y="36" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8a8478" letter-spacing="0.06em">LOCOMOTION</text>
+  <text x="24" y="58" font-family="Syne, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#171512">March in Place</text>
+  <line x1="40" y1="320" x2="360" y2="320" stroke="#8a8478" stroke-width="2" opacity="0.5"/>
+  <circle cx="200.0" cy="137.0" r="14" fill="none" stroke="#171512" stroke-width="3"/>
+<line x1="200.0" y1="155.0" x2="200.0" y2="210.0" stroke="#171512" stroke-width="4" stroke-linecap="round"/>
+<line x1="200.0" y1="210.0" x2="224.3" y2="238.3" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="224.3" y1="238.3" x2="262.1" y2="235.0" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.0" y1="210.0" x2="197.1" y2="249.4" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="197.1" y1="249.4" x2="193.7" y2="287.2" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.0" y1="155.0" x2="181.0" y2="182.7" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="181.0" y1="182.7" x2="159.6" y2="200.7" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.0" y1="155.0" x2="223.6" y2="179.5" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="223.6" y1="179.5" x2="247.8" y2="193.5" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

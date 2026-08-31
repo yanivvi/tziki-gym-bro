@@ -1,0 +1,277 @@
+[
+  {
+    "id": "split_squat",
+    "name": "Bodyweight Split Squat",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "stability",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Long split stance; lower back knee toward floor, front shin mostly vertical.",
+    "cue_long": "Stagger feet. Drop the back knee toward the floor while keeping torso tall. Push through front mid-foot to stand. Switch legs.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "bodyweight",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/split_squat.png"
+    }
+  },
+  {
+    "id": "reverse_lunge",
+    "name": "Reverse Lunge",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "dbs"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Step back, drop knee, return; often knee-friendlier than forward lunge.",
+    "cue_long": "From standing, step back into a lunge, then drive through the front foot to return. Keep hips square.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/reverse_lunge.png"
+    }
+  },
+  {
+    "id": "walking_lunge",
+    "name": "Walking Lunge",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge",
+      "locomotion"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "conditioning"
+    ],
+    "equipment": [
+      "bodyweight",
+      "dbs"
+    ],
+    "stance": "alternating",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Step forward, descend, then next step; torso tall.",
+    "cue_long": "Continuous forward lunges. Control the descent and avoid crashing the back knee. Use dumbbells when bodyweight is easy.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "10-16",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Total steps or per leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/walking_lunge.png"
+    }
+  },
+  {
+    "id": "rear_foot_elevated_split_squat",
+    "name": "Rear-Foot-Elevated Split Squat",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Back foot on bench; most load on front leg.",
+    "cue_long": "Place rear foot on a low bench. Descend until front thigh approaches parallel. Front foot far enough forward that knee tracks well. Boyle staple.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "bodyweight",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/rear_foot_elevated_split_squat.png"
+    }
+  },
+  {
+    "id": "db_rfess",
+    "name": "Dumbbell Rear-Foot-Elevated Split Squat",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "box"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "lunge_split",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Same RFESS pattern with dumbbells at sides.",
+    "cue_long": "Add dumbbells once bodyweight RFESS is stable for clean sets. Keep torso relatively upright.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_rfess.png"
+    }
+  },
+  {
+    "id": "step_up",
+    "name": "Step-Up",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "power"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box",
+      "dbs"
+    ],
+    "stance": "unilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Drive through whole front foot; stand tall without pushing off back toe hard.",
+    "cue_long": "Box roughly mid-shin to knee height. Step up fully, then control the descent. Avoid using the trailing leg as a springboard.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Each leg."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/step_up.png"
+    }
+  },
+  {
+    "id": "lateral_lunge",
+    "name": "Lateral Lunge",
+    "primary_pattern": "lunge",
+    "patterns": [
+      "lunge"
+    ],
+    "intents": [
+      "mobility",
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "dbs"
+    ],
+    "stance": "alternating",
+    "plane": "frontal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Step sideways, sit into that hip, other leg straight.",
+    "cue_long": "Wide step to the side, sit hips back into the working leg, then push back to center. Trains frontal-plane strength often missing in gym plans.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 75,
+      "load": "RPE 6-7",
+      "notes": "Each side."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/lateral_lunge.png"
+    }
+  }
+]

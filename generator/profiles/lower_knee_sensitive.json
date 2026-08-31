@@ -1,0 +1,10 @@
+{
+  "name": "Knee sensitive lower",
+  "goal": "strength",
+  "level": "beginner",
+  "session_minutes": 45,
+  "equipment": ["bodyweight", "dbs", "kettlebell", "cables", "bands", "box"],
+  "constraints": ["knee_sensitive"],
+  "session_type": "lower",
+  "seed": 3
+}

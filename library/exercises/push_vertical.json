@@ -1,0 +1,275 @@
+[
+  {
+    "id": "pike_push_up",
+    "name": "Pike Push-Up",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "bodyweight"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "wrist_sensitive",
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Hips high, head toward floor between hands, press up.",
+    "cue_long": "From a pike position (hips elevated), bend elbows to lower the head toward the floor between the hands, then press back to the start.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-12",
+      "rest_sec": 90,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/pike_push_up.png"
+    }
+  },
+  {
+    "id": "landmine_press",
+    "name": "Landmine Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "stability"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "split",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Press on an arc; ribs down, no leaning back.",
+    "cue_long": "Anchor a barbell in a landmine. Press the sleeve upward/forward on an arc. Friendlier than strict overhead when shoulders are limited.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": "Can do half-kneeling or standing."
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/landmine_press.png"
+    }
+  },
+  {
+    "id": "db_shoulder_press",
+    "name": "Standing Dumbbell Shoulder Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 3,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Brace hard; press up without leaning into lumbar extension.",
+    "cue_long": "Dumbbells at shoulder height. Squeeze glutes, brace abs, press overhead until elbows lock without shrugging excessively.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "6-10",
+      "rest_sec": 120,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/db_shoulder_press.png"
+    }
+  },
+  {
+    "id": "seated_db_shoulder_press",
+    "name": "Seated Dumbbell Shoulder Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "dbs",
+      "bench"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 4,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Back supported; press in a controlled vertical path.",
+    "cue_long": "Seated with back support reduces cheating via legs/low back. Press dumbbells overhead with even elbows.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/seated_db_shoulder_press.png"
+    }
+  },
+  {
+    "id": "barbell_overhead_press",
+    "name": "Barbell Overhead Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_push",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar from shoulders to lockout; move head through at the top.",
+    "cue_long": "Start with bar on front delts. Press up, move head slightly through as bar passes face, finish stacked over mid-foot.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "5-8",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/barbell_overhead_press.png"
+    }
+  },
+  {
+    "id": "band_overhead_press",
+    "name": "Band Overhead Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "stability"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 1,
+    "skill": "beginner",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "overhead_limited",
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Stand on band, press overhead without rib flare.",
+    "cue_long": "Stand on the band, handles at shoulders. Press overhead while keeping pelvis tucked under slightly and abs braced.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_overhead_press.png"
+    }
+  },
+  {
+    "id": "machine_shoulder_press",
+    "name": "Machine Shoulder Press",
+    "primary_pattern": "push_vertical",
+    "patterns": [
+      "push_vertical"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Seat so handles start near shoulder height; press smoothly.",
+    "cue_long": "Adjust seat so start position is around shoulder height. Avoid slamming into end stops.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/machine_shoulder_press.png"
+    }
+  }
+]

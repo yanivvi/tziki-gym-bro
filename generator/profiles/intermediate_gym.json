@@ -1,0 +1,12 @@
+{
+  "name": "Intermediate gym",
+  "goal": "athleticism",
+  "level": "intermediate",
+  "session_minutes": 60,
+  "equipment": ["bodyweight", "dbs", "barbell", "bench", "pullup_bar", "cables", "kettlebell", "bands", "box", "med_ball"],
+  "constraints": [],
+  "session_type": "full_body_athlete",
+  "include_power": true,
+  "include_conditioning": false,
+  "seed": 7
+}

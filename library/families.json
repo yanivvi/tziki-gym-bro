@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "families": [
+    {
+      "id": "horizontal_push_bw",
+      "name": "Bodyweight horizontal push",
+      "primary_pattern": "push_horizontal",
+      "levels": ["wall_push_up", "incline_push_up", "push_up", "decline_push_up", "feet_elevated_push_up"]
+    },
+    {
+      "id": "horizontal_push_load",
+      "name": "Loaded horizontal push",
+      "primary_pattern": "push_horizontal",
+      "levels": ["db_floor_press", "db_bench_press", "barbell_bench_press", "close_grip_bench_press"]
+    },
+    {
+      "id": "vertical_push",
+      "name": "Vertical push",
+      "primary_pattern": "push_vertical",
+      "levels": ["pike_push_up", "landmine_press", "db_shoulder_press", "seated_db_shoulder_press", "barbell_overhead_press"]
+    },
+    {
+      "id": "horizontal_pull",
+      "name": "Horizontal pull",
+      "primary_pattern": "pull_horizontal",
+      "levels": ["inverted_row", "band_row", "db_row", "cable_row", "barbell_row"]
+    },
+    {
+      "id": "vertical_pull",
+      "name": "Vertical pull",
+      "primary_pattern": "pull_vertical",
+      "levels": ["band_lat_pulldown", "lat_pulldown", "assisted_pull_up", "pull_up", "weighted_pull_up"]
+    },
+    {
+      "id": "hinge_strength",
+      "name": "Hinge strength",
+      "primary_pattern": "hinge",
+      "levels": ["glute_bridge", "hip_hinge_drill", "db_rdl", "trap_bar_deadlift", "barbell_rdl", "conventional_deadlift"]
+    },
+    {
+      "id": "hinge_power",
+      "name": "Hinge power",
+      "primary_pattern": "hinge",
+      "levels": ["kb_deadlift", "kb_swing", "db_swing"]
+    },
+    {
+      "id": "squat_bilateral",
+      "name": "Bilateral squat",
+      "primary_pattern": "squat",
+      "levels": ["sit_to_stand", "box_squat", "goblet_squat", "front_squat", "back_squat"]
+    },
+    {
+      "id": "lunge_split",
+      "name": "Split and lunge",
+      "primary_pattern": "lunge",
+      "levels": ["split_squat", "reverse_lunge", "walking_lunge", "rear_foot_elevated_split_squat", "db_rfess"]
+    },
+    {
+      "id": "carry_loaded",
+      "name": "Loaded carries",
+      "primary_pattern": "carry",
+      "levels": ["farmer_carry", "suitcase_carry", "front_rack_carry", "overhead_carry"]
+    },
+    {
+      "id": "anti_extension",
+      "name": "Anti-extension core",
+      "primary_pattern": "corrective",
+      "levels": ["dead_bug", "front_plank", "ab_wheel_rollout"]
+    },
+    {
+      "id": "anti_rotation",
+      "name": "Anti-rotation core",
+      "primary_pattern": "rotate",
+      "levels": ["pallof_press", "cable_anti_rotation_hold", "half_kneeling_pallof"]
+    },
+    {
+      "id": "anti_lateral",
+      "name": "Anti-lateral flexion",
+      "primary_pattern": "corrective",
+      "levels": ["side_plank", "suitcase_hold"]
+    }
+  ]
+}

@@ -1,0 +1,609 @@
+[
+  {
+    "id": "full_body_athlete",
+    "name": "Full body \u2014 athlete",
+    "description": "EXOS-lite + Athlean: prep, optional power, strength primaries, unilateral, carry/corrective, optional conditioning.",
+    "estimated_minutes_base": 55,
+    "blocks": [
+      {
+        "type": "prep",
+        "label": "Prep",
+        "minutes": 8,
+        "slots": [
+          {
+            "id": "prep_mobility",
+            "patterns": [
+              "corrective"
+            ],
+            "intents": [
+              "mobility"
+            ],
+            "count": 1
+          },
+          {
+            "id": "prep_activation",
+            "patterns": [
+              "corrective",
+              "rotate"
+            ],
+            "intents": [
+              "stability"
+            ],
+            "count": 1,
+            "core_roles": [
+              "anti_extension",
+              "anti_rotation",
+              "anti_lateral_flexion"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "power",
+        "label": "Power",
+        "optional": true,
+        "requires_flag": "include_power",
+        "min_minutes": 45,
+        "slots": [
+          {
+            "id": "power",
+            "patterns": [
+              "hinge",
+              "locomotion",
+              "rotate"
+            ],
+            "intents": [
+              "power"
+            ],
+            "require_intents": [
+              "power"
+            ],
+            "prefer_family": "hinge_power",
+            "count": 1
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Strength primary A",
+        "slots": [
+          {
+            "id": "primary_hinge",
+            "patterns": [
+              "hinge"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ],
+            "prefer_family": "hinge_strength"
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Strength primary B",
+        "slots": [
+          {
+            "id": "primary_push",
+            "patterns": [
+              "push_horizontal",
+              "push_vertical"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "accessory",
+        "label": "Unilateral / squat pattern",
+        "slots": [
+          {
+            "id": "unilateral",
+            "patterns": [
+              "lunge",
+              "squat"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ],
+            "prefer_patterns": [
+              "lunge"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "accessory",
+        "label": "Pull",
+        "slots": [
+          {
+            "id": "pull",
+            "patterns": [
+              "pull_horizontal",
+              "pull_vertical"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "carry",
+        "label": "Carry",
+        "slots": [
+          {
+            "id": "carry",
+            "patterns": [
+              "carry"
+            ],
+            "intents": [
+              "strength",
+              "stability",
+              "conditioning"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "corrective",
+        "label": "Corrective finish",
+        "slots": [
+          {
+            "id": "finish_corrective",
+            "patterns": [
+              "corrective",
+              "rotate"
+            ],
+            "intents": [
+              "stability"
+            ],
+            "core_roles": [
+              "anti_extension",
+              "anti_rotation",
+              "anti_lateral_flexion"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "conditioning",
+        "label": "Conditioning",
+        "optional": true,
+        "requires_flag": "include_conditioning",
+        "min_minutes": 60,
+        "slots": [
+          {
+            "id": "conditioning",
+            "patterns": [
+              "locomotion",
+              "hinge",
+              "carry"
+            ],
+            "intents": [
+              "conditioning",
+              "power"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    ],
+    "coverage": {
+      "require_any": [
+        [
+          "hinge"
+        ],
+        [
+          "squat",
+          "lunge"
+        ],
+        [
+          "push_horizontal",
+          "push_vertical"
+        ],
+        [
+          "pull_horizontal",
+          "pull_vertical"
+        ],
+        [
+          "carry",
+          "rotate",
+          "corrective"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "full_body_min",
+    "name": "Full body \u2014 minimum effective",
+    "description": "Dan John inspired: one hinge, squat or lunge, push, pull, carry, short corrective.",
+    "estimated_minutes_base": 35,
+    "blocks": [
+      {
+        "type": "strength",
+        "label": "Hinge",
+        "slots": [
+          {
+            "id": "hinge",
+            "patterns": [
+              "hinge"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ],
+            "prefer_family": "hinge_strength"
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Squat or lunge",
+        "slots": [
+          {
+            "id": "squat_or_lunge",
+            "patterns": [
+              "squat",
+              "lunge"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ],
+            "prefer_unilateral_if_level": "intermediate"
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Push",
+        "slots": [
+          {
+            "id": "push",
+            "patterns": [
+              "push_horizontal",
+              "push_vertical"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Pull",
+        "slots": [
+          {
+            "id": "pull",
+            "patterns": [
+              "pull_horizontal",
+              "pull_vertical"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "carry",
+        "label": "Carry",
+        "slots": [
+          {
+            "id": "carry",
+            "patterns": [
+              "carry"
+            ],
+            "intents": [
+              "strength",
+              "stability",
+              "conditioning"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "corrective",
+        "label": "Corrective / core",
+        "slots": [
+          {
+            "id": "corrective",
+            "patterns": [
+              "corrective",
+              "rotate"
+            ],
+            "intents": [
+              "stability",
+              "mobility"
+            ],
+            "core_roles": [
+              "anti_extension",
+              "anti_rotation",
+              "anti_lateral_flexion"
+            ]
+          }
+        ]
+      }
+    ],
+    "coverage": {
+      "require_any": [
+        [
+          "hinge"
+        ],
+        [
+          "squat",
+          "lunge"
+        ],
+        [
+          "push_horizontal",
+          "push_vertical"
+        ],
+        [
+          "pull_horizontal",
+          "pull_vertical"
+        ],
+        [
+          "carry",
+          "rotate",
+          "corrective"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "lower",
+    "name": "Lower body",
+    "description": "Hinge + squat/lunge emphasis with carry or corrective.",
+    "estimated_minutes_base": 45,
+    "blocks": [
+      {
+        "type": "prep",
+        "label": "Prep",
+        "slots": [
+          {
+            "id": "prep",
+            "patterns": [
+              "corrective",
+              "locomotion"
+            ],
+            "intents": [
+              "mobility"
+            ],
+            "count": 1
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Hinge",
+        "slots": [
+          {
+            "id": "hinge",
+            "patterns": [
+              "hinge"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ],
+            "prefer_family": "hinge_strength"
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Squat",
+        "slots": [
+          {
+            "id": "squat",
+            "patterns": [
+              "squat"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "accessory",
+        "label": "Unilateral",
+        "slots": [
+          {
+            "id": "lunge",
+            "patterns": [
+              "lunge",
+              "squat"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ],
+            "prefer_patterns": [
+              "lunge"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "carry",
+        "label": "Carry",
+        "slots": [
+          {
+            "id": "carry",
+            "patterns": [
+              "carry"
+            ],
+            "intents": [
+              "strength",
+              "stability",
+              "conditioning"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "corrective",
+        "label": "Core",
+        "slots": [
+          {
+            "id": "core",
+            "patterns": [
+              "corrective",
+              "rotate"
+            ],
+            "intents": [
+              "stability"
+            ],
+            "core_roles": [
+              "anti_extension",
+              "anti_rotation",
+              "anti_lateral_flexion"
+            ]
+          }
+        ]
+      }
+    ],
+    "coverage": {
+      "require_any": [
+        [
+          "hinge"
+        ],
+        [
+          "squat",
+          "lunge"
+        ]
+      ]
+    }
+  },
+  {
+    "id": "upper",
+    "name": "Upper body",
+    "description": "Horizontal/vertical push + pull, plus corrective or carry.",
+    "estimated_minutes_base": 45,
+    "blocks": [
+      {
+        "type": "prep",
+        "label": "Prep",
+        "slots": [
+          {
+            "id": "prep",
+            "patterns": [
+              "corrective"
+            ],
+            "intents": [
+              "mobility",
+              "stability"
+            ],
+            "count": 1
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Horizontal push",
+        "slots": [
+          {
+            "id": "push_h",
+            "patterns": [
+              "push_horizontal"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Horizontal pull",
+        "slots": [
+          {
+            "id": "pull_h",
+            "patterns": [
+              "pull_horizontal"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Vertical push",
+        "slots": [
+          {
+            "id": "push_v",
+            "patterns": [
+              "push_vertical"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "strength",
+        "label": "Vertical pull",
+        "slots": [
+          {
+            "id": "pull_v",
+            "patterns": [
+              "pull_vertical"
+            ],
+            "intents": [
+              "strength",
+              "hypertrophy"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "corrective",
+        "label": "Shoulder / core",
+        "slots": [
+          {
+            "id": "corrective",
+            "patterns": [
+              "corrective",
+              "rotate",
+              "carry"
+            ],
+            "intents": [
+              "stability"
+            ],
+            "count": 1
+          }
+        ]
+      }
+    ],
+    "coverage": {
+      "require_any": [
+        [
+          "push_horizontal",
+          "push_vertical"
+        ],
+        [
+          "pull_horizontal",
+          "pull_vertical"
+        ]
+      ]
+    }
+  }
+]

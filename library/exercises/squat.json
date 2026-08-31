@@ -1,0 +1,268 @@
+[
+  {
+    "id": "sit_to_stand",
+    "name": "Sit-to-Stand",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Sit to box with control, stand without using hands if possible.",
+    "cue_long": "Use a chair or box. Reach hips back, sit lightly, then stand. Raise box height to make easier.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 60,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/sit_to_stand.png"
+    }
+  },
+  {
+    "id": "box_squat",
+    "name": "Bodyweight Box Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "stability"
+    ],
+    "equipment": [
+      "bodyweight",
+      "box"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Sit back to box, brief touch, drive up; knees track over toes.",
+    "cue_long": "Feet roughly shoulder-width. Hips back to the box, light touch without collapsing, then stand tall.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 75,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/box_squat.png"
+    }
+  },
+  {
+    "id": "goblet_squat",
+    "name": "Goblet Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy",
+      "mobility"
+    ],
+    "equipment": [
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Hold weight at chest; elbows inside knees at the bottom.",
+    "cue_long": "Cup a dumbbell or kettlebell at the chest. Sit between the hips, keep chest tall, drive through mid-foot to stand. Excellent default squat.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/goblet_squat.png"
+    }
+  },
+  {
+    "id": "front_squat",
+    "name": "Front Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": "anti_extension",
+    "contraindications": [
+      "knee_sensitive",
+      "wrist_sensitive",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Bar on front delts; elbows high; sit between hips.",
+    "cue_long": "Clean grip or cross-arm rack. Keep elbows up and torso upright. Descend to depth you own, then stand.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "4-8",
+      "rest_sec": 150,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/front_squat.png"
+    }
+  },
+  {
+    "id": "back_squat",
+    "name": "Back Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "barbell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "squat_bilateral",
+    "level": 5,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "knee_sensitive",
+      "axial_spine_sensitive"
+    ],
+    "functional": true,
+    "cue_short": "Brace, sit down and back; knees track, finish tall.",
+    "cue_long": "Bar on upper back. Brace hard, break at hips and knees together, keep mid-foot pressure, stand to full lockout.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "4-8",
+      "rest_sec": 180,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/back_squat.png"
+    }
+  },
+  {
+    "id": "leg_press",
+    "name": "Leg Press",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": false,
+    "cue_short": "Feet mid-platform; control depth without rounding low back.",
+    "cue_long": "Set feet roughly shoulder-width. Lower until thighs approach torso without lumbar peeling off the pad, then press.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-15",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/leg_press.png"
+    }
+  },
+  {
+    "id": "band_squat",
+    "name": "Band Goblet-Style Squat",
+    "primary_pattern": "squat",
+    "patterns": [
+      "squat"
+    ],
+    "intents": [
+      "endurance",
+      "hypertrophy",
+      "strength"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Stand on band, hold handles at shoulders, squat.",
+    "cue_long": "Feet on band, handles at shoulders like a goblet. Sit between hips and stand against band tension.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_squat.png"
+    }
+  }
+]

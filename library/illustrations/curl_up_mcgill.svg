@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 360" role="img" aria-label="McGill Curl-Up">
+  <rect width="400" height="360" fill="#f7f4ee"/>
+  <text x="24" y="36" font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#8a8478" letter-spacing="0.06em">CORRECTIVE</text>
+  <text x="24" y="58" font-family="Syne, Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#171512">McGill Curl-Up</text>
+  <line x1="40" y1="320" x2="360" y2="320" stroke="#8a8478" stroke-width="2" opacity="0.5"/>
+  <circle cx="197.2" cy="177.0" r="14" fill="none" stroke="#171512" stroke-width="3"/>
+<line x1="198.6" y1="195.0" x2="200.0" y2="250.0" stroke="#171512" stroke-width="4" stroke-linecap="round"/>
+<line x1="200.0" y1="250.0" x2="221.7" y2="280.6" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="221.7" y1="280.6" x2="257.4" y2="267.6" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.0" y1="250.0" x2="200.5" y2="289.8" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="200.5" y1="289.8" x2="200.5" y2="327.8" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="198.6" y1="195.0" x2="206.5" y2="164.9" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="206.5" y1="164.9" x2="196.9" y2="138.6" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="198.6" y1="195.0" x2="212.5" y2="164.9" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="212.5" y1="164.9" x2="202.9" y2="138.6" stroke="#171512" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

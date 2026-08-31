@@ -1,0 +1,230 @@
+[
+  {
+    "id": "band_lat_pulldown",
+    "name": "Band Lat Pulldown",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "hypertrophy",
+      "endurance",
+      "strength"
+    ],
+    "equipment": [
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 1,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Pull band down to collarbone; elbows toward ribs.",
+    "cue_long": "Anchor band high. Kneel or stand and pull handles down while keeping ribs stacked over pelvis.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "12-15",
+      "rest_sec": 60,
+      "load": "band tension",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/band_lat_pulldown.png"
+    }
+  },
+  {
+    "id": "lat_pulldown",
+    "name": "Lat Pulldown",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "cables",
+      "machines"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 2,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Pull bar to upper chest; no leaning back hard.",
+    "cue_long": "Sit tall, slight lean. Pull bar to upper chest with elbows driving down. Control the stretch at the top.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "8-12",
+      "rest_sec": 90,
+      "load": "RPE 7-8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/lat_pulldown.png"
+    }
+  },
+  {
+    "id": "assisted_pull_up",
+    "name": "Assisted Pull-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar",
+      "machines",
+      "bands"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 3,
+    "skill": "beginner",
+    "core_role": null,
+    "contraindications": [],
+    "functional": true,
+    "cue_short": "Full hang to chin over bar with help from band or machine.",
+    "cue_long": "Use band or assist machine. Start from dead hang, pull until chin clears bar, lower with control.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "5-10",
+      "rest_sec": 120,
+      "load": "assist as needed",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/assisted_pull_up.png"
+    }
+  },
+  {
+    "id": "pull_up",
+    "name": "Pull-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Dead hang, pull chin over bar, no kip unless programmed.",
+    "cue_long": "Overhand grip slightly outside shoulders. Brace, pull elbows down, finish with chin over bar, lower fully.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "4-8",
+      "rest_sec": 150,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/pull_up.png"
+    }
+  },
+  {
+    "id": "weighted_pull_up",
+    "name": "Weighted Pull-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar",
+      "dbs",
+      "kettlebell"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": "vertical_pull",
+    "level": 5,
+    "skill": "advanced",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Same as pull-up with added load at waist or feet.",
+    "cue_long": "Add weight via belt, vest, or dumbbell between feet. Keep the same strict standards as bodyweight pull-ups.",
+    "default_prescription": {
+      "sets": 4,
+      "reps": "3-6",
+      "rest_sec": 180,
+      "load": "RPE 8",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/weighted_pull_up.png"
+    }
+  },
+  {
+    "id": "chin_up",
+    "name": "Chin-Up",
+    "primary_pattern": "pull_vertical",
+    "patterns": [
+      "pull_vertical"
+    ],
+    "intents": [
+      "strength",
+      "hypertrophy"
+    ],
+    "equipment": [
+      "pullup_bar"
+    ],
+    "stance": "bilateral",
+    "plane": "sagittal",
+    "family_id": null,
+    "level": 4,
+    "skill": "intermediate",
+    "core_role": null,
+    "contraindications": [
+      "shoulder_irritable"
+    ],
+    "functional": true,
+    "cue_short": "Underhand grip; pull chin over bar with control.",
+    "cue_long": "Supinated grip often more accessible than pull-ups. Same full range and braced trunk standards.",
+    "default_prescription": {
+      "sets": 3,
+      "reps": "4-8",
+      "rest_sec": 150,
+      "load": "bodyweight",
+      "notes": null
+    },
+    "media": {
+      "video": null,
+      "image": "illustrations/chin_up.png"
+    }
+  }
+]

@@ -1,0 +1,2016 @@
+{
+  "version": 1,
+  "meta": {
+    "count": 86,
+    "by_pattern": {
+      "carry": 5,
+      "corrective": 12,
+      "hinge": 11,
+      "locomotion": 6,
+      "lunge": 7,
+      "pull_horizontal": 7,
+      "pull_vertical": 6,
+      "push_horizontal": 11,
+      "push_vertical": 7,
+      "rotate": 7,
+      "squat": 7
+    },
+    "by_skill": {
+      "advanced": 5,
+      "beginner": 57,
+      "intermediate": 24
+    },
+    "functional_count": 82,
+    "illustrated_count": 86
+  },
+  "exercises": [
+    {
+      "id": "farmer_carry",
+      "name": "Farmer Carry",
+      "primary_pattern": "carry",
+      "equipment": [
+        "dbs",
+        "kettlebell"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "carry_loaded",
+      "functional": true,
+      "intents": [
+        "strength",
+        "conditioning",
+        "stability",
+        "endurance"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/farmer_carry.png"
+      }
+    },
+    {
+      "id": "front_rack_carry",
+      "name": "Front-Rack Carry",
+      "primary_pattern": "carry",
+      "equipment": [
+        "kettlebell",
+        "dbs"
+      ],
+      "skill": "intermediate",
+      "level": 3,
+      "family_id": "carry_loaded",
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability",
+        "conditioning"
+      ],
+      "contraindications": [
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/front_rack_carry.png"
+      }
+    },
+    {
+      "id": "overhead_carry",
+      "name": "Overhead Carry",
+      "primary_pattern": "carry",
+      "equipment": [
+        "kettlebell",
+        "dbs"
+      ],
+      "skill": "advanced",
+      "level": 4,
+      "family_id": "carry_loaded",
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability"
+      ],
+      "contraindications": [
+        "overhead_limited",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/overhead_carry.png"
+      }
+    },
+    {
+      "id": "plate_hug_carry",
+      "name": "Plate Hug Carry",
+      "primary_pattern": "carry",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "strength",
+        "conditioning",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/plate_hug_carry.png"
+      }
+    },
+    {
+      "id": "suitcase_carry",
+      "name": "Suitcase Carry",
+      "primary_pattern": "carry",
+      "equipment": [
+        "dbs",
+        "kettlebell"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "carry_loaded",
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability",
+        "conditioning"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/suitcase_carry.png"
+      }
+    },
+    {
+      "id": "hip_90_90_switches",
+      "name": "90/90 Hip Switches",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "mobility"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/hip_90_90_switches.png"
+      }
+    },
+    {
+      "id": "ab_wheel_rollout",
+      "name": "Ab Wheel Rollout",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "advanced",
+      "level": 3,
+      "family_id": "anti_extension",
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive",
+        "wrist_sensitive",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/ab_wheel_rollout.png"
+      }
+    },
+    {
+      "id": "bird_dog",
+      "name": "Bird Dog",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "stability"
+      ],
+      "contraindications": [
+        "wrist_sensitive",
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/bird_dog.png"
+      }
+    },
+    {
+      "id": "cat_cow",
+      "name": "Cat-Cow",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "mobility"
+      ],
+      "contraindications": [
+        "wrist_sensitive",
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/cat_cow.png"
+      }
+    },
+    {
+      "id": "dead_bug",
+      "name": "Dead Bug",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "anti_extension",
+      "functional": true,
+      "intents": [
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/dead_bug.png"
+      }
+    },
+    {
+      "id": "face_pull",
+      "name": "Face Pull",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "cables",
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "stability",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/face_pull.png"
+      }
+    },
+    {
+      "id": "front_plank",
+      "name": "Front Plank",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "anti_extension",
+      "functional": true,
+      "intents": [
+        "stability",
+        "endurance"
+      ],
+      "contraindications": [
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/front_plank.png"
+      }
+    },
+    {
+      "id": "curl_up_mcgill",
+      "name": "McGill Curl-Up",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "stability",
+        "endurance"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/curl_up_mcgill.png"
+      }
+    },
+    {
+      "id": "open_book",
+      "name": "Open Book",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "mobility"
+      ],
+      "contraindications": [
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/open_book.png"
+      }
+    },
+    {
+      "id": "side_plank",
+      "name": "Side Plank",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "anti_lateral",
+      "functional": true,
+      "intents": [
+        "stability",
+        "endurance"
+      ],
+      "contraindications": [
+        "shoulder_irritable",
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/side_plank.png"
+      }
+    },
+    {
+      "id": "suitcase_hold",
+      "name": "Suitcase Hold",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "dbs",
+        "kettlebell"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "anti_lateral",
+      "functional": true,
+      "intents": [
+        "stability",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/suitcase_hold.png"
+      }
+    },
+    {
+      "id": "worlds_greatest_stretch",
+      "name": "World's Greatest Stretch",
+      "primary_pattern": "corrective",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "mobility"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/worlds_greatest_stretch.png"
+      }
+    },
+    {
+      "id": "barbell_rdl",
+      "name": "Barbell Romanian Deadlift",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "intermediate",
+      "level": 5,
+      "family_id": "hinge_strength",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/barbell_rdl.png"
+      }
+    },
+    {
+      "id": "cable_pull_through",
+      "name": "Cable Pull-Through",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "cables"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "hypertrophy",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/cable_pull_through.png"
+      }
+    },
+    {
+      "id": "conventional_deadlift",
+      "name": "Conventional Deadlift",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "advanced",
+      "level": 6,
+      "family_id": "hinge_strength",
+      "functional": true,
+      "intents": [
+        "strength"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/conventional_deadlift.png"
+      }
+    },
+    {
+      "id": "hip_hinge_drill",
+      "name": "Dowel Hip Hinge Drill",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "hinge_strength",
+      "functional": true,
+      "intents": [
+        "mobility",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/hip_hinge_drill.png"
+      }
+    },
+    {
+      "id": "db_rdl",
+      "name": "Dumbbell Romanian Deadlift",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "dbs"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": "hinge_strength",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/db_rdl.png"
+      }
+    },
+    {
+      "id": "db_swing",
+      "name": "Dumbbell Swing",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "dbs"
+      ],
+      "skill": "intermediate",
+      "level": 3,
+      "family_id": "hinge_power",
+      "functional": true,
+      "intents": [
+        "power",
+        "conditioning"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/db_swing.png"
+      }
+    },
+    {
+      "id": "glute_bridge",
+      "name": "Glute Bridge",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "hinge_strength",
+      "functional": true,
+      "intents": [
+        "stability",
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/glute_bridge.png"
+      }
+    },
+    {
+      "id": "kb_deadlift",
+      "name": "Kettlebell Deadlift",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "kettlebell"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "hinge_power",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/kb_deadlift.png"
+      }
+    },
+    {
+      "id": "kb_swing",
+      "name": "Kettlebell Swing",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "kettlebell"
+      ],
+      "skill": "intermediate",
+      "level": 2,
+      "family_id": "hinge_power",
+      "functional": true,
+      "intents": [
+        "power",
+        "conditioning",
+        "strength"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/kb_swing.png"
+      }
+    },
+    {
+      "id": "single_leg_rdl",
+      "name": "Single-Leg Romanian Deadlift",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "dbs",
+        "kettlebell",
+        "bodyweight"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/single_leg_rdl.png"
+      }
+    },
+    {
+      "id": "trap_bar_deadlift",
+      "name": "Trap-Bar Deadlift",
+      "primary_pattern": "hinge",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": "hinge_strength",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/trap_bar_deadlift.png"
+      }
+    },
+    {
+      "id": "a_skip",
+      "name": "A-Skip",
+      "primary_pattern": "locomotion",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "intermediate",
+      "level": 2,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "power",
+        "conditioning",
+        "mobility"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/a_skip.png"
+      }
+    },
+    {
+      "id": "bear_crawl",
+      "name": "Bear Crawl",
+      "primary_pattern": "locomotion",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "conditioning",
+        "stability",
+        "strength"
+      ],
+      "contraindications": [
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/bear_crawl.png"
+      }
+    },
+    {
+      "id": "box_jump",
+      "name": "Box Jump",
+      "primary_pattern": "locomotion",
+      "equipment": [
+        "box",
+        "bodyweight"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "power"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/box_jump.png"
+      }
+    },
+    {
+      "id": "march_in_place",
+      "name": "March in Place",
+      "primary_pattern": "locomotion",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "mobility",
+        "conditioning",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/march_in_place.png"
+      }
+    },
+    {
+      "id": "sled_drag",
+      "name": "Sled Drag (Backward or Forward)",
+      "primary_pattern": "locomotion",
+      "equipment": [
+        "sled"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "conditioning",
+        "strength"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/sled_drag.png"
+      }
+    },
+    {
+      "id": "sled_push",
+      "name": "Sled Push",
+      "primary_pattern": "locomotion",
+      "equipment": [
+        "sled"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "conditioning",
+        "strength",
+        "power"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/sled_push.png"
+      }
+    },
+    {
+      "id": "split_squat",
+      "name": "Bodyweight Split Squat",
+      "primary_pattern": "lunge",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "lunge_split",
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/split_squat.png"
+      }
+    },
+    {
+      "id": "db_rfess",
+      "name": "Dumbbell Rear-Foot-Elevated Split Squat",
+      "primary_pattern": "lunge",
+      "equipment": [
+        "dbs",
+        "box"
+      ],
+      "skill": "intermediate",
+      "level": 5,
+      "family_id": "lunge_split",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/db_rfess.png"
+      }
+    },
+    {
+      "id": "lateral_lunge",
+      "name": "Lateral Lunge",
+      "primary_pattern": "lunge",
+      "equipment": [
+        "bodyweight",
+        "dbs"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "mobility",
+        "strength",
+        "stability"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/lateral_lunge.png"
+      }
+    },
+    {
+      "id": "rear_foot_elevated_split_squat",
+      "name": "Rear-Foot-Elevated Split Squat",
+      "primary_pattern": "lunge",
+      "equipment": [
+        "bodyweight",
+        "box"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": "lunge_split",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/rear_foot_elevated_split_squat.png"
+      }
+    },
+    {
+      "id": "reverse_lunge",
+      "name": "Reverse Lunge",
+      "primary_pattern": "lunge",
+      "equipment": [
+        "bodyweight",
+        "dbs"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "lunge_split",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/reverse_lunge.png"
+      }
+    },
+    {
+      "id": "step_up",
+      "name": "Step-Up",
+      "primary_pattern": "lunge",
+      "equipment": [
+        "bodyweight",
+        "box",
+        "dbs"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "power"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/step_up.png"
+      }
+    },
+    {
+      "id": "walking_lunge",
+      "name": "Walking Lunge",
+      "primary_pattern": "lunge",
+      "equipment": [
+        "bodyweight",
+        "dbs"
+      ],
+      "skill": "intermediate",
+      "level": 3,
+      "family_id": "lunge_split",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "conditioning"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/walking_lunge.png"
+      }
+    },
+    {
+      "id": "band_row",
+      "name": "Band Row",
+      "primary_pattern": "pull_horizontal",
+      "equipment": [
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "horizontal_pull",
+      "functional": true,
+      "intents": [
+        "hypertrophy",
+        "endurance",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/band_row.png"
+      }
+    },
+    {
+      "id": "barbell_row",
+      "name": "Barbell Bent-Over Row",
+      "primary_pattern": "pull_horizontal",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "intermediate",
+      "level": 5,
+      "family_id": "horizontal_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/barbell_row.png"
+      }
+    },
+    {
+      "id": "chest_supported_row",
+      "name": "Chest-Supported Dumbbell Row",
+      "primary_pattern": "pull_horizontal",
+      "equipment": [
+        "dbs",
+        "bench"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "hypertrophy",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/chest_supported_row.png"
+      }
+    },
+    {
+      "id": "inverted_row",
+      "name": "Inverted Row",
+      "primary_pattern": "pull_horizontal",
+      "equipment": [
+        "bodyweight",
+        "barbell"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "horizontal_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/inverted_row.png"
+      }
+    },
+    {
+      "id": "machine_row",
+      "name": "Machine Row",
+      "primary_pattern": "pull_horizontal",
+      "equipment": [
+        "machines"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": null,
+      "functional": false,
+      "intents": [
+        "hypertrophy",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/machine_row.png"
+      }
+    },
+    {
+      "id": "cable_row",
+      "name": "Seated Cable Row",
+      "primary_pattern": "pull_horizontal",
+      "equipment": [
+        "cables"
+      ],
+      "skill": "beginner",
+      "level": 4,
+      "family_id": "horizontal_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/cable_row.png"
+      }
+    },
+    {
+      "id": "db_row",
+      "name": "Single-Arm Dumbbell Row",
+      "primary_pattern": "pull_horizontal",
+      "equipment": [
+        "dbs",
+        "bench"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": "horizontal_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/db_row.png"
+      }
+    },
+    {
+      "id": "assisted_pull_up",
+      "name": "Assisted Pull-Up",
+      "primary_pattern": "pull_vertical",
+      "equipment": [
+        "pullup_bar",
+        "machines",
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": "vertical_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/assisted_pull_up.png"
+      }
+    },
+    {
+      "id": "band_lat_pulldown",
+      "name": "Band Lat Pulldown",
+      "primary_pattern": "pull_vertical",
+      "equipment": [
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "vertical_pull",
+      "functional": true,
+      "intents": [
+        "hypertrophy",
+        "endurance",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/band_lat_pulldown.png"
+      }
+    },
+    {
+      "id": "chin_up",
+      "name": "Chin-Up",
+      "primary_pattern": "pull_vertical",
+      "equipment": [
+        "pullup_bar"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/chin_up.png"
+      }
+    },
+    {
+      "id": "lat_pulldown",
+      "name": "Lat Pulldown",
+      "primary_pattern": "pull_vertical",
+      "equipment": [
+        "cables",
+        "machines"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "vertical_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/lat_pulldown.png"
+      }
+    },
+    {
+      "id": "pull_up",
+      "name": "Pull-Up",
+      "primary_pattern": "pull_vertical",
+      "equipment": [
+        "pullup_bar"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": "vertical_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/pull_up.png"
+      }
+    },
+    {
+      "id": "weighted_pull_up",
+      "name": "Weighted Pull-Up",
+      "primary_pattern": "pull_vertical",
+      "equipment": [
+        "pullup_bar",
+        "dbs",
+        "kettlebell"
+      ],
+      "skill": "advanced",
+      "level": 5,
+      "family_id": "vertical_pull",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/weighted_pull_up.png"
+      }
+    },
+    {
+      "id": "band_chest_press",
+      "name": "Band Chest Press",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "hypertrophy",
+        "endurance",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/band_chest_press.png"
+      }
+    },
+    {
+      "id": "barbell_bench_press",
+      "name": "Barbell Bench Press",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "barbell",
+        "bench"
+      ],
+      "skill": "intermediate",
+      "level": 3,
+      "family_id": "horizontal_push_load",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "shoulder_irritable",
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/barbell_bench_press.png"
+      }
+    },
+    {
+      "id": "close_grip_bench_press",
+      "name": "Close-Grip Bench Press",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "barbell",
+        "bench"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": "horizontal_push_load",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "shoulder_irritable",
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/close_grip_bench_press.png"
+      }
+    },
+    {
+      "id": "decline_push_up",
+      "name": "Decline Push-Up",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "bodyweight",
+        "box"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": "horizontal_push_bw",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "wrist_sensitive",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/decline_push_up.png"
+      }
+    },
+    {
+      "id": "db_bench_press",
+      "name": "Dumbbell Bench Press",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "dbs",
+        "bench"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "horizontal_push_load",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/db_bench_press.png"
+      }
+    },
+    {
+      "id": "db_floor_press",
+      "name": "Dumbbell Floor Press",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "dbs"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "horizontal_push_load",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/db_floor_press.png"
+      }
+    },
+    {
+      "id": "feet_elevated_push_up",
+      "name": "Feet-Elevated Push-Up (High)",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "bodyweight",
+        "box"
+      ],
+      "skill": "advanced",
+      "level": 5,
+      "family_id": "horizontal_push_bw",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "wrist_sensitive",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/feet_elevated_push_up.png"
+      }
+    },
+    {
+      "id": "incline_push_up",
+      "name": "Incline Push-Up",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "bodyweight",
+        "box"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "horizontal_push_bw",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/incline_push_up.png"
+      }
+    },
+    {
+      "id": "machine_chest_press",
+      "name": "Machine Chest Press",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "machines"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": null,
+      "functional": false,
+      "intents": [
+        "hypertrophy",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/machine_chest_press.png"
+      }
+    },
+    {
+      "id": "push_up",
+      "name": "Push-Up",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": "horizontal_push_bw",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "endurance"
+      ],
+      "contraindications": [
+        "wrist_sensitive",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/push_up.png"
+      }
+    },
+    {
+      "id": "wall_push_up",
+      "name": "Wall Push-Up",
+      "primary_pattern": "push_horizontal",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "horizontal_push_bw",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "stability"
+      ],
+      "contraindications": [
+        "wrist_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/wall_push_up.png"
+      }
+    },
+    {
+      "id": "band_overhead_press",
+      "name": "Band Overhead Press",
+      "primary_pattern": "push_vertical",
+      "equipment": [
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "hypertrophy",
+        "endurance",
+        "stability"
+      ],
+      "contraindications": [
+        "overhead_limited",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/band_overhead_press.png"
+      }
+    },
+    {
+      "id": "barbell_overhead_press",
+      "name": "Barbell Overhead Press",
+      "primary_pattern": "push_vertical",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "intermediate",
+      "level": 5,
+      "family_id": "vertical_push",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "overhead_limited",
+        "shoulder_irritable",
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/barbell_overhead_press.png"
+      }
+    },
+    {
+      "id": "landmine_press",
+      "name": "Landmine Press",
+      "primary_pattern": "push_vertical",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "vertical_push",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/landmine_press.png"
+      }
+    },
+    {
+      "id": "machine_shoulder_press",
+      "name": "Machine Shoulder Press",
+      "primary_pattern": "push_vertical",
+      "equipment": [
+        "machines"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": null,
+      "functional": false,
+      "intents": [
+        "hypertrophy",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/machine_shoulder_press.png"
+      }
+    },
+    {
+      "id": "pike_push_up",
+      "name": "Pike Push-Up",
+      "primary_pattern": "push_vertical",
+      "equipment": [
+        "bodyweight"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "vertical_push",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "wrist_sensitive",
+        "overhead_limited",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/pike_push_up.png"
+      }
+    },
+    {
+      "id": "seated_db_shoulder_press",
+      "name": "Seated Dumbbell Shoulder Press",
+      "primary_pattern": "push_vertical",
+      "equipment": [
+        "dbs",
+        "bench"
+      ],
+      "skill": "beginner",
+      "level": 4,
+      "family_id": "vertical_push",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "overhead_limited",
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/seated_db_shoulder_press.png"
+      }
+    },
+    {
+      "id": "db_shoulder_press",
+      "name": "Standing Dumbbell Shoulder Press",
+      "primary_pattern": "push_vertical",
+      "equipment": [
+        "dbs"
+      ],
+      "skill": "intermediate",
+      "level": 3,
+      "family_id": "vertical_push",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "overhead_limited",
+        "shoulder_irritable",
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/db_shoulder_press.png"
+      }
+    },
+    {
+      "id": "band_face_pull_to_external_rotation",
+      "name": "Band Face Pull to External Rotation",
+      "primary_pattern": "rotate",
+      "equipment": [
+        "bands",
+        "cables"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "stability",
+        "hypertrophy",
+        "mobility"
+      ],
+      "contraindications": [
+        "shoulder_irritable"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/band_face_pull_to_external_rotation.png"
+      }
+    },
+    {
+      "id": "cable_anti_rotation_hold",
+      "name": "Cable Anti-Rotation Hold",
+      "primary_pattern": "rotate",
+      "equipment": [
+        "cables",
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": "anti_rotation",
+      "functional": true,
+      "intents": [
+        "stability",
+        "endurance"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/cable_anti_rotation_hold.png"
+      }
+    },
+    {
+      "id": "cable_chop",
+      "name": "Cable Chop",
+      "primary_pattern": "rotate",
+      "equipment": [
+        "cables"
+      ],
+      "skill": "intermediate",
+      "level": 3,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "power",
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/cable_chop.png"
+      }
+    },
+    {
+      "id": "cable_lift",
+      "name": "Cable Lift",
+      "primary_pattern": "rotate",
+      "equipment": [
+        "cables"
+      ],
+      "skill": "intermediate",
+      "level": 3,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "power",
+        "strength"
+      ],
+      "contraindications": [
+        "overhead_limited"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/cable_lift.png"
+      }
+    },
+    {
+      "id": "half_kneeling_pallof",
+      "name": "Half-Kneeling Pallof Press",
+      "primary_pattern": "rotate",
+      "equipment": [
+        "cables",
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "anti_rotation",
+      "functional": true,
+      "intents": [
+        "stability"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/half_kneeling_pallof.png"
+      }
+    },
+    {
+      "id": "med_ball_rotational_throw",
+      "name": "Med-Ball Rotational Throw",
+      "primary_pattern": "rotate",
+      "equipment": [
+        "med_ball"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "power"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/med_ball_rotational_throw.png"
+      }
+    },
+    {
+      "id": "pallof_press",
+      "name": "Pallof Press",
+      "primary_pattern": "rotate",
+      "equipment": [
+        "cables",
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "anti_rotation",
+      "functional": true,
+      "intents": [
+        "stability",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/pallof_press.png"
+      }
+    },
+    {
+      "id": "back_squat",
+      "name": "Back Squat",
+      "primary_pattern": "squat",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "intermediate",
+      "level": 5,
+      "family_id": "squat_bilateral",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "knee_sensitive",
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/back_squat.png"
+      }
+    },
+    {
+      "id": "band_squat",
+      "name": "Band Goblet-Style Squat",
+      "primary_pattern": "squat",
+      "equipment": [
+        "bands"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": null,
+      "functional": true,
+      "intents": [
+        "endurance",
+        "hypertrophy",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/band_squat.png"
+      }
+    },
+    {
+      "id": "box_squat",
+      "name": "Bodyweight Box Squat",
+      "primary_pattern": "squat",
+      "equipment": [
+        "bodyweight",
+        "box"
+      ],
+      "skill": "beginner",
+      "level": 2,
+      "family_id": "squat_bilateral",
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/box_squat.png"
+      }
+    },
+    {
+      "id": "front_squat",
+      "name": "Front Squat",
+      "primary_pattern": "squat",
+      "equipment": [
+        "barbell"
+      ],
+      "skill": "intermediate",
+      "level": 4,
+      "family_id": "squat_bilateral",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy"
+      ],
+      "contraindications": [
+        "knee_sensitive",
+        "wrist_sensitive",
+        "axial_spine_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/front_squat.png"
+      }
+    },
+    {
+      "id": "goblet_squat",
+      "name": "Goblet Squat",
+      "primary_pattern": "squat",
+      "equipment": [
+        "dbs",
+        "kettlebell"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": "squat_bilateral",
+      "functional": true,
+      "intents": [
+        "strength",
+        "hypertrophy",
+        "mobility"
+      ],
+      "contraindications": [
+        "knee_sensitive"
+      ],
+      "media": {
+        "video": null,
+        "image": "illustrations/goblet_squat.png"
+      }
+    },
+    {
+      "id": "leg_press",
+      "name": "Leg Press",
+      "primary_pattern": "squat",
+      "equipment": [
+        "machines"
+      ],
+      "skill": "beginner",
+      "level": 3,
+      "family_id": null,
+      "functional": false,
+      "intents": [
+        "hypertrophy",
+        "strength"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/leg_press.png"
+      }
+    },
+    {
+      "id": "sit_to_stand",
+      "name": "Sit-to-Stand",
+      "primary_pattern": "squat",
+      "equipment": [
+        "bodyweight",
+        "box"
+      ],
+      "skill": "beginner",
+      "level": 1,
+      "family_id": "squat_bilateral",
+      "functional": true,
+      "intents": [
+        "strength",
+        "stability"
+      ],
+      "contraindications": [],
+      "media": {
+        "video": null,
+        "image": "illustrations/sit_to_stand.png"
+      }
+    }
+  ]
+}

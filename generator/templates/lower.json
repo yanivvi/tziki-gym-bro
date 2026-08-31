@@ -1,0 +1,56 @@
+{
+  "id": "lower",
+  "name": "Lower body",
+  "description": "Hinge + squat/lunge emphasis with carry or corrective.",
+  "estimated_minutes_base": 45,
+  "blocks": [
+    {
+      "type": "prep",
+      "label": "Prep",
+      "slots": [
+        { "id": "prep", "patterns": ["corrective", "locomotion"], "intents": ["mobility"], "count": 1 }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Hinge",
+      "slots": [
+        { "id": "hinge", "patterns": ["hinge"], "intents": ["strength", "hypertrophy"], "prefer_family": "hinge_strength" }
+      ]
+    },
+    {
+      "type": "strength",
+      "label": "Squat",
+      "slots": [
+        { "id": "squat", "patterns": ["squat"], "intents": ["strength", "hypertrophy"] }
+      ]
+    },
+    {
+      "type": "accessory",
+      "label": "Unilateral",
+      "slots": [
+        { "id": "lunge", "patterns": ["lunge", "squat"], "intents": ["strength", "hypertrophy"], "prefer_patterns": ["lunge"] }
+      ]
+    },
+    {
+      "type": "carry",
+      "label": "Carry",
+      "slots": [
+        { "id": "carry", "patterns": ["carry"], "intents": ["strength", "stability", "conditioning"] }
+      ]
+    },
+    {
+      "type": "corrective",
+      "label": "Core",
+      "slots": [
+        { "id": "core", "patterns": ["corrective", "rotate"], "intents": ["stability"], "core_roles": ["anti_extension", "anti_rotation", "anti_lateral_flexion"] }
+      ]
+    }
+  ],
+  "coverage": {
+    "require_any": [
+      ["hinge"],
+      ["squat", "lunge"]
+    ]
+  }
+}

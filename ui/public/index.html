@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gym Trainer</title>
+  <title>Tziki Gym Bro</title>
   <script>
     (function () {
       try {
@@ -75,8 +75,25 @@
     <section id="panel-generate" class="panel" role="tabpanel" hidden>
       <div class="panel-head">
         <h1>Generate a session</h1>
-        <p class="lede">Pick a sample profile or tune equipment and constraints, then build a workout from the library.</p>
+        <p class="lede">Follow a multi-day plan, or build a one-off session from your equipment and constraints.</p>
       </div>
+      <section class="plan-card" id="plan-card">
+        <div class="plan-card-head">
+          <h2>Training plan</h2>
+          <p class="move-meta" id="plan-desc">Pick a plan to unlock Today’s session.</p>
+        </div>
+        <label class="field">
+          <span>Plan</span>
+          <select id="plan-select">
+            <option value="">No plan — one-off</option>
+          </select>
+        </label>
+        <p class="plan-today" id="plan-today-label" hidden></p>
+        <div class="plan-actions">
+          <button type="button" class="btn-primary" id="build-today-btn" disabled>Build today’s session</button>
+          <button type="button" class="btn-secondary" id="clear-plan-btn" hidden>Clear plan</button>
+        </div>
+      </section>
       <div class="generate-layout">
         <form id="generate-form" class="generate-form">
           <label class="field">
@@ -143,6 +160,11 @@
         <p class="lede">Knowledge base → exercise library → session generator. This UI is a preview of those pieces.</p>
       </div>
       <div id="overview-stats" class="stat-grid"></div>
+      <div class="history-section">
+        <h2>Recent sessions</h2>
+        <p class="lede">Finished workouts on this device — used for load suggestions and plan variety.</p>
+        <div id="history-list" class="history-list"></div>
+      </div>
       <div class="overview-copy">
         <article>
           <h2>Patterns</h2>

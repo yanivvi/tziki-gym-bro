@@ -819,3 +819,72 @@ main {
   font-family: var(--font-mono);
   font-size: 0.68rem;
 }
+
+.plan-card {
+  margin: 1.25rem 0 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: grid;
+  gap: 0.75rem;
+}
+
+.plan-card-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.plan-today {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.plan-today code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--accent);
+}
+
+.plan-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.history-section {
+  margin: 1.5rem 0;
+}
+
+.history-section h2 {
+  margin: 0 0 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.history-list {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.55rem;
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+}
+
+.history-item strong {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}

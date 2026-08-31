@@ -54,6 +54,7 @@ function emptyStore() {
     form: null,
     activeSession: null,
     history: [],
+    plan: null,
   };
 }
 
@@ -68,6 +69,7 @@ function loadStore() {
       form: data.form || null,
       activeSession: data.activeSession || null,
       history: Array.isArray(data.history) ? data.history : [],
+      plan: data.plan || null,
     };
   } catch {
     return emptyStore();
@@ -121,11 +123,197 @@ function progressionFor(exerciseId) {
   return suggestProgression(hist.feel, hist.load, full);
 }
 
+function recentExerciseIds(limitSessions = 2) {
+  const store = loadStore();
+  const ids = new Set();
+  for (const session of (store.history || []).slice(0, limitSessions)) {
+    for (const block of session.workout?.blocks || []) {
+      for (const ex of block.exercises || []) {
+        if (ex.exercise_id) ids.add(ex.exercise_id);
+      }
+    }
+  }
+  return [...ids];
+}
+
+function getPlanById(planId) {
+  return state.plans.find((p) => p.id === planId) || null;
+}
+
+function activePlanState() {
+  return loadStore().plan || null;
+}
+
+function currentPlanDay() {
+  const enrolled = activePlanState();
+  if (!enrolled) return null;
+  const plan = getPlanById(enrolled.planId);
+  if (!plan?.days?.length) return null;
+  const dayIndex = enrolled.dayIndex % plan.days.length;
+  return {
+    plan,
+    enrolled,
+    dayIndex,
+    day: plan.days[dayIndex],
+    cycle: enrolled.cycle || 1,
+  };
+}
+
+function persistPlan(planState) {
+  const store = loadStore();
+  store.plan = planState;
+  saveStore(store);
+}
+
+function enrollPlan(planId) {
+  if (!planId) {
+    persistPlan(null);
+    return;
+  }
+  const existing = activePlanState();
+  if (existing?.planId === planId) return;
+  persistPlan({
+    planId,
+    dayIndex: 0,
+    cycle: 1,
+    enrolled_at: new Date().toISOString(),
+  });
+}
+
+function advancePlanAfterFinish(finishedSession) {
+  const enrolled = activePlanState();
+  if (!enrolled || !finishedSession?.plan) return;
+  if (finishedSession.plan.planId !== enrolled.planId) return;
+  if (finishedSession.plan.dayIndex !== enrolled.dayIndex) return;
+
+  const plan = getPlanById(enrolled.planId);
+  if (!plan?.days?.length) return;
+
+  let dayIndex = enrolled.dayIndex + 1;
+  let cycle = enrolled.cycle || 1;
+  if (dayIndex >= plan.days.length) {
+    dayIndex = 0;
+    cycle += 1;
+  }
+  persistPlan({
+    ...enrolled,
+    dayIndex,
+    cycle,
+    updated_at: new Date().toISOString(),
+  });
+}
+
+function renderPlanCard() {
+  const select = $("plan-select");
+  const desc = $("plan-desc");
+  const today = $("plan-today-label");
+  const buildBtn = $("build-today-btn");
+  const clearBtn = $("clear-plan-btn");
+  if (!select) return;
+
+  const enrolled = activePlanState();
+  if (enrolled?.planId) select.value = enrolled.planId;
+
+  const info = currentPlanDay();
+  if (!info) {
+    desc.textContent = "Pick a plan to unlock Today’s session.";
+    today.hidden = true;
+    today.textContent = "";
+    buildBtn.disabled = true;
+    clearBtn.hidden = true;
+    return;
+  }
+
+  desc.textContent = info.plan.description || "";
+  today.hidden = false;
+  today.innerHTML = `<strong>${escapeHtml(info.day.label)}</strong> · cycle ${escapeHtml(info.cycle)} · day ${escapeHtml(info.dayIndex + 1)}/${escapeHtml(info.plan.days.length)} · template <code>${escapeHtml(info.day.template)}</code>`;
+  buildBtn.disabled = false;
+  clearBtn.hidden = false;
+}
+
+function hashStringForPlan(planId, dayIndex, cycle) {
+  const s = `${planId}:${dayIndex}:${cycle}`;
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function buildTodaysSession() {
+  const info = currentPlanDay();
+  if (!info) return;
+  const status = $("generate-status");
+  $("template-select").value = info.day.template;
+  const profile = collectProfile();
+  if (profile.equipment.length === 0) profile.equipment = ["bodyweight"];
+  profile.session_type = info.day.template;
+  profile.avoid_ids = recentExerciseIds(2);
+  profile.seed = hashStringForPlan(info.plan.id, info.dayIndex, info.cycle);
+
+  try {
+    const workout = buildWorkoutFromProfile(
+      profile,
+      info.day.template,
+      state.exercises,
+      state.templates
+    );
+    startSession(workout);
+    state.session.plan = {
+      planId: info.plan.id,
+      dayIndex: info.dayIndex,
+      dayId: info.day.id,
+      dayLabel: info.day.label,
+      cycle: info.cycle,
+    };
+    persistActiveSession();
+    persistForm();
+    renderWorkout();
+    renderPlanCard();
+    status.textContent = `${info.day.label} · seed ${workout.seed}`;
+  } catch (err) {
+    status.textContent = err.message || "Failed";
+  }
+}
+
+function renderHistory() {
+  const list = $("history-list");
+  if (!list) return;
+  const store = loadStore();
+  const rows = (store.history || []).slice(0, 12);
+  if (rows.length === 0) {
+    list.innerHTML = `<p class="move-meta">No finished sessions yet.</p>`;
+    return;
+  }
+  list.innerHTML = rows
+    .map((s) => {
+      const when = s.finished_at || s.updated_at || s.started_at || "";
+      const date = when ? new Date(when).toLocaleString() : "—";
+      const title = s.plan?.dayLabel || s.workout?.template?.name || "Session";
+      const feel = s.feel || "—";
+      const count = (s.workout?.blocks || []).reduce(
+        (n, b) => n + (b.exercises || []).length,
+        0
+      );
+      return `
+        <article class="history-item">
+          <div>
+            <strong>${escapeHtml(title)}</strong>
+            <p class="move-meta">${escapeHtml(date)} · feel ${escapeHtml(feel)} · ${escapeHtml(count)} moves</p>
+          </div>
+          <span class="badge ${feel === "good" ? "ok" : feel === "bad" ? "warn" : ""}">${escapeHtml(feel)}</span>
+        </article>`;
+    })
+    .join("");
+}
+
 const state = {
   exercises: [],
   meta: null,
   profiles: [],
   templates: [],
+  plans: [],
   selectedId: null,
   session: null,
   swapOpenKey: null,
@@ -531,8 +719,8 @@ function renderWorkout() {
   out.innerHTML = `
     <div class="workout-head">
       <div>
-        <h2>${escapeHtml(workout.template?.name || "Workout")}</h2>
-        <p class="move-meta">${escapeHtml(workout.profile?.goal || "")} · ${escapeHtml(workout.profile?.level || "")} · ~${escapeHtml(workout.estimated_minutes)} min</p>
+        <h2>${escapeHtml(state.session.plan?.dayLabel || workout.template?.name || "Workout")}</h2>
+        <p class="move-meta">${escapeHtml(workout.profile?.goal || "")} · ${escapeHtml(workout.profile?.level || "")} · ~${escapeHtml(workout.estimated_minutes)} min${state.session.plan ? ` · cycle ${escapeHtml(state.session.plan.cycle)}` : ""}</p>
       </div>
       <span class="badge ${coverageOk ? "ok" : "warn"}">${coverageOk ? "coverage ok" : "coverage gaps"}</span>
     </div>
@@ -667,10 +855,15 @@ function bindSessionControls(root) {
     store.history = [finished, ...(store.history || [])].slice(0, 50);
     store.activeSession = null;
     saveStore(store);
+    advancePlanAfterFinish(finished);
     state.session = null;
     state.swapOpenKey = null;
     const out = $("workout-out");
     out.classList.remove("empty");
+    const next = currentPlanDay();
+    const nextLine = next
+      ? `Next up: ${escapeHtml(next.day.label)} (cycle ${escapeHtml(next.cycle)}).`
+      : "Build another workout when you’re ready.";
     out.innerHTML = `
       <div class="workout-head">
         <div>
@@ -678,9 +871,10 @@ function bindSessionControls(root) {
           <p class="move-meta">Feel: ${escapeHtml(finished.feel)} · stored on this device</p>
         </div>
       </div>
-      <p class="move-meta">Next session will suggest load changes from this feel.</p>
+      <p class="move-meta">${nextLine}</p>
     `;
     $("generate-status").textContent = `Finished · ${store.history.length} session(s) in history`;
+    renderPlanCard();
     renderOverview();
   });
 }
@@ -689,11 +883,15 @@ function renderOverview() {
   const grid = $("overview-stats");
   grid.replaceChildren();
   const store = loadStore();
+  const planInfo = currentPlanDay();
   const stats = [
     { label: "Exercises", value: state.meta?.count ?? 0 },
-    { label: "Patterns", value: Object.keys(state.meta?.by_pattern || {}).length },
     { label: "Templates", value: state.templates.length },
     { label: "Logged sessions", value: store.history.length },
+    {
+      label: "Plan day",
+      value: planInfo ? `${planInfo.dayIndex + 1}/${planInfo.plan.days.length}` : "—",
+    },
   ];
   for (const s of stats) {
     const el = document.createElement("div");
@@ -701,6 +899,7 @@ function renderOverview() {
     el.innerHTML = `<strong>${escapeHtml(s.value)}</strong><span>${escapeHtml(s.label)}</span>`;
     grid.appendChild(el);
   }
+  renderHistory();
 }
 
 async function init() {
@@ -721,15 +920,17 @@ async function init() {
   $("workout-out").classList.add("empty");
   $("workout-out").textContent = "Build a session to preview it here.";
 
-  const [exercises, templates, profiles] = await Promise.all([
+  const [exercises, templates, profiles, plans] = await Promise.all([
     loadJson("./data/exercises.json"),
     loadJson("./data/templates.json"),
     loadJson("./data/profiles.json"),
+    loadJson("./data/plans.json"),
   ]);
 
   state.exercises = Array.isArray(exercises) ? exercises : exercises.exercises || [];
   state.templates = Array.isArray(templates) ? templates : templates.templates || [];
   state.profiles = Array.isArray(profiles) ? profiles : profiles.profiles || [];
+  state.plans = Array.isArray(plans) ? plans : plans.plans || [];
   state.meta = getLibraryMeta(state.exercises, state.templates, state.profiles);
 
   fillSelect($("filter-pattern"), uniqueSorted(state.exercises.map((e) => e.primary_pattern)), {
@@ -749,15 +950,34 @@ async function init() {
     state.profiles.map((p) => ({ value: p.id, label: `${p.name} (${p.level})` })),
     { blankLabel: "Custom" }
   );
+  fillSelect(
+    $("plan-select"),
+    state.plans.map((p) => ({ value: p.id, label: p.name })),
+    { blankLabel: "No plan — one-off" }
+  );
 
   renderChecks($("equipment-checks"), EQUIPMENT_OPTIONS, new Set(["bodyweight", "dbs", "bands"]));
   renderChecks($("constraint-checks"), CONSTRAINT_OPTIONS, new Set());
 
   const store = loadStore();
   restoreForm(store.form);
+  renderPlanCard();
 
   renderExerciseList();
   renderOverview();
+
+  $("plan-select")?.addEventListener("change", () => {
+    enrollPlan($("plan-select").value || "");
+    renderPlanCard();
+    renderOverview();
+  });
+  $("build-today-btn")?.addEventListener("click", () => buildTodaysSession());
+  $("clear-plan-btn")?.addEventListener("click", () => {
+    enrollPlan("");
+    $("plan-select").value = "";
+    renderPlanCard();
+    renderOverview();
+  });
 
   $("profile-select").addEventListener("change", () => {
     const id = $("profile-select").value;
@@ -784,6 +1004,7 @@ async function init() {
     try {
       const profile = collectProfile();
       if (profile.equipment.length === 0) profile.equipment = ["bodyweight"];
+      profile.avoid_ids = recentExerciseIds(2);
       const workout = buildWorkoutFromProfile(
         profile,
         $("template-select").value || null,

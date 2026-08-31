@@ -1,0 +1,68 @@
+[
+  {
+    "id": "full_body_3day",
+    "name": "Full body · 3 days",
+    "description": "Three full-body sessions per cycle. Days A/B use the athlete template with variety; Day C is shorter.",
+    "days": [
+      {
+        "id": "a",
+        "label": "Day A — full body",
+        "template": "full_body_athlete"
+      },
+      {
+        "id": "b",
+        "label": "Day B — full body (varied)",
+        "template": "full_body_athlete"
+      },
+      {
+        "id": "c",
+        "label": "Day C — shorter full body",
+        "template": "full_body_min"
+      }
+    ]
+  },
+  {
+    "id": "upper_lower_4day",
+    "name": "Upper / Lower · 4 days",
+    "description": "Classic split: upper, lower, upper, lower. Pattern coverage alternates so the same stack is less likely to repeat.",
+    "days": [
+      {
+        "id": "u1",
+        "label": "Upper 1",
+        "template": "upper"
+      },
+      {
+        "id": "l1",
+        "label": "Lower 1",
+        "template": "lower"
+      },
+      {
+        "id": "u2",
+        "label": "Upper 2",
+        "template": "upper"
+      },
+      {
+        "id": "l2",
+        "label": "Lower 2",
+        "template": "lower"
+      }
+    ]
+  },
+  {
+    "id": "minimal_2day",
+    "name": "Minimal · 2 days",
+    "description": "Two shorter full-body sessions for busy weeks.",
+    "days": [
+      {
+        "id": "a",
+        "label": "Session A",
+        "template": "full_body_min"
+      },
+      {
+        "id": "b",
+        "label": "Session B",
+        "template": "full_body_min"
+      }
+    ]
+  }
+]

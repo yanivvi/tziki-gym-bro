@@ -107,6 +107,9 @@ function scoreCandidate(ex, slot, profile) {
   const level = typeof ex.level === "number" ? ex.level : 1;
   score += Math.max(0, 4 - Math.abs(level - target));
 
+  const avoid = profile.avoid_ids;
+  if (Array.isArray(avoid) && avoid.includes(ex.id)) score -= 5;
+
   return score;
 }
 

@@ -1,19 +1,23 @@
 :root {
-  --bg: #efece4;
-  --bg-2: #e4dfd4;
-  --ink: #171512;
-  --muted: #5c574e;
-  --line: #c9c2b4;
-  --accent: #d64b14;
-  --accent-ink: #fff7f0;
-  --panel: #f7f4ee;
-  --ok: #2f6b3a;
-  --warn: #9a5b00;
-  --shadow: 0 18px 40px rgba(23, 21, 18, 0.08);
-  --top-bg: color-mix(in srgb, var(--bg) 88%, white);
-  --noise-line: rgba(23, 21, 18, 0.06);
-  --noise-opacity: 0.035;
-  --chip-bg: color-mix(in srgb, var(--bg) 70%, white);
+  /* Tee cream · navy shorts · sandal brown · garden green */
+  --bg: #f2ebd4;
+  --bg-2: #e6dcb8;
+  --ink: #1a2744;
+  --muted: #5a6578;
+  --line: #c9bf9e;
+  --accent: #6b3a28;
+  --accent-ink: #fff6ee;
+  --panel: #faf6e8;
+  --ok: #3f6b45;
+  --warn: #9a6a20;
+  --navy: #1a2744;
+  --navy-soft: #2a3a5c;
+  --heart: #6b3a28;
+  --shadow: 0 18px 40px rgba(26, 39, 68, 0.1);
+  --top-bg: linear-gradient(180deg, #f7f1dd 0%, color-mix(in srgb, var(--bg) 92%, #dfe8d4) 100%);
+  --noise-line: rgba(26, 39, 68, 0.07);
+  --noise-opacity: 0.45;
+  --chip-bg: color-mix(in srgb, var(--panel) 80%, white);
   --font-display: "Syne", sans-serif;
   --font-body: "IBM Plex Sans", sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
@@ -21,21 +25,24 @@
 }
 
 html[data-theme="dark"] {
-  --bg: #141210;
-  --bg-2: #1c1915;
-  --ink: #f2ebe0;
-  --muted: #a89f90;
-  --line: #3a342c;
-  --accent: #f06a2f;
-  --accent-ink: #1a100c;
-  --panel: #1f1b16;
-  --ok: #6fbf7c;
+  --bg: #121829;
+  --bg-2: #1a2238;
+  --ink: #f2ebd4;
+  --muted: #a8b0c0;
+  --line: #3a4560;
+  --accent: #c4785a;
+  --accent-ink: #1a120e;
+  --panel: #1a2238;
+  --ok: #7cbf86;
   --warn: #e0a84a;
+  --navy: #f2ebd4;
+  --navy-soft: #c8d0e0;
+  --heart: #c4785a;
   --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-  --top-bg: color-mix(in srgb, var(--bg) 92%, black);
-  --noise-line: rgba(242, 235, 224, 0.05);
-  --noise-opacity: 0.06;
-  --chip-bg: color-mix(in srgb, var(--panel) 80%, black);
+  --top-bg: linear-gradient(180deg, #161d30 0%, #121829 100%);
+  --noise-line: rgba(242, 235, 212, 0.06);
+  --noise-opacity: 0.35;
+  --chip-bg: color-mix(in srgb, var(--panel) 85%, black);
   color-scheme: dark;
 }
 
@@ -44,7 +51,10 @@ html[data-theme="dark"] {
 html, body {
   margin: 0;
   min-height: 100%;
-  background: var(--bg);
+  background:
+    radial-gradient(1200px 500px at 10% -10%, color-mix(in srgb, #c5d4b8 35%, transparent), transparent 60%),
+    radial-gradient(900px 420px at 100% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%),
+    var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
@@ -57,11 +67,13 @@ html, body {
   position: fixed;
   inset: 0;
   opacity: var(--noise-opacity);
+  /* Garden lattice fence */
   background-image:
     linear-gradient(var(--noise-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--noise-line) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-size: 22px 22px;
   z-index: 0;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.55), transparent 70%);
 }
 
 .top, main {
@@ -76,7 +88,7 @@ html, body {
   align-items: end;
   justify-content: space-between;
   padding: 1.5rem clamp(1rem, 4vw, 2.5rem) 1rem;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--navy);
   background: var(--top-bg);
 }
 
@@ -106,23 +118,56 @@ html, body {
   border-color: var(--ink);
 }
 
+.brand {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  min-width: min(100%, 28rem);
+}
+
+.brand-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 18%;
+  border: 3px solid var(--navy);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+  background: var(--panel);
+  flex-shrink: 0;
+}
+
+.brand-copy {
+  min-width: 0;
+}
+
 .brand-mark {
   margin: 0;
-  font-family: "Heebo", var(--font-display), sans-serif;
+  font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.35rem, 3.6vw, 2.35rem);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-  max-width: 22ch;
+  font-size: clamp(1.2rem, 3.2vw, 2rem);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  color: var(--navy);
+  max-width: 18ch;
 }
 
 .brand-sub {
-  margin: 0.35rem 0 0;
+  margin: 0.4rem 0 0;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.brand-heart {
+  color: var(--heart);
+  font-size: 0.95rem;
+  line-height: 1;
 }
 
 .tabs {
@@ -142,12 +187,13 @@ html, body {
 }
 
 .tab.is-active {
-  color: var(--ink);
-  border-color: var(--ink);
-  background: var(--panel);
+  color: var(--accent-ink);
+  border-color: var(--navy);
+  background: var(--navy);
 }
 
 .tab:hover { color: var(--ink); }
+.tab.is-active:hover { color: var(--accent-ink); }
 
 main {
   padding: 1.5rem clamp(1rem, 4vw, 2.5rem) 3rem;
@@ -525,7 +571,7 @@ main {
 .btn-primary {
   appearance: none;
   border: none;
-  background: var(--accent);
+  background: var(--navy);
   color: var(--accent-ink);
   font-family: var(--font-display);
   font-weight: 700;
@@ -534,6 +580,7 @@ main {
   padding: 0.9rem 1.1rem;
   border-radius: 0.45rem;
   cursor: pointer;
+  box-shadow: inset 0 -3px 0 color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
 .btn-primary:hover { filter: brightness(1.05); }

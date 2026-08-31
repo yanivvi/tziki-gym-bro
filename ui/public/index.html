@@ -165,6 +165,18 @@
         <p class="lede">Finished workouts on this device — used for load suggestions and plan variety.</p>
         <div id="history-list" class="history-list"></div>
       </div>
+      <div class="backup-section">
+        <h2>Backup</h2>
+        <p class="lede">Progress lives in this browser only. Export a file to keep it safe, or restore on another device.</p>
+        <div class="backup-actions">
+          <button type="button" class="btn-primary" id="export-backup-btn">Export backup</button>
+          <label class="btn-secondary backup-import">
+            Import backup
+            <input type="file" id="import-backup-input" accept="application/json,.json" hidden />
+          </label>
+        </div>
+        <p id="backup-status" class="status" role="status"></p>
+      </div>
       <div class="overview-copy">
         <article>
           <h2>Patterns</h2>

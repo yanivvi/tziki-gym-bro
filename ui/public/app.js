@@ -1018,12 +1018,11 @@ async function init() {
     try {
       const profile = collectProfile();
       if (profile.equipment.length === 0) profile.equipment = ["bodyweight"];
-      const workout = buildWorkoutFromProfile(
+      profile.avoid_ids = recentExerciseIds(2);
+      const { workout } = await api("POST", "/api/generate", {
         profile,
-        $("template-select").value || null,
-        state.exercises,
-        state.templates
-      );
+        template: $("template-select").value || null,
+      });
       startSession(workout);
       persistForm();
       renderWorkout();

@@ -308,6 +308,101 @@ function renderHistory() {
     .join("");
 }
 
+function setBackupStatus(message) {
+  const el = $("backup-status");
+  if (el) el.textContent = message || "";
+}
+
+function exportBackup() {
+  const store = loadStore();
+  const payload = {
+    app: "tziki-gym-bro",
+    exported_at: new Date().toISOString(),
+    store,
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const stamp = new Date().toISOString().slice(0, 10);
+  a.href = url;
+  a.download = `tziki-gym-bro-backup-${stamp}.json`;
+  a.rel = "noopener";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  setBackupStatus(`Exported ${store.history?.length || 0} session(s) · ${stamp}`);
+}
+
+function normalizeImportedStore(raw) {
+  const candidate = raw?.store && typeof raw.store === "object" ? raw.store : raw;
+  if (!candidate || typeof candidate !== "object") {
+    throw new Error("Invalid backup file");
+  }
+  if (candidate.version !== 1) {
+    throw new Error("Unsupported backup version");
+  }
+  return {
+    version: 1,
+    form: candidate.form || null,
+    activeSession: candidate.activeSession || null,
+    history: Array.isArray(candidate.history) ? candidate.history : [],
+    plan: candidate.plan || null,
+  };
+}
+
+async function importBackupFile(file) {
+  if (!file) return;
+  const text = await file.text();
+  let parsed;
+  try {
+    parsed = JSON.parse(text);
+  } catch {
+    throw new Error("Backup is not valid JSON");
+  }
+  const next = normalizeImportedStore(parsed);
+  const current = loadStore();
+  const replace = window.confirm(
+    `Replace local data with this backup?\n\nBackup: ${next.history.length} session(s)\nCurrent: ${current.history.length} session(s)\n\nThis cannot be undone except by importing another backup.`
+  );
+  if (!replace) {
+    setBackupStatus("Import cancelled");
+    return;
+  }
+  saveStore(next);
+  state.session = next.activeSession?.workout && !next.activeSession.completed ? next.activeSession : null;
+  state.swapOpenKey = null;
+  restoreForm(next.form);
+  renderPlanCard();
+  renderOverview();
+  if (state.session) {
+    renderWorkout();
+    setTab("generate");
+  }
+  setBackupStatus(`Restored ${next.history.length} session(s)${next.plan ? " · plan enrolled" : ""}`);
+}
+
+function bindBackupControls() {
+  $("export-backup-btn")?.addEventListener("click", () => {
+    try {
+      exportBackup();
+    } catch (err) {
+      setBackupStatus(err.message || "Export failed");
+    }
+  });
+  $("import-backup-input")?.addEventListener("change", async (event) => {
+    const input = event.target;
+    const file = input.files?.[0];
+    try {
+      await importBackupFile(file);
+    } catch (err) {
+      setBackupStatus(err.message || "Import failed");
+    } finally {
+      input.value = "";
+    }
+  });
+}
+
 const state = {
   exercises: [],
   meta: null,
@@ -978,6 +1073,8 @@ async function init() {
     renderPlanCard();
     renderOverview();
   });
+
+  bindBackupControls();
 
   $("profile-select").addEventListener("change", () => {
     const id = $("profile-select").value;

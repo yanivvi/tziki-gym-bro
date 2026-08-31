@@ -576,3 +576,110 @@ export function augmentWarmupCooldown(workout, pool, profile, rng = Math.random)
 
   return { ...workout, blocks };
 }
+
+/**
+ * Same-family neighbors sorted by level.
+ */
+export function familyLadder(exercise, pool) {
+  if (!exercise?.family_id) return [];
+  return pool
+    .filter((e) => e.family_id === exercise.family_id)
+    .slice()
+    .sort((a, b) => (a.level || 0) - (b.level || 0));
+}
+
+/**
+ * Next harder (+1) or easier (-1) variation in the family that still fits profile.
+ */
+export function pickFamilyStep(exercise, pool, profile, direction = 1) {
+  const ladder = familyLadder(exercise, pool);
+  const idx = ladder.findIndex((e) => e.id === exercise.id);
+  if (idx < 0) return null;
+  const level = profile?.level || "intermediate";
+  const constraints = profile?.constraints || [];
+  const equipment = profile?.equipment || [];
+
+  for (
+    let i = idx + direction;
+    i >= 0 && i < ladder.length;
+    i += direction
+  ) {
+    const cand = ladder[i];
+    if (!skillOk(cand.skill, level)) continue;
+    if (!constraintsOk(cand, constraints)) continue;
+    if (!softGateOk(cand, constraints)) continue;
+    if (equipment.length && !matchesEquipment(cand, equipment)) continue;
+    return cand;
+  }
+  return null;
+}
+
+/**
+ * After build: bump family when last feel was good (preferHarder), ease when bad.
+ * feelsById: { [exerciseId]: 'good'|'mid'|'bad' } from most recent history.
+ */
+export function applyFamilyAutoProgress(workout, pool, profile, feelsById = {}) {
+  if (!workout?.blocks) return workout;
+  const used = new Set();
+  for (const block of workout.blocks) {
+    for (const ex of block.exercises || []) used.add(ex.exercise_id);
+  }
+
+  for (const block of workout.blocks) {
+    if (/warm|cool|prep/i.test(block.type || "") || /warm|cool|prep/i.test(block.label || "")) {
+      continue;
+    }
+    for (let i = 0; i < (block.exercises || []).length; i++) {
+      const item = block.exercises[i];
+      const feel = feelsById[item.exercise_id];
+      if (feel !== "good" && feel !== "bad") continue;
+      const current = pool.find((e) => e.id === item.exercise_id);
+      if (!current?.family_id) continue;
+      const direction = feel === "good" ? 1 : -1;
+      const next = pickFamilyStep(current, pool, profile, direction);
+      if (!next || next.id === current.id) continue;
+      if (used.has(next.id)) continue;
+      used.delete(current.id);
+      used.add(next.id);
+      const rx = next.default_prescription || item.prescription || {};
+      block.exercises[i] = {
+        ...item,
+        exercise_id: next.id,
+        name: next.name,
+        primary_pattern: next.primary_pattern,
+        family_id: next.family_id,
+        stance: next.stance,
+        cue_short: next.cue_short,
+        prescription: {
+          sets: item.prescription?.sets ?? rx.sets,
+          reps: item.prescription?.reps ?? rx.reps,
+          rest_sec: item.prescription?.rest_sec ?? rx.rest_sec,
+          load: rx.load,
+          notes: [rx.notes, feel === "good" ? "Auto-progressed in family" : "Eased in family"]
+            .filter(Boolean)
+            .join(" · "),
+        },
+        auto_family: feel === "good" ? "harder" : "easier",
+      };
+    }
+  }
+  return workout;
+}
+
+/**
+ * Lighten prescriptions for a deload week (sets −1, longer rest).
+ */
+export function applyDeloadToWorkout(workout) {
+  if (!workout?.blocks) return workout;
+  for (const block of workout.blocks) {
+    for (const ex of block.exercises || []) {
+      const p = ex.prescription || (ex.prescription = {});
+      if (typeof p.sets === "number" && p.sets > 1) p.sets = Math.max(1, p.sets - 1);
+      if (typeof p.rest_sec === "number") p.rest_sec = Math.round(p.rest_sec * 1.15);
+      p.notes = [p.notes, "Deload week — keep RPE easy"].filter(Boolean).join(" · ");
+    }
+  }
+  workout.deload = true;
+  workout.warnings = [...(workout.warnings || []), "Deload week: volume eased."];
+  return workout;
+}

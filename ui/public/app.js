@@ -1,4 +1,11 @@
-import { buildWorkoutFromProfile, findSwapCandidates, suggestProgression } from "./generator.js";
+import {
+  buildWorkoutFromProfile,
+  getLibraryMeta,
+  findSwapCandidates,
+  suggestProgression,
+  applyFamilyAutoProgress,
+  applyDeloadToWorkout,
+} from "./generator.js";
 import { applyI18n, getLang, setLang, t } from "./i18n.js";
 import {
   saveVoiceClip,
@@ -30,6 +37,17 @@ const CONSTRAINT_OPTIONS = [
   "wrist_sensitive",
 ];
 
+const INJURY_PRESETS = {
+  knee: ["knee_sensitive"],
+  shoulder: ["shoulder_irritable", "overhead_limited"],
+  back: ["axial_spine_sensitive"],
+  wrist: ["wrist_sensitive"],
+};
+
+const DELOAD_EVERY_CYCLES = 4;
+const THEME_MODE_KEY = "gym-trainer-theme-mode";
+const GYM_HOURS = { start: 6, end: 20 };
+
 const STORE_KEY = "tziki-gym-bro-v1";
 const FEEL_OPTIONS = [
   { value: "good", label: "Good" },
@@ -49,22 +67,9 @@ function escapeHtml(s) {
   );
 }
 
-async function api(method, url, body) {
-  if (!/^\/[^/]/.test(url)) throw new Error("Invalid request path");
-  const opts = { method, headers: { Accept: "application/json" } };
-  if (body !== undefined) {
-    opts.headers["Content-Type"] = "application/json";
-    opts.body = JSON.stringify(body);
-  }
-  const res = await fetch(url, opts);
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Request failed");
-  return data;
-}
-
 async function loadJson(path) {
   const res = await fetch(path, { headers: { Accept: "application/json" } });
-  if (!res.ok) throw new Error("Failed to load " + path);
+  if (!res.ok) throw new Error(`Failed to load ${path}`);
   return res.json();
 }
 
@@ -246,7 +251,7 @@ function renderPlanCard() {
 
   desc.textContent = info.plan.description || "";
   today.hidden = false;
-  today.innerHTML = `<strong>${escapeHtml(info.day.label)}</strong> · cycle ${escapeHtml(info.cycle)} · day ${escapeHtml(info.dayIndex + 1)}/${escapeHtml(info.plan.days.length)} · template <code>${escapeHtml(info.day.template)}</code>`;
+  today.innerHTML = `<strong>${escapeHtml(info.day.label)}</strong> · cycle ${escapeHtml(info.cycle)} · day ${escapeHtml(info.dayIndex + 1)}/${escapeHtml(info.plan.days.length)} · template <code>${escapeHtml(info.day.template)}</code>${isDeloadCycle(info.cycle) ? ` · <span class="badge warn">${escapeHtml(t("deload_week"))}</span>` : ""}`;
   buildBtn.disabled = false;
   clearBtn.hidden = false;
 }
@@ -261,6 +266,168 @@ function hashStringForPlan(planId, dayIndex, cycle) {
   return h >>> 0;
 }
 
+
+function isDeloadCycle(cycle) {
+  const c = Number(cycle) || 0;
+  return c > 0 && c % DELOAD_EVERY_CYCLES === 0;
+}
+
+function recentFeelByExercise() {
+  const map = {};
+  const store = loadStore();
+  for (const session of store.history || []) {
+    const feel = session.feel;
+    if (!feel) continue;
+    for (const block of session.workout?.blocks || []) {
+      for (const ex of block.exercises || []) {
+        const id = ex.exercise_id;
+        if (id && map[id] == null) map[id] = feel;
+      }
+    }
+  }
+  return map;
+}
+
+function initSetsLog(workout, existing) {
+  const sets = { ...(existing || {}) };
+  for (const block of workout.blocks || []) {
+    for (const ex of block.exercises || []) {
+      const id = ex.exercise_id;
+      if (!id) continue;
+      const n = Math.min(8, Math.max(0, Number(ex.prescription?.sets) || 0));
+      if (!Array.isArray(sets[id]) || sets[id].length !== n) {
+        const prev = Array.isArray(sets[id]) ? sets[id] : [];
+        sets[id] = Array.from({ length: n }, (_, i) => ({ done: Boolean(prev[i]?.done) }));
+      }
+    }
+  }
+  return sets;
+}
+
+function applyInjuryPreset(key) {
+  const container = $("constraint-checks");
+  if (!container) return;
+  const wanted = new Set(INJURY_PRESETS[key] || []);
+  container.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+    input.checked = wanted.has(input.value);
+  });
+  document.querySelectorAll("[data-injury]").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.injury === key && key !== "clear");
+  });
+  persistForm();
+}
+
+function setLogHtml(exerciseId) {
+  const rows = state.session?.sets?.[exerciseId];
+  if (!rows?.length) return "";
+  const chips = rows
+    .map(
+      (row, i) =>
+        `<button type="button" class="set-chip${row.done ? " is-done" : ""}" data-set-toggle="${escapeHtml(exerciseId)}" data-set-idx="${i}" aria-pressed="${row.done ? "true" : "false"}">${escapeHtml(t("set_n").replace("{n}", String(i + 1)))}</button>`
+    )
+    .join("");
+  const done = rows.filter((r) => r.done).length;
+  return `
+    <div class="set-log">
+      <span class="set-log-label">${escapeHtml(t("sets_log"))} · ${done}/${rows.length}</span>
+      <div class="set-chips">${chips}</div>
+    </div>`;
+}
+
+function scaleLoadsForDeload(loads) {
+  const next = {};
+  for (const [id, load] of Object.entries(loads || {})) {
+    if (!load) continue;
+    if (load.type === "bodyweight") {
+      next[id] = { ...load };
+      continue;
+    }
+    const kg = typeof load.kg === "number" ? load.kg : Number(load.kg);
+    if (Number.isFinite(kg) && kg > 0) {
+      next[id] = { type: "kg", kg: Math.round(kg * 0.6 * 2) / 2 };
+    } else {
+      next[id] = { ...load };
+    }
+  }
+  return next;
+}
+
+async function precacheIllustrations() {
+  if (!("caches" in window)) return;
+  try {
+    const cache = await caches.open("tziki-v3");
+    const urls = [...new Set(state.exercises.map((ex) => mediaUrl(ex)).filter(Boolean))];
+    await Promise.allSettled(urls.map((u) => cache.add(u)));
+  } catch {
+    /* ignore quota / offline */
+  }
+}
+
+function weekSessions() {
+  const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  return (loadStore().history || []).filter((s) => {
+    const ts = Date.parse(s.finished_at || s.updated_at || s.started_at || "");
+    return Number.isFinite(ts) && ts >= cutoff;
+  });
+}
+
+function renderWeeklyReview() {
+  const el = $("weekly-review");
+  if (!el) return;
+  const sessions = weekSessions();
+  if (sessions.length === 0) {
+    el.innerHTML = `<p class="move-meta">${escapeHtml(t("weekly_empty"))}</p>`;
+    return;
+  }
+  const feels = { good: 0, mid: 0, bad: 0 };
+  const patterns = {};
+  const loadByEx = {};
+  for (const s of [...sessions].reverse()) {
+    if (s.feel && feels[s.feel] != null) feels[s.feel] += 1;
+    for (const block of s.workout?.blocks || []) {
+      for (const ex of block.exercises || []) {
+        const pat = ex.primary_pattern || "other";
+        patterns[pat] = (patterns[pat] || 0) + 1;
+        const load = s.loads?.[ex.exercise_id];
+        const kg = load?.type === "kg" ? Number(load.kg) : NaN;
+        if (!Number.isFinite(kg) || kg <= 0) continue;
+        const id = ex.exercise_id;
+        if (!loadByEx[id]) loadByEx[id] = { name: ex.name, first: kg, last: kg };
+        else loadByEx[id].last = kg;
+      }
+    }
+  }
+  const progressed = Object.values(loadByEx)
+    .filter((x) => x.last > x.first)
+    .sort((a, b) => (b.last - b.first) - (a.last - a.first))
+    .slice(0, 5);
+  const topPatterns = Object.entries(patterns)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([k, v]) => `<li><strong>${escapeHtml(k)}</strong> · ${v}</li>`)
+    .join("");
+  const progLines = progressed.length
+    ? progressed.map((p) => `<li>${escapeHtml(p.name)}: ${p.first} → ${p.last} kg</li>`).join("")
+    : `<li>${escapeHtml(t("weekly_no_progress"))}</li>`;
+  el.innerHTML = `
+    <div class="weekly-grid">
+      <div class="stat"><strong>${sessions.length}</strong><span>${escapeHtml(t("weekly_sessions"))}</span></div>
+      <div class="stat"><strong>${feels.good}</strong><span>${escapeHtml(t("feel_good"))}</span></div>
+      <div class="stat"><strong>${feels.mid}</strong><span>${escapeHtml(t("feel_mid"))}</span></div>
+      <div class="stat"><strong>${feels.bad}</strong><span>${escapeHtml(t("feel_bad"))}</span></div>
+    </div>
+    <div class="weekly-cols">
+      <div>
+        <h3>${escapeHtml(t("weekly_patterns"))}</h3>
+        <ul class="weekly-list">${topPatterns || "<li>—</li>"}</ul>
+      </div>
+      <div>
+        <h3>${escapeHtml(t("weekly_progress"))}</h3>
+        <ul class="weekly-list">${progLines}</ul>
+      </div>
+    </div>`;
+}
+
 function buildTodaysSession() {
   const info = currentPlanDay();
   if (!info) return;
@@ -273,12 +440,17 @@ function buildTodaysSession() {
   profile.seed = hashStringForPlan(info.plan.id, info.dayIndex, info.cycle);
 
   try {
-    const workout = buildWorkoutFromProfile(
+    let workout = buildWorkoutFromProfile(
       profile,
       info.day.template,
       state.exercises,
       state.templates
     );
+    workout = applyFamilyAutoProgress(workout, state.exercises, profile, recentFeelByExercise());
+    if (isDeloadCycle(info.cycle)) {
+      workout = applyDeloadToWorkout(workout);
+      profile.deload = true;
+    }
     startSession(workout);
     state.session.plan = {
       planId: info.plan.id,
@@ -286,6 +458,7 @@ function buildTodaysSession() {
       dayId: info.day.id,
       dayLabel: info.day.label,
       cycle: info.cycle,
+      deload: isDeloadCycle(info.cycle),
     };
     persistActiveSession();
     persistForm();
@@ -465,31 +638,74 @@ function setTab(name) {
 
 const THEME_KEY = "gym-trainer-theme";
 
+function getThemeMode() {
+  try {
+    const mode = localStorage.getItem(THEME_MODE_KEY);
+    if (mode === "light" || mode === "dark" || mode === "auto") return mode;
+    const legacy = localStorage.getItem(THEME_KEY);
+    if (legacy === "dark" || legacy === "light") return legacy;
+  } catch {}
+  return "auto";
+}
+
+function setThemeMode(mode) {
+  const next = mode === "dark" || mode === "light" || mode === "auto" ? mode : "auto";
+  localStorage.setItem(THEME_MODE_KEY, next);
+  return next;
+}
+
+function themeFromSchedule() {
+  const h = new Date().getHours();
+  return h >= GYM_HOURS.start && h < GYM_HOURS.end ? "light" : "dark";
+}
+
+function resolveTheme(mode = getThemeMode()) {
+  if (mode === "auto") return themeFromSchedule();
+  return mode === "dark" ? "dark" : "light";
+}
+
 function currentTheme() {
   return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
 }
 
-function applyTheme(theme) {
-  const next = theme === "dark" ? "dark" : "light";
+function applyTheme(themeOrMode) {
+  let mode = getThemeMode();
+  if (themeOrMode === "light" || themeOrMode === "dark" || themeOrMode === "auto") {
+    mode = setThemeMode(themeOrMode);
+  }
+  const next = resolveTheme(mode);
   if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
   else document.documentElement.removeAttribute("data-theme");
   localStorage.setItem(THEME_KEY, next);
   const btn = $("theme-toggle");
   if (btn) {
     btn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-    btn.textContent = next === "dark" ? t("theme_light") : t("theme_dark");
-    btn.title = next === "dark" ? t("theme_to_light") : t("theme_to_dark");
+    btn.dataset.themeMode = mode;
+    if (mode === "auto") {
+      btn.textContent = t("theme_auto");
+      btn.title = t("theme_auto_title");
+    } else if (next === "dark") {
+      btn.textContent = t("theme_light");
+      btn.title = t("theme_to_light");
+    } else {
+      btn.textContent = t("theme_dark");
+      btn.title = t("theme_to_dark");
+    }
   }
 }
 
+function cycleThemeMode() {
+  const order = ["light", "dark", "auto"];
+  const cur = getThemeMode();
+  applyTheme(order[(order.indexOf(cur) + 1) % order.length]);
+}
+
 function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  if (saved === "dark" || saved === "light") {
-    applyTheme(saved);
-    return;
-  }
-  const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
-  applyTheme(prefersDark ? "dark" : "light");
+  applyTheme(getThemeMode());
+  if (window.__tzikiThemeTimer) clearInterval(window.__tzikiThemeTimer);
+  window.__tzikiThemeTimer = setInterval(() => {
+    if (getThemeMode() === "auto") applyTheme("auto");
+  }, 60_000);
 }
 
 function uniqueSorted(values) {
@@ -961,7 +1177,7 @@ function bindVoiceClipControls() {
 }
 
 function startSession(workout) {
-  const loads = {};
+  let loads = {};
   for (const block of workout.blocks || []) {
     for (const ex of block.exercises || []) {
       const hist = lastLoadForExercise(ex.exercise_id);
@@ -979,6 +1195,7 @@ function startSession(workout) {
       }
     }
   }
+  if (workout.deload) loads = scaleLoadsForDeload(loads);
   state.swapOpenKey = null;
   state.session = {
     id: sessionId(),
@@ -987,6 +1204,7 @@ function startSession(workout) {
     completed: false,
     feel: null,
     loads,
+    sets: initSetsLog(workout),
     workout,
   };
   persistActiveSession();
@@ -1088,6 +1306,7 @@ function renderWorkout() {
                 ${cue ? `<p class="move-cue"><span class="cue-label">${escapeHtml(t("cue"))}:</span> ${escapeHtml(cue)}</p>` : ""}
                 ${demo ? `<p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>` : ""}
                 ${loadControlHtml(ex.exercise_id, blockIdx, exIdx)}
+                ${setLogHtml(ex.exercise_id)}
                 <div class="move-actions">
                   <button type="button" class="btn-rest" data-rest-sec="${escapeHtml(p.rest_sec ?? 60)}" data-rest-name="${escapeHtml(ex.name)}">${escapeHtml(t("rest_start"))}</button>
                 </div>
@@ -1119,7 +1338,7 @@ function renderWorkout() {
     <div class="workout-head">
       <div>
         <h2>${escapeHtml(state.session.plan?.dayLabel || workout.template?.name || "Workout")}</h2>
-        <p class="move-meta">${escapeHtml(workout.profile?.goal || "")} · ${escapeHtml(workout.profile?.level || "")} · ~${escapeHtml(workout.estimated_minutes)} min${state.session.plan ? ` · cycle ${escapeHtml(state.session.plan.cycle)}` : ""}</p>
+        <p class="move-meta">${escapeHtml(workout.profile?.goal || "")} · ${escapeHtml(workout.profile?.level || "")} · ~${escapeHtml(workout.estimated_minutes)} min${state.session.plan ? ` · cycle ${escapeHtml(state.session.plan.cycle)}` : ""}${workout.deload || state.session.plan?.deload ? ` · ${escapeHtml(t("deload_week"))}` : ""}</p>
       </div>
       <span class="badge ${coverageOk ? "ok" : "warn"}">${coverageOk ? escapeHtml(t("coverage_ok")) : escapeHtml(t("coverage_gaps"))}</span>
     </div>
@@ -1233,6 +1452,19 @@ function bindSessionControls(root) {
     });
   });
 
+
+  root.querySelectorAll("[data-set-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.setToggle;
+      const idx = Number(btn.dataset.setIdx);
+      if (!state.session.sets?.[id]?.[idx]) return;
+      state.session.sets[id][idx].done = !state.session.sets[id][idx].done;
+      haptic(10);
+      persistActiveSession();
+      renderWorkout();
+    });
+  });
+
   root.querySelectorAll("[data-feel]").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.session.feel = btn.dataset.feel;
@@ -1319,18 +1551,33 @@ function renderOverview() {
     grid.appendChild(el);
   }
   renderHistory();
+  renderWeeklyReview();
 }
 
 async function init() {
   applyI18n(getLang());
   initTheme();
   registerServiceWorker();
+  document.querySelectorAll("[data-injury]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.injury;
+      if (key === "clear") {
+        $("constraint-checks")?.querySelectorAll('input[type="checkbox"]').forEach((i) => {
+          i.checked = false;
+        });
+        document.querySelectorAll("[data-injury]").forEach((b) => b.classList.remove("is-active"));
+        persistForm();
+        return;
+      }
+      applyInjuryPreset(key);
+    });
+  });
   $("rest-timer-skip")?.addEventListener("click", () => {
     stopRestTimer();
     haptic(10);
   });
   $("theme-toggle")?.addEventListener("click", () => {
-    applyTheme(currentTheme() === "dark" ? "light" : "dark");
+    cycleThemeMode();
   });
   $("lang-toggle")?.addEventListener("click", () => {
     const next = setLang(getLang() === "he" ? "en" : "he");
@@ -1360,21 +1607,21 @@ async function init() {
   $("workout-out").textContent = t("workout_empty");
   setTab("generate");
 
-  const [meta, exercisesPayload, templatesPayload, profilesPayload, plans, videos] = await Promise.all([
-    api("GET", "/api/meta"),
-    api("GET", "/api/exercises"),
-    api("GET", "/api/templates"),
-    api("GET", "/api/profiles"),
-    loadJson("/data/plans.json"),
-    loadJson("/data/videos.json").catch(() => ({})),
+  const [exercises, templates, profiles, plans, videos] = await Promise.all([
+    loadJson("./data/exercises.json"),
+    loadJson("./data/templates.json"),
+    loadJson("./data/profiles.json"),
+    loadJson("./data/plans.json"),
+    loadJson("./data/videos.json").catch(() => ({})),
   ]);
 
-  state.meta = meta;
-  state.exercises = exercisesPayload.exercises || [];
-  state.templates = templatesPayload.templates || [];
-  state.profiles = profilesPayload.profiles || [];
+  state.exercises = Array.isArray(exercises) ? exercises : exercises.exercises || [];
+  state.templates = Array.isArray(templates) ? templates : templates.templates || [];
+  state.profiles = Array.isArray(profiles) ? profiles : profiles.profiles || [];
   state.plans = Array.isArray(plans) ? plans : plans.plans || [];
   state.videos = videos && typeof videos === "object" && !Array.isArray(videos) ? videos : {};
+  state.meta = getLibraryMeta(state.exercises, state.templates, state.profiles);
+  precacheIllustrations();
 
   fillSelect($("filter-pattern"), uniqueSorted(state.exercises.map((e) => e.primary_pattern)), {
     blankLabel: t("all_patterns"),
@@ -1441,7 +1688,7 @@ async function init() {
   $("equipment-checks")?.addEventListener("change", persistForm);
   $("constraint-checks")?.addEventListener("change", persistForm);
 
-  $("generate-form").addEventListener("submit", async (event) => {
+  $("generate-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const status = $("generate-status");
     const btn = event.submitter || $("generate-form").querySelector('button[type="submit"]');
@@ -1451,12 +1698,17 @@ async function init() {
       const profile = collectProfile();
       if (profile.equipment.length === 0) profile.equipment = ["bodyweight"];
       profile.avoid_ids = recentExerciseIds(2);
-      let { workout } = await api("POST", "/api/generate", {
+      let workout = buildWorkoutFromProfile(
         profile,
-        template: $("template-select").value || null,
-      });
-      const { augmentWarmupCooldown, createRng } = await import("./generator.js");
-      workout = augmentWarmupCooldown(workout, state.exercises, profile, createRng(workout.seed || 1));
+        $("template-select").value || null,
+        state.exercises,
+        state.templates
+      );
+      workout = applyFamilyAutoProgress(workout, state.exercises, profile, recentFeelByExercise());
+      const enrolled = activePlanState();
+      if (enrolled && isDeloadCycle(enrolled.cycle)) {
+        workout = applyDeloadToWorkout(workout);
+      }
       startSession(workout);
       persistForm();
       renderWorkout();
@@ -1470,6 +1722,9 @@ async function init() {
 
   if (store.activeSession?.workout && !store.activeSession.completed) {
     state.session = store.activeSession;
+    if (state.session?.workout) {
+      state.session.sets = initSetsLog(state.session.workout, state.session.sets);
+    }
     renderWorkout();
     setTab("generate");
     $("generate-status").textContent = t("restored_session");

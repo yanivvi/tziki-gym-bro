@@ -160,6 +160,14 @@
           </fieldset>
           <fieldset class="check-set">
             <legend data-i18n="constraints">Constraints</legend>
+            <div class="injury-presets" role="group" aria-label="Injury presets">
+              <span class="injury-label" data-i18n="injury_presets">Quick limits</span>
+              <button type="button" class="chip-btn" data-injury="knee" data-i18n="injury_knee">Knee</button>
+              <button type="button" class="chip-btn" data-injury="shoulder" data-i18n="injury_shoulder">Shoulder</button>
+              <button type="button" class="chip-btn" data-injury="back" data-i18n="injury_back">Back</button>
+              <button type="button" class="chip-btn" data-injury="wrist" data-i18n="injury_wrist">Wrist</button>
+              <button type="button" class="chip-btn" data-injury="clear" data-i18n="injury_clear">Clear</button>
+            </div>
             <div id="constraint-checks" class="checks"></div>
           </fieldset>
           <div class="flag-row">
@@ -179,6 +187,11 @@
         <p class="lede" data-i18n="overview_lede">Knowledge base → exercise library → session generator. This UI is a preview of those pieces.</p>
       </div>
       <div id="overview-stats" class="stat-grid"></div>
+      <div class="weekly-section">
+        <h2 data-i18n="weekly_title">This week</h2>
+        <p class="lede" data-i18n="weekly_lede">Feel trends, pattern volume, and load progress from the last 7 days.</p>
+        <div id="weekly-review" class="weekly-review"></div>
+      </div>
       <div class="history-section">
         <h2 data-i18n="history_title">Recent sessions</h2>
         <p class="lede" data-i18n="history_lede">Finished workouts on this device — used for load suggestions and plan variety.</p>

@@ -47,6 +47,7 @@
       <nav class="tabs" role="tablist">
         <button type="button" class="tab" data-tab="library" role="tab" aria-selected="false" data-i18n="tab_library">Library</button>
         <button type="button" class="tab is-active" data-tab="generate" role="tab" aria-selected="true" data-i18n="tab_generate">Today</button>
+        <button type="button" class="tab" data-tab="swim" role="tab" aria-selected="false" data-i18n="tab_swim">Swim</button>
         <button type="button" class="tab" data-tab="overview" role="tab" aria-selected="false" data-i18n="tab_overview">Overview</button>
       </nav>
       <button type="button" id="lang-toggle" class="theme-toggle" data-i18n="lang_toggle" data-i18n-title="lang_toggle_title" title="Switch to Hebrew">עברית</button>
@@ -179,6 +180,26 @@
         </form>
         <div id="workout-out" class="workout-out" aria-live="polite"></div>
       </div>
+    </section>
+
+    <section id="panel-swim" class="panel" role="tabpanel" hidden>
+      <div class="panel-head">
+        <p class="eyebrow">Total Immersion</p>
+        <h1 data-i18n="swim_title">Advanced swim practice</h1>
+        <p class="lede" data-i18n="swim_lede">Build focused sessions from the TI drill progression and track technique, effort, and stroke efficiency.</p>
+      </div>
+      <div id="ti-curriculum" class="ti-curriculum" aria-label="Total Immersion skill progression"></div>
+      <div id="ti-active" class="workout-out ti-active-session" hidden></div>
+      <div id="ti-builder"></div>
+      <section class="ti-progress-section">
+        <div class="ti-section-head">
+          <div>
+            <h2 data-i18n="swim_progress_title">Swimming progress</h2>
+            <p class="lede" data-i18n="swim_progress_lede">Completed TI sessions saved on this device.</p>
+          </div>
+        </div>
+        <div id="ti-progress"></div>
+      </section>
     </section>
 
     <section id="panel-overview" class="panel" role="tabpanel" hidden>

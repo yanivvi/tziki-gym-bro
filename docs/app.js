@@ -13,6 +13,7 @@ import {
   clearVoiceClip,
   playVoiceClip,
 } from "./voice-clip.js";
+import { initSwim } from "./swim.js";
 
 const EQUIPMENT_OPTIONS = [
   "bodyweight",
@@ -355,7 +356,7 @@ function scaleLoadsForDeload(loads) {
 async function precacheIllustrations() {
   if (!("caches" in window)) return;
   try {
-    const cache = await caches.open("tziki-v3");
+    const cache = await caches.open("tziki-v4");
     const urls = [...new Set(state.exercises.map((ex) => mediaUrl(ex)).filter(Boolean))];
     await Promise.allSettled(urls.map((u) => cache.add(u)));
   } catch {
@@ -775,7 +776,7 @@ function mediaUrl(ex) {
   if (!image) return null;
   const name = String(image).split("/").pop();
   if (!/^[a-z0-9_]+\.(svg|png|jpe?g|webp)$/i.test(name)) return null;
-  return `./illustrations/${name}`;
+  return `/illustrations/${name}`;
 }
 
 function demoUrl(ex) {
@@ -894,7 +895,7 @@ function printSession() {
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
   });
 }
 
@@ -1655,6 +1656,7 @@ async function init() {
 
   renderExerciseList();
   renderOverview();
+  await initSwim();
 
   $("plan-select")?.addEventListener("change", () => {
     enrollPlan($("plan-select").value || "");

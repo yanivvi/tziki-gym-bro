@@ -1,10 +1,11 @@
 /* Tziki Gym Bro — static cache for GitHub Pages */
-const CACHE = "tziki-v3";
+const CACHE = "tziki-v4";
 const PRECACHE = [
   "/",
   "/index.html",
   "/styles.css",
   "/app.js",
+  "/swim.js",
   "/generator.js",
   "/i18n.js",
   "/voice-clip.js",
@@ -16,6 +17,7 @@ const PRECACHE = [
   "/data/profiles.json",
   "/data/plans.json",
   "/data/videos.json",
+  "/data/ti-drills.json",
 ];
 
 self.addEventListener("install", (event) => {

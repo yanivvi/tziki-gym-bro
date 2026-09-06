@@ -776,7 +776,7 @@ function mediaUrl(ex) {
   if (!image) return null;
   const name = String(image).split("/").pop();
   if (!/^[a-z0-9_]+\.(svg|png|jpe?g|webp)$/i.test(name)) return null;
-  return `/illustrations/${name}`;
+  return `./illustrations/${name}`;
 }
 
 function demoUrl(ex) {
@@ -895,7 +895,7 @@ function printSession() {
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
   });
 }
 

@@ -63,6 +63,12 @@ function drillById(id) {
   return state.drills.find((drill) => drill.id === id) || null;
 }
 
+function drillImageUrl(drill) {
+  const id = String(drill?.id || "");
+  if (!/^[a-z0-9-]+$/.test(id)) return "";
+  return `./illustrations/ti_${id.replaceAll("-", "_")}.png`;
+}
+
 function renderBuilder() {
   const root = document.getElementById("ti-builder");
   if (!root) return;
@@ -157,6 +163,7 @@ function renderCatalog() {
     const selected = state.selected.some((item) => item.drillId === drill.id);
     return `
       <article class="ti-drill-card${selected ? " is-selected" : ""}">
+        <img class="ti-drill-image" src="${escapeHtml(drillImageUrl(drill))}" alt="${escapeHtml(`Tziki demonstrating ${drill.name}`)}" loading="lazy" />
         <div class="meta-row">
           <span class="chip">${escapeHtml(drill.phase)}</span>
           <span class="chip">${escapeHtml(drill.level)}</span>
@@ -290,6 +297,7 @@ function renderActiveSession() {
         <button type="button" class="ti-complete-btn" data-ti-complete="${escapeHtml(String(index))}" aria-pressed="${escapeHtml(String(Boolean(item.completed)))}">
           <span>${item.completed ? "✓" : escapeHtml(String(index + 1))}</span>
         </button>
+        <img class="ti-active-image" src="${escapeHtml(drillImageUrl(drill))}" alt="${escapeHtml(`Tziki demonstrating ${drill.name}`)}" />
         <div class="ti-active-body">
           <div class="ti-active-title">
             <div>

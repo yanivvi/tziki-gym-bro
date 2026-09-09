@@ -356,7 +356,7 @@ function scaleLoadsForDeload(loads) {
 async function precacheIllustrations() {
   if (!("caches" in window)) return;
   try {
-    const cache = await caches.open("tziki-v4");
+    const cache = await caches.open("tziki-v5");
     const urls = [...new Set(state.exercises.map((ex) => mediaUrl(ex)).filter(Boolean))];
     await Promise.allSettled(urls.map((u) => cache.add(u)));
   } catch {

@@ -1,5 +1,5 @@
 /* Tziki Gym Bro — static cache for GitHub Pages */
-const CACHE = "tziki-v4";
+const CACHE = "tziki-v5";
 const PRECACHE = [
   "/",
   "/index.html",

@@ -23,6 +23,7 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, "public");
+const DEPLOYED_DATA_DIR = path.join(ROOT, "docs", "data");
 const ILLUSTRATIONS_DIR = path.join(ROOT, "library", "illustrations");
 const PORT = Number(process.env.PORT) || 3847;
 const HOST = "127.0.0.1";
@@ -32,6 +33,7 @@ const MIME = {
   ".css": "text/css; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".webmanifest": "application/manifest+json; charset=utf-8",
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".ico": "image/x-icon",
@@ -97,6 +99,13 @@ function serveStatic(req, res) {
     const name = urlPath.slice("/illustrations/".length);
     const filePath = resolveSafeFile(ILLUSTRATIONS_DIR, name);
     serveFile(res, filePath);
+    return;
+  }
+  if (urlPath.startsWith("/data/")) {
+    const name = urlPath.slice("/data/".length);
+    const publicFile = resolveSafeFile(path.join(PUBLIC_DIR, "data"), name);
+    const deployedFile = resolveSafeFile(DEPLOYED_DATA_DIR, name);
+    serveFile(res, publicFile && fs.existsSync(publicFile) ? publicFile : deployedFile);
     return;
   }
   const filePath = resolvePublicPath(urlPath);

@@ -1,101 +1,61 @@
 import {
   buildWorkoutFromProfile,
-  getLibraryMeta,
   findSwapCandidates,
-  suggestProgression,
-  applyFamilyAutoProgress,
-  applyDeloadToWorkout,
+  hashString,
 } from "./generator.js";
 import { applyI18n, getLang, setLang, t } from "./i18n.js";
-import {
-  saveVoiceClip,
-  loadVoiceClip,
-  clearVoiceClip,
-  playVoiceClip,
-} from "./voice-clip.js";
-import { initSwim } from "./swim.js";
+import { initSwim, refreshSwimLanguage } from "./swim.js";
 
-const EQUIPMENT_OPTIONS = [
-  "bodyweight",
-  "dbs",
-  "barbell",
-  "bench",
-  "pullup_bar",
-  "cables",
-  "kettlebell",
-  "machines",
-  "bands",
-  "med_ball",
-  "sled",
-  "box",
-];
+const STORE_KEY = "tziki-gym-bro-v2";
+const EQUIPMENT = ["bodyweight", "dbs", "barbell", "bench", "pullup_bar", "cables", "kettlebell", "machines", "bands"];
+const CONSTRAINTS = ["knee_sensitive", "shoulder_irritable", "overhead_limited", "axial_spine_sensitive", "wrist_sensitive"];
+const GOALS = ["general_health", "strength", "muscle", "fat_loss", "athleticism"];
+const LEVELS = ["beginner", "intermediate", "advanced"];
 
-const CONSTRAINT_OPTIONS = [
-  "overhead_limited",
-  "axial_spine_sensitive",
-  "knee_sensitive",
-  "shoulder_irritable",
-  "wrist_sensitive",
-];
-
-const INJURY_PRESETS = {
-  knee: ["knee_sensitive"],
-  shoulder: ["shoulder_irritable", "overhead_limited"],
-  back: ["axial_spine_sensitive"],
-  wrist: ["wrist_sensitive"],
+const state = {
+  exercises: [],
+  templates: [],
+  plans: [],
+  videos: {},
+  prepared: null,
+  route: "gym",
+  libraryPattern: "all",
+  onboarding: {
+    step: 0,
+    goal: "general_health",
+    level: "intermediate",
+    days: 3,
+    equipment: ["bodyweight", "dbs", "bands"],
+    constraints: [],
+  },
 };
 
-const DELOAD_EVERY_CYCLES = 4;
-const THEME_MODE_KEY = "gym-trainer-theme-mode";
-const GYM_HOURS = { start: 6, end: 20 };
+const $ = (id) => document.getElementById(id);
 
-const STORE_KEY = "tziki-gym-bro-v1";
-const FEEL_OPTIONS = [
-  { value: "good", label: "Good" },
-  { value: "mid", label: "Mid" },
-  { value: "bad", label: "Bad" },
-];
-
-function escapeHtml(s) {
-  return String(s ?? "").replace(/[&<>"']/g, (c) =>
-    ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;",
-    }[c])
-  );
-}
-
-async function loadJson(path) {
-  const res = await fetch(path, { headers: { Accept: "application/json" } });
-  if (!res.ok) throw new Error(`Failed to load ${path}`);
-  return res.json();
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  }[char]));
 }
 
 function emptyStore() {
-  return {
-    version: 1,
-    form: null,
-    activeSession: null,
-    history: [],
-    plan: null,
-  };
+  return { version: 2, profile: null, plan: null, active: null, history: [] };
 }
 
 function loadStore() {
   try {
-    const raw = localStorage.getItem(STORE_KEY);
-    if (!raw) return emptyStore();
-    const data = JSON.parse(raw);
-    if (!data || data.version !== 1) return emptyStore();
+    const parsed = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+    if (!parsed || parsed.version !== 2) return emptyStore();
     return {
-      version: 1,
-      form: data.form || null,
-      activeSession: data.activeSession || null,
-      history: Array.isArray(data.history) ? data.history : [],
-      plan: data.plan || null,
+      version: 2,
+      profile: parsed.profile || null,
+      plan: parsed.plan || null,
+      active: parsed.active || null,
+      history: Array.isArray(parsed.history) ? parsed.history.slice(0, 30) : [],
     };
   } catch {
     return emptyStore();
@@ -106,1633 +66,751 @@ function saveStore(store) {
   localStorage.setItem(STORE_KEY, JSON.stringify(store));
 }
 
-function sessionId() {
-  return `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+async function loadJson(path) {
+  const response = await fetch(path, { headers: { Accept: "application/json" } });
+  if (!response.ok) throw new Error(`Failed to load ${path}`);
+  return response.json();
 }
 
-function lastLoadForExercise(exerciseId) {
-  const store = loadStore();
-  for (const session of store.history) {
-    const load = session.loads?.[exerciseId];
-    if (load) return { load, feel: session.feel || null };
+function planForDays(days) {
+  if (Number(days) <= 2) return "minimal_2day";
+  if (Number(days) >= 4) return "upper_lower_4day";
+  return "full_body_3day";
+}
+
+function getPlan(id) {
+  return state.plans.find((plan) => plan.id === id) || null;
+}
+
+function currentPlanDay(store = loadStore()) {
+  const plan = getPlan(store.plan?.planId);
+  if (!plan?.days?.length) return null;
+  const dayIndex = (store.plan.dayIndex || 0) % plan.days.length;
+  return {
+    plan,
+    day: plan.days[dayIndex],
+    dayIndex,
+    cycle: store.plan.cycle || 1,
+  };
+}
+
+function mediaUrl(exercise) {
+  const image = exercise?.media?.image;
+  if (!image) return "";
+  const name = String(image).split("/").pop();
+  return /^[a-z0-9_]+\.(svg|png|jpe?g|webp)$/i.test(name)
+    ? `./illustrations/${name}`
+    : "";
+}
+
+function demoUrl(exercise) {
+  const mapped = state.videos?.[exercise?.id];
+  if (typeof mapped === "string" && /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(mapped)) return mapped;
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(`${exercise?.name || "exercise"} form`)}`;
+}
+
+function formatDate() {
+  return new Intl.DateTimeFormat(getLang() === "he" ? "he-IL" : "en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  }).format(new Date());
+}
+
+function workoutEntries(workout) {
+  const entries = [];
+  (workout?.blocks || []).forEach((block, blockIdx) => {
+    (block.exercises || []).forEach((exercise, exIdx) => {
+      entries.push({ block, exercise, blockIdx, exIdx });
+    });
+  });
+  return entries;
+}
+
+function fullExercise(id) {
+  return state.exercises.find((exercise) => exercise.id === id) || null;
+}
+
+function recentLog(exerciseId) {
+  const history = loadStore().history;
+  for (const session of history) {
+    const log = session.logs?.find((item) => item.exerciseId === exerciseId);
+    if (log) return log;
   }
   return null;
 }
 
-function lastHistoryEntry(exerciseId) {
-  return lastLoadForExercise(exerciseId);
+function makeSetRows(exercise) {
+  const count = Math.min(8, Math.max(1, Number(exercise.prescription?.sets) || 3));
+  const recent = recentLog(exercise.exercise_id);
+  return Array.from({ length: count }, (_, index) => ({
+    weight: recent?.sets?.[index]?.weight ?? "",
+    reps: recent?.sets?.[index]?.reps ?? "",
+  }));
 }
 
-function sessionProfile() {
-  const w = state.session?.workout;
+function profileForGenerator(profile) {
   return {
-    equipment: w?.profile?.equipment || checkedValues($("equipment-checks")),
-    level: w?.profile?.level || $("level")?.value || "intermediate",
-    constraints: w?.profile?.constraints || checkedValues($("constraint-checks")),
+    name: "Personal plan",
+    goal: profile.goal,
+    level: profile.level,
+    session_minutes: profile.sessionMinutes || 60,
+    equipment: profile.equipment?.length ? profile.equipment : ["bodyweight"],
+    constraints: profile.constraints || [],
   };
 }
 
-function usedExerciseIds(exceptId) {
-  const used = new Set();
-  for (const block of state.session?.workout?.blocks || []) {
-    for (const ex of block.exercises || []) {
-      if (ex.exercise_id && ex.exercise_id !== exceptId) used.add(ex.exercise_id);
-    }
-  }
-  return used;
-}
-
-function progressionFor(exerciseId) {
-  const hist = lastHistoryEntry(exerciseId);
-  if (!hist) return null;
-  const full = state.exercises.find((e) => e.id === exerciseId);
-  return suggestProgression(hist.feel, hist.load, full);
-}
-
-function recentExerciseIds(limitSessions = 2) {
+function prepareToday(force = false) {
   const store = loadStore();
-  const ids = new Set();
-  for (const session of (store.history || []).slice(0, limitSessions)) {
-    for (const block of session.workout?.blocks || []) {
-      for (const ex of block.exercises || []) {
-        if (ex.exercise_id) ids.add(ex.exercise_id);
-      }
-    }
-  }
-  return [...ids];
-}
-
-function getPlanById(planId) {
-  return state.plans.find((p) => p.id === planId) || null;
-}
-
-function activePlanState() {
-  return loadStore().plan || null;
-}
-
-function currentPlanDay() {
-  const enrolled = activePlanState();
-  if (!enrolled) return null;
-  const plan = getPlanById(enrolled.planId);
-  if (!plan?.days?.length) return null;
-  const dayIndex = enrolled.dayIndex % plan.days.length;
-  return {
-    plan,
-    enrolled,
-    dayIndex,
-    day: plan.days[dayIndex],
-    cycle: enrolled.cycle || 1,
-  };
-}
-
-function persistPlan(planState) {
-  const store = loadStore();
-  store.plan = planState;
-  saveStore(store);
-}
-
-function enrollPlan(planId) {
-  if (!planId) {
-    persistPlan(null);
-    return;
-  }
-  const existing = activePlanState();
-  if (existing?.planId === planId) return;
-  persistPlan({
-    planId,
-    dayIndex: 0,
-    cycle: 1,
-    enrolled_at: new Date().toISOString(),
-  });
-}
-
-function advancePlanAfterFinish(finishedSession) {
-  const enrolled = activePlanState();
-  if (!enrolled || !finishedSession?.plan) return;
-  if (finishedSession.plan.planId !== enrolled.planId) return;
-  if (finishedSession.plan.dayIndex !== enrolled.dayIndex) return;
-
-  const plan = getPlanById(enrolled.planId);
-  if (!plan?.days?.length) return;
-
-  let dayIndex = enrolled.dayIndex + 1;
-  let cycle = enrolled.cycle || 1;
-  if (dayIndex >= plan.days.length) {
-    dayIndex = 0;
-    cycle += 1;
-  }
-  persistPlan({
-    ...enrolled,
-    dayIndex,
-    cycle,
-    updated_at: new Date().toISOString(),
-  });
-}
-
-function renderPlanCard() {
-  const select = $("plan-select");
-  const desc = $("plan-desc");
-  const today = $("plan-today-label");
-  const buildBtn = $("build-today-btn");
-  const clearBtn = $("clear-plan-btn");
-  if (!select) return;
-
-  const enrolled = activePlanState();
-  if (enrolled?.planId) select.value = enrolled.planId;
-
-  const info = currentPlanDay();
-  if (!info) {
-    desc.textContent = t("plan_desc_empty");
-    today.hidden = true;
-    today.textContent = "";
-    buildBtn.disabled = true;
-    clearBtn.hidden = true;
-    return;
-  }
-
-  desc.textContent = info.plan.description || "";
-  today.hidden = false;
-  today.innerHTML = `<strong>${escapeHtml(info.day.label)}</strong> · cycle ${escapeHtml(info.cycle)} · day ${escapeHtml(info.dayIndex + 1)}/${escapeHtml(info.plan.days.length)} · template <code>${escapeHtml(info.day.template)}</code>${isDeloadCycle(info.cycle) ? ` · <span class="badge warn">${escapeHtml(t("deload_week"))}</span>` : ""}`;
-  buildBtn.disabled = false;
-  clearBtn.hidden = false;
-}
-
-function hashStringForPlan(planId, dayIndex, cycle) {
-  const s = `${planId}:${dayIndex}:${cycle}`;
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return h >>> 0;
-}
-
-
-function isDeloadCycle(cycle) {
-  const c = Number(cycle) || 0;
-  return c > 0 && c % DELOAD_EVERY_CYCLES === 0;
-}
-
-function recentFeelByExercise() {
-  const map = {};
-  const store = loadStore();
-  for (const session of store.history || []) {
-    const feel = session.feel;
-    if (!feel) continue;
-    for (const block of session.workout?.blocks || []) {
-      for (const ex of block.exercises || []) {
-        const id = ex.exercise_id;
-        if (id && map[id] == null) map[id] = feel;
-      }
-    }
-  }
-  return map;
-}
-
-function initSetsLog(workout, existing) {
-  const sets = { ...(existing || {}) };
-  for (const block of workout.blocks || []) {
-    for (const ex of block.exercises || []) {
-      const id = ex.exercise_id;
-      if (!id) continue;
-      const n = Math.min(8, Math.max(0, Number(ex.prescription?.sets) || 0));
-      if (!Array.isArray(sets[id]) || sets[id].length !== n) {
-        const prev = Array.isArray(sets[id]) ? sets[id] : [];
-        sets[id] = Array.from({ length: n }, (_, i) => ({ done: Boolean(prev[i]?.done) }));
-      }
-    }
-  }
-  return sets;
-}
-
-function applyInjuryPreset(key) {
-  const container = $("constraint-checks");
-  if (!container) return;
-  const wanted = new Set(INJURY_PRESETS[key] || []);
-  container.querySelectorAll('input[type="checkbox"]').forEach((input) => {
-    input.checked = wanted.has(input.value);
-  });
-  document.querySelectorAll("[data-injury]").forEach((btn) => {
-    btn.classList.toggle("is-active", btn.dataset.injury === key && key !== "clear");
-  });
-  persistForm();
-}
-
-function setLogHtml(exerciseId) {
-  const rows = state.session?.sets?.[exerciseId];
-  if (!rows?.length) return "";
-  const chips = rows
-    .map(
-      (row, i) =>
-        `<button type="button" class="set-chip${row.done ? " is-done" : ""}" data-set-toggle="${escapeHtml(exerciseId)}" data-set-idx="${i}" aria-pressed="${row.done ? "true" : "false"}">${escapeHtml(t("set_n").replace("{n}", String(i + 1)))}</button>`
-    )
-    .join("");
-  const done = rows.filter((r) => r.done).length;
-  return `
-    <div class="set-log">
-      <span class="set-log-label">${escapeHtml(t("sets_log"))} · ${done}/${rows.length}</span>
-      <div class="set-chips">${chips}</div>
-    </div>`;
-}
-
-function scaleLoadsForDeload(loads) {
-  const next = {};
-  for (const [id, load] of Object.entries(loads || {})) {
-    if (!load) continue;
-    if (load.type === "bodyweight") {
-      next[id] = { ...load };
-      continue;
-    }
-    const kg = typeof load.kg === "number" ? load.kg : Number(load.kg);
-    if (Number.isFinite(kg) && kg > 0) {
-      next[id] = { type: "kg", kg: Math.round(kg * 0.6 * 2) / 2 };
-    } else {
-      next[id] = { ...load };
-    }
-  }
-  return next;
-}
-
-async function precacheIllustrations() {
-  if (!("caches" in window)) return;
-  try {
-    const cache = await caches.open("tziki-v5");
-    const urls = [...new Set(state.exercises.map((ex) => mediaUrl(ex)).filter(Boolean))];
-    await Promise.allSettled(urls.map((u) => cache.add(u)));
-  } catch {
-    /* ignore quota / offline */
-  }
-}
-
-function weekSessions() {
-  const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
-  return (loadStore().history || []).filter((s) => {
-    const ts = Date.parse(s.finished_at || s.updated_at || s.started_at || "");
-    return Number.isFinite(ts) && ts >= cutoff;
-  });
-}
-
-function renderWeeklyReview() {
-  const el = $("weekly-review");
-  if (!el) return;
-  const sessions = weekSessions();
-  if (sessions.length === 0) {
-    el.innerHTML = `<p class="move-meta">${escapeHtml(t("weekly_empty"))}</p>`;
-    return;
-  }
-  const feels = { good: 0, mid: 0, bad: 0 };
-  const patterns = {};
-  const loadByEx = {};
-  for (const s of [...sessions].reverse()) {
-    if (s.feel && feels[s.feel] != null) feels[s.feel] += 1;
-    for (const block of s.workout?.blocks || []) {
-      for (const ex of block.exercises || []) {
-        const pat = ex.primary_pattern || "other";
-        patterns[pat] = (patterns[pat] || 0) + 1;
-        const load = s.loads?.[ex.exercise_id];
-        const kg = load?.type === "kg" ? Number(load.kg) : NaN;
-        if (!Number.isFinite(kg) || kg <= 0) continue;
-        const id = ex.exercise_id;
-        if (!loadByEx[id]) loadByEx[id] = { name: ex.name, first: kg, last: kg };
-        else loadByEx[id].last = kg;
-      }
-    }
-  }
-  const progressed = Object.values(loadByEx)
-    .filter((x) => x.last > x.first)
-    .sort((a, b) => (b.last - b.first) - (a.last - a.first))
-    .slice(0, 5);
-  const topPatterns = Object.entries(patterns)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 6)
-    .map(([k, v]) => `<li><strong>${escapeHtml(k)}</strong> · ${v}</li>`)
-    .join("");
-  const progLines = progressed.length
-    ? progressed.map((p) => `<li>${escapeHtml(p.name)}: ${p.first} → ${p.last} kg</li>`).join("")
-    : `<li>${escapeHtml(t("weekly_no_progress"))}</li>`;
-  el.innerHTML = `
-    <div class="weekly-grid">
-      <div class="stat"><strong>${sessions.length}</strong><span>${escapeHtml(t("weekly_sessions"))}</span></div>
-      <div class="stat"><strong>${feels.good}</strong><span>${escapeHtml(t("feel_good"))}</span></div>
-      <div class="stat"><strong>${feels.mid}</strong><span>${escapeHtml(t("feel_mid"))}</span></div>
-      <div class="stat"><strong>${feels.bad}</strong><span>${escapeHtml(t("feel_bad"))}</span></div>
-    </div>
-    <div class="weekly-cols">
-      <div>
-        <h3>${escapeHtml(t("weekly_patterns"))}</h3>
-        <ul class="weekly-list">${topPatterns || "<li>—</li>"}</ul>
-      </div>
-      <div>
-        <h3>${escapeHtml(t("weekly_progress"))}</h3>
-        <ul class="weekly-list">${progLines}</ul>
-      </div>
-    </div>`;
-}
-
-function buildTodaysSession() {
-  const info = currentPlanDay();
-  if (!info) return;
-  const status = $("generate-status");
-  $("template-select").value = info.day.template;
-  const profile = collectProfile();
-  if (profile.equipment.length === 0) profile.equipment = ["bodyweight"];
+  const info = currentPlanDay(store);
+  if (!store.profile || !info) return null;
+  const key = `${info.plan.id}:${info.dayIndex}:${info.cycle}`;
+  if (!force && state.prepared?.key === key) return state.prepared;
+  const profile = profileForGenerator(store.profile);
   profile.session_type = info.day.template;
-  profile.avoid_ids = recentExerciseIds(2);
-  profile.seed = hashStringForPlan(info.plan.id, info.dayIndex, info.cycle);
+  profile.seed = hashString(key);
+  const workout = buildWorkoutFromProfile(profile, info.day.template, state.exercises, state.templates);
+  state.prepared = { key, workout, info };
+  return state.prepared;
+}
 
+function haptic(value = 12) {
   try {
-    let workout = buildWorkoutFromProfile(
-      profile,
-      info.day.template,
-      state.exercises,
-      state.templates
-    );
-    workout = applyFamilyAutoProgress(workout, state.exercises, profile, recentFeelByExercise());
-    if (isDeloadCycle(info.cycle)) {
-      workout = applyDeloadToWorkout(workout);
-      profile.deload = true;
-    }
-    startSession(workout);
-    state.session.plan = {
-      planId: info.plan.id,
-      dayIndex: info.dayIndex,
-      dayId: info.day.id,
-      dayLabel: info.day.label,
-      cycle: info.cycle,
-      deload: isDeloadCycle(info.cycle),
-    };
-    persistActiveSession();
-    persistForm();
-    renderWorkout();
-    renderPlanCard();
-    status.textContent = `${info.day.label} · seed ${workout.seed}`;
-  } catch (err) {
-    status.textContent = err.message || "Failed";
-  }
-}
-
-function renderHistory() {
-  const list = $("history-list");
-  if (!list) return;
-  const store = loadStore();
-  const rows = (store.history || []).slice(0, 12);
-  if (rows.length === 0) {
-    list.innerHTML = `<p class="move-meta">${escapeHtml(t("history_empty"))}</p>`;
-    return;
-  }
-  list.innerHTML = rows
-    .map((s) => {
-      const when = s.finished_at || s.updated_at || s.started_at || "";
-      const date = when ? new Date(when).toLocaleString() : "—";
-      const title = s.plan?.dayLabel || s.workout?.template?.name || "Session";
-      const feel = s.feel || "—";
-      const count = (s.workout?.blocks || []).reduce(
-        (n, b) => n + (b.exercises || []).length,
-        0
-      );
-      return `
-        <article class="history-item">
-          <div>
-            <strong>${escapeHtml(title)}</strong>
-            <p class="move-meta">${escapeHtml(date)} · feel ${escapeHtml(feel)} · ${escapeHtml(count)} moves</p>
-          </div>
-          <span class="badge ${feel === "good" ? "ok" : feel === "bad" ? "warn" : ""}">${escapeHtml(feel)}</span>
-        </article>`;
-    })
-    .join("");
-}
-
-function setBackupStatus(message) {
-  const el = $("backup-status");
-  if (el) el.textContent = message || "";
-}
-
-function exportBackup() {
-  const store = loadStore();
-  const payload = {
-    app: "tziki-gym-bro",
-    exported_at: new Date().toISOString(),
-    store,
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  const stamp = new Date().toISOString().slice(0, 10);
-  a.href = url;
-  a.download = `tziki-gym-bro-backup-${stamp}.json`;
-  a.rel = "noopener";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-  setBackupStatus(`Exported ${store.history?.length || 0} session(s) · ${stamp}`);
-}
-
-function normalizeImportedStore(raw) {
-  const candidate = raw?.store && typeof raw.store === "object" ? raw.store : raw;
-  if (!candidate || typeof candidate !== "object") {
-    throw new Error("Invalid backup file");
-  }
-  if (candidate.version !== 1) {
-    throw new Error("Unsupported backup version");
-  }
-  return {
-    version: 1,
-    form: candidate.form || null,
-    activeSession: candidate.activeSession || null,
-    history: Array.isArray(candidate.history) ? candidate.history : [],
-    plan: candidate.plan || null,
-  };
-}
-
-async function importBackupFile(file) {
-  if (!file) return;
-  const text = await file.text();
-  let parsed;
-  try {
-    parsed = JSON.parse(text);
+    navigator.vibrate?.(value);
   } catch {
-    throw new Error("Backup is not valid JSON");
+    // Optional feedback.
   }
-  const next = normalizeImportedStore(parsed);
-  const current = loadStore();
-  const replace = window.confirm(
-    `Replace local data with this backup?\n\nBackup: ${next.history.length} session(s)\nCurrent: ${current.history.length} session(s)\n\nThis cannot be undone except by importing another backup.`
-  );
-  if (!replace) {
-    setBackupStatus("Import cancelled");
-    return;
-  }
-  saveStore(next);
-  state.session = next.activeSession?.workout && !next.activeSession.completed ? next.activeSession : null;
-  state.swapOpenKey = null;
-  restoreForm(next.form);
-  renderPlanCard();
-  renderOverview();
-  if (state.session) {
-    renderWorkout();
-    setTab("generate");
-  }
-  setBackupStatus(`Restored ${next.history.length} session(s)${next.plan ? " · plan enrolled" : ""}`);
 }
 
-function bindBackupControls() {
-  $("export-backup-btn")?.addEventListener("click", () => {
-    try {
-      exportBackup();
-    } catch (err) {
-      setBackupStatus(err.message || "Export failed");
-    }
+function showScreen(route) {
+  state.route = route;
+  ["gym", "library", "swim", "settings"].forEach((name) => {
+    const screen = $(`screen-${name}`);
+    if (screen) screen.hidden = name !== route;
   });
-  $("import-backup-input")?.addEventListener("change", async (event) => {
-    const input = event.target;
-    const file = input.files?.[0];
-    try {
-      await importBackupFile(file);
-    } catch (err) {
-      setBackupStatus(err.message || "Import failed");
-    } finally {
-      input.value = "";
-    }
-  });
+  closeMenu();
+  if (route === "gym") renderGym();
+  if (route === "library") renderLibrary();
+  if (route === "settings") renderSettings();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-const state = {
-  exercises: [],
-  meta: null,
-  profiles: [],
-  templates: [],
-  plans: [],
-  videos: {},
-  selectedId: null,
-  session: null,
-  swapOpenKey: null,
-  rest: null,
-};
-
-let restTickHandle = null;
-
-function haptic(pattern = 12) {
-  try {
-    if (navigator.vibrate) navigator.vibrate(pattern);
-  } catch {
-    /* optional */
-  }
+function openMenu() {
+  $("app-menu").hidden = false;
+  $("menu-toggle").setAttribute("aria-expanded", "true");
+  document.body.classList.add("menu-open");
 }
 
-function $(id) {
-  return document.getElementById(id);
+function closeMenu() {
+  $("app-menu").hidden = true;
+  $("menu-toggle").setAttribute("aria-expanded", "false");
+  document.body.classList.remove("menu-open");
 }
 
-function setTab(name) {
-  document.querySelectorAll(".tab").forEach((btn) => {
-    const active = btn.dataset.tab === name;
-    btn.classList.toggle("is-active", active);
-    btn.setAttribute("aria-selected", active ? "true" : "false");
-  });
-  document.querySelectorAll(".panel").forEach((panel) => {
-    const active = panel.id === `panel-${name}`;
-    panel.classList.toggle("is-active", active);
-    panel.hidden = !active;
-  });
+function renderChoiceButtons(items, selected, attribute, multiple = false) {
+  const chosen = new Set(Array.isArray(selected) ? selected : [selected]);
+  return items.map((item) => {
+    const value = typeof item === "string" ? item : item.value;
+    const label = typeof item === "string" ? t(item) : item.label;
+    return `<button type="button" class="choice-card${chosen.has(value) ? " is-selected" : ""}" ${attribute}="${escapeHtml(value)}" aria-pressed="${chosen.has(value)}">
+      <span class="choice-check">${chosen.has(value) ? "✓" : ""}</span>
+      <strong>${escapeHtml(label)}</strong>
+      ${multiple ? `<small>${escapeHtml(t(`desc_${value}`) || "")}</small>` : ""}
+    </button>`;
+  }).join("");
 }
 
-const THEME_KEY = "gym-trainer-theme";
-
-function getThemeMode() {
-  try {
-    const mode = localStorage.getItem(THEME_MODE_KEY);
-    if (mode === "light" || mode === "dark" || mode === "auto") return mode;
-    const legacy = localStorage.getItem(THEME_KEY);
-    if (legacy === "dark" || legacy === "light") return legacy;
-  } catch {}
-  return "auto";
-}
-
-function setThemeMode(mode) {
-  const next = mode === "dark" || mode === "light" || mode === "auto" ? mode : "auto";
-  localStorage.setItem(THEME_MODE_KEY, next);
-  return next;
-}
-
-function themeFromSchedule() {
-  const h = new Date().getHours();
-  return h >= GYM_HOURS.start && h < GYM_HOURS.end ? "light" : "dark";
-}
-
-function resolveTheme(mode = getThemeMode()) {
-  if (mode === "auto") return themeFromSchedule();
-  return mode === "dark" ? "dark" : "light";
-}
-
-function currentTheme() {
-  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-}
-
-function applyTheme(themeOrMode) {
-  let mode = getThemeMode();
-  if (themeOrMode === "light" || themeOrMode === "dark" || themeOrMode === "auto") {
-    mode = setThemeMode(themeOrMode);
-  }
-  const next = resolveTheme(mode);
-  if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
-  else document.documentElement.removeAttribute("data-theme");
-  localStorage.setItem(THEME_KEY, next);
-  const btn = $("theme-toggle");
-  if (btn) {
-    btn.setAttribute("aria-pressed", next === "dark" ? "true" : "false");
-    btn.dataset.themeMode = mode;
-    if (mode === "auto") {
-      btn.textContent = t("theme_auto");
-      btn.title = t("theme_auto_title");
-    } else if (next === "dark") {
-      btn.textContent = t("theme_light");
-      btn.title = t("theme_to_light");
-    } else {
-      btn.textContent = t("theme_dark");
-      btn.title = t("theme_to_dark");
-    }
-  }
-}
-
-function cycleThemeMode() {
-  const order = ["light", "dark", "auto"];
-  const cur = getThemeMode();
-  applyTheme(order[(order.indexOf(cur) + 1) % order.length]);
-}
-
-function initTheme() {
-  applyTheme(getThemeMode());
-  if (window.__tzikiThemeTimer) clearInterval(window.__tzikiThemeTimer);
-  window.__tzikiThemeTimer = setInterval(() => {
-    if (getThemeMode() === "auto") applyTheme("auto");
-  }, 60_000);
-}
-
-function uniqueSorted(values) {
-  return [...new Set(values.filter(Boolean))].sort();
-}
-
-function fillSelect(select, options, { blankLabel } = {}) {
-  select.replaceChildren();
-  if (blankLabel != null) {
-    const opt = document.createElement("option");
-    opt.value = "";
-    opt.textContent = blankLabel;
-    select.appendChild(opt);
-  }
-  for (const value of options) {
-    const opt = document.createElement("option");
-    if (typeof value === "string") {
-      opt.value = value;
-      opt.textContent = value;
-    } else {
-      opt.value = value.value;
-      opt.textContent = value.label;
-    }
-    select.appendChild(opt);
-  }
-}
-
-function renderChecks(container, options, checkedSet) {
-  container.replaceChildren();
-  for (const value of options) {
-    const label = document.createElement("label");
-    label.className = "check";
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.value = value;
-    input.checked = checkedSet.has(value);
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(value.replaceAll("_", " ")));
-    container.appendChild(label);
-  }
-}
-
-function checkedValues(container) {
-  return [...container.querySelectorAll('input[type="checkbox"]:checked')].map((el) => el.value);
-}
-
-function filteredExercises() {
-  const q = $("filter-q").value.trim().toLowerCase();
-  const pattern = $("filter-pattern").value;
-  const skill = $("filter-skill").value;
-  const equipment = $("filter-equipment").value;
-
-  return state.exercises.filter((ex) => {
-    if (pattern && ex.primary_pattern !== pattern) return false;
-    if (skill && ex.skill !== skill) return false;
-    if (equipment && !(ex.equipment || []).includes(equipment)) return false;
-    if (q) {
-      const hay = `${ex.name} ${ex.cue_short || ""} ${ex.id}`.toLowerCase();
-      if (!hay.includes(q)) return false;
-    }
-    return true;
-  });
-}
-
-function mediaUrl(ex) {
-  const image = ex.media?.image;
-  if (!image) return null;
-  const name = String(image).split("/").pop();
-  if (!/^[a-z0-9_]+\.(svg|png|jpe?g|webp)$/i.test(name)) return null;
-  return `./illustrations/${name}`;
-}
-
-function demoUrl(ex) {
-  if (!ex) return null;
-  const raw = ex?.media?.video;
-  if (typeof raw === "string" && /^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//i.test(raw)) {
-    return raw;
-  }
-  const id = state.videos?.[ex.id];
-  if (typeof id === "string" && /^[\w-]{6,20}$/.test(id)) {
-    return `https://www.youtube.com/watch?v=${id}`;
-  }
-  const q = encodeURIComponent(`${ex.name} exercise form Athlean-X`);
-  return `https://www.youtube.com/results?search_query=${q}`;
-}
-
-function formatRest(sec) {
-  const s = Math.max(0, Math.ceil(sec));
-  const m = Math.floor(s / 60);
-  const r = s % 60;
-  return `${m}:${String(r).padStart(2, "0")}`;
-}
-
-function stopRestTimer() {
-  if (restTickHandle) {
-    clearInterval(restTickHandle);
-    restTickHandle = null;
-  }
-  state.rest = null;
-  const bar = $("rest-timer");
-  if (bar) bar.hidden = true;
-}
-
-function tickRestTimer() {
-  const bar = $("rest-timer");
-  const count = $("rest-timer-count");
-  if (!state.rest || !bar || !count) return;
-  const left = (state.rest.endsAt - Date.now()) / 1000;
-  if (left <= 0) {
-    count.textContent = "0:00";
-    haptic([40, 60, 40]);
-    stopRestTimer();
-    return;
-  }
-  count.textContent = formatRest(left);
-  bar.hidden = false;
-}
-
-function startRestTimer(seconds, label) {
-  const sec = Number(seconds) || 60;
-  stopRestTimer();
-  state.rest = {
-    endsAt: Date.now() + sec * 1000,
-    total: sec,
-    label: label || t("rest"),
-  };
-  const labelEl = $("rest-timer-label");
-  if (labelEl) labelEl.textContent = state.rest.label;
-  haptic(18);
-  tickRestTimer();
-  restTickHandle = setInterval(tickRestTimer, 250);
-}
-
-function workoutShareText(session) {
-  const w = session?.workout;
-  if (!w) return "";
-  const lines = [
-    state.session?.plan?.dayLabel || w.template?.name || "Workout",
-    `${w.profile?.goal || ""} · ${w.profile?.level || ""} · ~${w.estimated_minutes || "?"} min`,
-    "",
+function onboardingSteps() {
+  return [
+    {
+      eyebrow: t("onboarding_goal_eyebrow"),
+      title: t("onboarding_goal_title"),
+      copy: t("onboarding_goal_copy"),
+      body: `<div class="choice-grid">${renderChoiceButtons(GOALS, state.onboarding.goal, "data-onboard-goal")}</div>`,
+    },
+    {
+      eyebrow: t("onboarding_level_eyebrow"),
+      title: t("onboarding_level_title"),
+      copy: t("onboarding_level_copy"),
+      body: `<div class="choice-grid three">${renderChoiceButtons(LEVELS, state.onboarding.level, "data-onboard-level")}</div>`,
+    },
+    {
+      eyebrow: t("onboarding_days_eyebrow"),
+      title: t("onboarding_days_title"),
+      copy: t("onboarding_days_copy"),
+      body: `<div class="choice-grid three">${renderChoiceButtons([2, 3, 4].map((value) => ({ value: String(value), label: t("days_count").replace("{n}", value) })), String(state.onboarding.days), "data-onboard-days")}</div>`,
+    },
+    {
+      eyebrow: t("onboarding_equipment_eyebrow"),
+      title: t("onboarding_equipment_title"),
+      copy: t("onboarding_equipment_copy"),
+      body: `<div class="choice-grid equipment-grid">${renderChoiceButtons(EQUIPMENT, state.onboarding.equipment, "data-onboard-equipment", true)}</div>`,
+    },
+    {
+      eyebrow: t("onboarding_limits_eyebrow"),
+      title: t("onboarding_limits_title"),
+      copy: t("onboarding_limits_copy"),
+      body: `<div class="choice-grid">${renderChoiceButtons(["none", ...CONSTRAINTS], state.onboarding.constraints.length ? state.onboarding.constraints : ["none"], "data-onboard-constraint")}</div>`,
+    },
   ];
-  for (const block of w.blocks || []) {
-    lines.push(`## ${block.label || block.type}`);
-    for (const ex of block.exercises || []) {
-      const p = ex.prescription || {};
-      const load = session.loads?.[ex.exercise_id];
-      let loadTxt = "";
-      if (load?.type === "bodyweight") loadTxt = " · BW";
-      else if (load?.kg !== "" && load?.kg != null) loadTxt = ` · ${load.kg} kg`;
-      lines.push(`- ${ex.name}: ${p.sets ?? "?"}×${p.reps ?? "?"}${loadTxt}`);
-      if (ex.cue_short) lines.push(`  cue: ${ex.cue_short}`);
-    }
-    lines.push("");
-  }
-  if (session.feel) lines.push(`Feel: ${session.feel}`);
-  lines.push("Tziki Gym Bro");
-  return lines.join("\n");
 }
 
-async function shareSession() {
-  if (!state.session) return;
-  const text = workoutShareText(state.session);
-  const title = state.session.plan?.dayLabel || state.session.workout?.template?.name || "Workout";
-  try {
-    if (navigator.share) {
-      await navigator.share({ title, text });
-      haptic(20);
-      return;
-    }
-    await navigator.clipboard.writeText(text);
-    haptic(20);
-    const status = $("session-save-status");
-    if (status) status.textContent = t("share_copied");
-  } catch {
-    const status = $("session-save-status");
-    if (status) status.textContent = t("share_failed");
-  }
-}
+function renderOnboarding() {
+  const steps = onboardingSteps();
+  const step = state.onboarding.step;
+  const isRecommendation = step >= steps.length;
+  $("screen-onboarding").hidden = false;
+  $("app-main").classList.add("onboarding-active");
+  document.querySelector(".app-header").hidden = true;
+  $("onboarding-step-label").textContent = isRecommendation
+    ? t("recommendation")
+    : t("step_of").replace("{step}", step + 1).replace("{total}", steps.length);
+  $("onboarding-progress").style.width = `${((Math.min(step, steps.length - 1) + 1) / steps.length) * 100}%`;
 
-function printSession() {
-  if (!state.session) return;
-  haptic(10);
-  window.print();
-}
-
-function registerServiceWorker() {
-  if (!("serviceWorker" in navigator)) return;
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(() => {});
-  });
-}
-
-function renderExerciseList() {
-  const list = $("exercise-list");
-  const rows = filteredExercises().sort((a, b) => a.name.localeCompare(b.name));
-  $("library-count").textContent = `${rows.length} shown · ${state.exercises.length} total`;
-
-  list.replaceChildren();
-  for (const ex of rows) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "ex-card" + (state.selectedId === ex.id ? " is-selected" : "");
-    const img = mediaUrl(ex);
-    btn.innerHTML = `
-      ${img ? `<img class="ex-thumb" src="${escapeHtml(img)}" alt="" loading="lazy" />` : ""}
-      <h3>${escapeHtml(ex.name)}</h3>
-      <p>${escapeHtml(ex.cue_short || "")}</p>
-      <div class="meta-row">
-        <span class="chip accent">${escapeHtml(ex.primary_pattern)}</span>
-        <span class="chip">${escapeHtml(ex.skill)}</span>
-        ${(ex.equipment || [])
-          .slice(0, 3)
-          .map((e) => `<span class="chip">${escapeHtml(e)}</span>`)
-          .join("")}
+  if (isRecommendation) {
+    const plan = getPlan(planForDays(state.onboarding.days));
+    $("onboarding-content").innerHTML = `
+      <div class="onboarding-copy">
+        <p class="eyebrow">${escapeHtml(t("your_plan"))}</p>
+        <h1>${escapeHtml(t("plan_ready"))}</h1>
+        <p class="lede">${escapeHtml(t("plan_ready_copy"))}</p>
       </div>
-    `;
-    btn.addEventListener("click", () => showExercise(ex.id));
-    list.appendChild(btn);
+      <article class="recommendation-card">
+        <span class="recommendation-mark">✓</span>
+        <p class="eyebrow">${escapeHtml(t("recommended"))}</p>
+        <h2>${escapeHtml(plan?.name || "")}</h2>
+        <p>${escapeHtml(plan?.description || "")}</p>
+        <div class="recommendation-meta">
+          <span>${escapeHtml(t("days_count").replace("{n}", plan?.days?.length || state.onboarding.days))}</span>
+          <span>${escapeHtml(t(state.onboarding.goal))}</span>
+          <span>${escapeHtml(t(state.onboarding.level))}</span>
+        </div>
+      </article>
+      <div class="onboarding-actions">
+        <button type="button" class="text-button" id="onboarding-back">${escapeHtml(t("back"))}</button>
+        <button type="button" class="primary-action" id="confirm-plan"><span>${escapeHtml(t("use_this_plan"))}</span><span>→</span></button>
+      </div>`;
+  } else {
+    const current = steps[step];
+    $("onboarding-content").innerHTML = `
+      <div class="onboarding-copy">
+        <p class="eyebrow">${escapeHtml(current.eyebrow)}</p>
+        <h1>${escapeHtml(current.title)}</h1>
+        <p class="lede">${escapeHtml(current.copy)}</p>
+      </div>
+      ${current.body}
+      <div class="onboarding-actions">
+        ${step ? `<button type="button" class="text-button" id="onboarding-back">${escapeHtml(t("back"))}</button>` : "<span></span>"}
+        <button type="button" class="primary-action" id="onboarding-next"><span>${escapeHtml(step === steps.length - 1 ? t("see_plan") : t("continue"))}</span><span>→</span></button>
+      </div>`;
   }
+  bindOnboarding();
 }
 
-function showExercise(id) {
-  state.selectedId = id;
-  const ex = state.exercises.find((e) => e.id === id);
-  const detail = $("exercise-detail");
-  if (!ex) {
-    detail.hidden = true;
+function toggleListValue(list, value) {
+  return list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
+}
+
+function bindOnboarding() {
+  document.querySelectorAll("[data-onboard-goal]").forEach((button) => button.addEventListener("click", () => {
+    state.onboarding.goal = button.dataset.onboardGoal;
+    renderOnboarding();
+  }));
+  document.querySelectorAll("[data-onboard-level]").forEach((button) => button.addEventListener("click", () => {
+    state.onboarding.level = button.dataset.onboardLevel;
+    renderOnboarding();
+  }));
+  document.querySelectorAll("[data-onboard-days]").forEach((button) => button.addEventListener("click", () => {
+    state.onboarding.days = Number(button.dataset.onboardDays);
+    renderOnboarding();
+  }));
+  document.querySelectorAll("[data-onboard-equipment]").forEach((button) => button.addEventListener("click", () => {
+    state.onboarding.equipment = toggleListValue(state.onboarding.equipment, button.dataset.onboardEquipment);
+    renderOnboarding();
+  }));
+  document.querySelectorAll("[data-onboard-constraint]").forEach((button) => button.addEventListener("click", () => {
+    const value = button.dataset.onboardConstraint;
+    state.onboarding.constraints = value === "none" ? [] : toggleListValue(state.onboarding.constraints, value);
+    renderOnboarding();
+  }));
+  $("onboarding-back")?.addEventListener("click", () => {
+    state.onboarding.step = Math.max(0, state.onboarding.step - 1);
+    renderOnboarding();
+  });
+  $("onboarding-next")?.addEventListener("click", () => {
+    if (state.onboarding.step === 3 && !state.onboarding.equipment.length) state.onboarding.equipment = ["bodyweight"];
+    state.onboarding.step += 1;
+    renderOnboarding();
+  });
+  $("confirm-plan")?.addEventListener("click", finishOnboarding);
+}
+
+function finishOnboarding() {
+  const store = emptyStore();
+  store.profile = {
+    goal: state.onboarding.goal,
+    level: state.onboarding.level,
+    days: state.onboarding.days,
+    equipment: state.onboarding.equipment.length ? state.onboarding.equipment : ["bodyweight"],
+    constraints: state.onboarding.constraints,
+    sessionMinutes: 60,
+  };
+  store.plan = { planId: planForDays(store.profile.days), dayIndex: 0, cycle: 1 };
+  saveStore(store);
+  state.prepared = null;
+  $("screen-onboarding").hidden = true;
+  $("app-main").classList.remove("onboarding-active");
+  document.querySelector(".app-header").hidden = false;
+  showScreen("gym");
+}
+
+function renderGym() {
+  const store = loadStore();
+  if (!store.profile) {
+    renderOnboarding();
     return;
   }
-  detail.hidden = false;
-  const rx = ex.default_prescription || {};
-  const img = mediaUrl(ex);
-  const last = lastLoadForExercise(id);
-  const prog = progressionFor(id);
-  let lastHint = "";
-  if (last?.load?.type === "bodyweight") lastHint = "Last load: bodyweight";
-  else if (last?.load && last.load.kg !== "" && last.load.kg != null) {
-    lastHint = `Last load: ${last.load.kg} kg`;
+  $("screen-onboarding").hidden = true;
+  document.querySelector(".app-header").hidden = false;
+  $("home-date").textContent = formatDate();
+  if (store.active) {
+    $("gym-home").hidden = true;
+    $("summary-view").hidden = true;
+    $("workout-view").hidden = false;
+    renderWorkout(store.active);
+    return;
   }
-  if (prog?.text) lastHint = [lastHint, prog.text].filter(Boolean).join(" · ");
-  const demo = demoUrl(ex);
-  detail.innerHTML = `
-    ${img ? `<img class="detail-art" src="${escapeHtml(img)}" alt="${escapeHtml(ex.name)} illustration" />` : ""}
-    <h2>${escapeHtml(ex.name)}</h2>
-    <p class="cue">${escapeHtml(ex.cue_long || ex.cue_short || "")}</p>
-    <p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>
-    <div class="meta-row">
-      <span class="chip accent">${escapeHtml(ex.primary_pattern)}</span>
-      <span class="chip">${escapeHtml(ex.skill)}</span>
-      <span class="chip">${escapeHtml(ex.stance)}</span>
-      <span class="chip">${ex.functional ? "functional" : "machine-ok"}</span>
-      ${ex.family_id ? `<span class="chip">family ${escapeHtml(ex.family_id)} · L${escapeHtml(ex.level)}</span>` : ""}
-    </div>
-    <p><strong>Equipment:</strong> ${escapeHtml((ex.equipment || []).join(", ") || "—")}</p>
-    <p><strong>Intents:</strong> ${escapeHtml((ex.intents || []).join(", ") || "—")}</p>
-    <p><strong>Contraindications:</strong> ${escapeHtml((ex.contraindications || []).join(", ") || "none")}</p>
-    <p><strong>Default:</strong> ${escapeHtml(rx.sets ?? "—")} × ${escapeHtml(rx.reps ?? "—")} · rest ${escapeHtml(rx.rest_sec ?? "—")}s · ${escapeHtml(rx.load ?? "")}</p>
-    ${lastHint ? `<p class="progress-hint">${escapeHtml(lastHint)}</p>` : ""}
-  `;
-  renderExerciseList();
-  detail.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  $("workout-view").hidden = true;
+  $("summary-view").hidden = true;
+  $("gym-home").hidden = false;
+  renderToday();
 }
 
-function applyProfileToForm(profile) {
-  $("goal").value = profile.goal || "general_health";
-  $("level").value = profile.level || "beginner";
-  $("minutes").value = String(profile.session_minutes || 45);
-  if (profile.session_type) $("template-select").value = profile.session_type;
-  $("include_power").checked = Boolean(profile.include_power);
-  $("include_conditioning").checked = Boolean(profile.include_conditioning);
-  renderChecks($("equipment-checks"), EQUIPMENT_OPTIONS, new Set(profile.equipment || ["bodyweight"]));
-  renderChecks($("constraint-checks"), CONSTRAINT_OPTIONS, new Set(profile.constraints || []));
-}
-
-function collectProfile() {
-  return {
-    name: "UI session",
-    goal: $("goal").value,
-    level: $("level").value,
-    session_minutes: Number($("minutes").value),
-    equipment: checkedValues($("equipment-checks")),
-    constraints: checkedValues($("constraint-checks")),
-    session_type: $("template-select").value || undefined,
-    include_power: $("include_power").checked ? true : undefined,
-    include_conditioning: $("include_conditioning").checked ? true : undefined,
-    seed: Math.floor(Math.random() * 1e9),
-  };
-}
-
-function persistForm() {
+function renderToday() {
   const store = loadStore();
-  store.form = {
-    goal: $("goal").value,
-    level: $("level").value,
-    minutes: $("minutes").value,
-    template: $("template-select").value,
-    include_power: $("include_power").checked,
-    include_conditioning: $("include_conditioning").checked,
-    equipment: checkedValues($("equipment-checks")),
-    constraints: checkedValues($("constraint-checks")),
-    profile_id: $("profile-select").value || "",
-  };
-  saveStore(store);
-}
-
-function restoreForm(form) {
-  if (!form) return;
-  if (form.goal) $("goal").value = form.goal;
-  if (form.level) $("level").value = form.level;
-  if (form.minutes) $("minutes").value = form.minutes;
-  if (form.template) $("template-select").value = form.template;
-  $("include_power").checked = Boolean(form.include_power);
-  $("include_conditioning").checked = Boolean(form.include_conditioning);
-  if (form.profile_id) $("profile-select").value = form.profile_id;
-  renderChecks(
-    $("equipment-checks"),
-    EQUIPMENT_OPTIONS,
-    new Set(form.equipment?.length ? form.equipment : ["bodyweight", "dbs", "bands"])
-  );
-  renderChecks($("constraint-checks"), CONSTRAINT_OPTIONS, new Set(form.constraints || []));
-}
-
-function persistActiveSession() {
-  if (!state.session) return;
-  state.session.updated_at = new Date().toISOString();
-  const store = loadStore();
-  store.activeSession = state.session;
-  saveStore(store);
-  const status = $("session-save-status");
-  if (status) {
-    status.textContent = `Saved locally · ${new Date(state.session.updated_at).toLocaleTimeString()}`;
-  }
-}
-
-function speakWorkoutStartPromptTts() {
-  const synth = window.speechSynthesis;
-  if (!synth) return;
-  let spoken = false;
-  const speak = () => {
-    if (spoken) return;
-    spoken = true;
-    try {
-      synth.cancel();
-      const utter = new SpeechSynthesisUtterance("הם רבים אבל אנחנו ננצח!");
-      utter.lang = "he-IL";
-      utter.rate = 0.95;
-      const heVoice = synth
-        .getVoices()
-        .find((v) => (v.lang || "").toLowerCase().startsWith("he"));
-      if (heVoice) utter.voice = heVoice;
-      synth.speak(utter);
-    } catch {
-      /* speech optional */
-    }
-  };
-  if (synth.getVoices().length > 0) speak();
-  else {
-    synth.addEventListener("voiceschanged", speak, { once: true });
-    setTimeout(speak, 400);
-  }
-}
-
-async function speakWorkoutStartPrompt() {
-  try {
-    const played = await playVoiceClip();
-    if (played) return;
-  } catch {
-    /* fall through to TTS */
-  }
-  speakWorkoutStartPromptTts();
-}
-
-async function refreshVoiceClipStatus() {
-  const status = $("voice-clip-status");
-  const preview = $("voice-preview-btn");
-  const clearBtn = $("voice-clear-btn");
-  if (!status) return;
-  try {
-    const clip = await loadVoiceClip();
-    const has = Boolean(clip?.blob);
-    status.textContent = has ? t("voice_ready") : t("voice_none");
-    if (preview) preview.disabled = !has;
-    if (clearBtn) clearBtn.disabled = !has;
-  } catch {
-    status.textContent = t("voice_none");
-    if (preview) preview.disabled = true;
-    if (clearBtn) clearBtn.disabled = true;
-  }
-}
-
-function bindVoiceClipControls() {
-  const status = () => $("voice-clip-status");
-  let mediaRecorder = null;
-  let chunks = [];
-
-  const setStatus = (msg) => {
-    const el = status();
-    if (el) el.textContent = msg;
-  };
-
-  $("voice-upload-input")?.addEventListener("change", async (event) => {
-    const file = event.target.files?.[0];
-    event.target.value = "";
-    if (!file) return;
-    try {
-      await saveVoiceClip(file);
-      setStatus(t("voice_saved"));
-      await refreshVoiceClipStatus();
-    } catch (err) {
-      setStatus(err.message?.includes("large") ? t("voice_too_large") : err.message || "Failed");
-    }
-  });
-
-  $("voice-preview-btn")?.addEventListener("click", async () => {
-    const ok = await playVoiceClip();
-    if (!ok) speakWorkoutStartPromptTts();
-  });
-
-  $("voice-clear-btn")?.addEventListener("click", async () => {
-    await clearVoiceClip();
-    setStatus(t("voice_cleared"));
-    await refreshVoiceClipStatus();
-  });
-
-  $("voice-record-btn")?.addEventListener("click", async () => {
-    const btn = $("voice-record-btn");
-    if (mediaRecorder && mediaRecorder.state === "recording") {
-      mediaRecorder.stop();
-      return;
-    }
-    if (!navigator.mediaDevices?.getUserMedia) {
-      setStatus(t("voice_mic_denied"));
-      return;
-    }
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      chunks = [];
-      const mime = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
-        ? "audio/webm;codecs=opus"
-        : MediaRecorder.isTypeSupported("audio/webm")
-          ? "audio/webm"
-          : "";
-      mediaRecorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data?.size) chunks.push(e.data);
-      };
-      mediaRecorder.onstop = async () => {
-        stream.getTracks().forEach((tr) => tr.stop());
-        btn.textContent = t("voice_record");
-        const blob = new Blob(chunks, { type: mediaRecorder.mimeType || "audio/webm" });
-        mediaRecorder = null;
-        chunks = [];
-        try {
-          await saveVoiceClip(blob);
-          setStatus(t("voice_saved"));
-          await refreshVoiceClipStatus();
-        } catch (err) {
-          setStatus(err.message?.includes("large") ? t("voice_too_large") : err.message || "Failed");
-        }
-      };
-      mediaRecorder.start();
-      btn.textContent = t("voice_recording");
-    } catch {
-      setStatus(t("voice_mic_denied"));
-    }
-  });
-
-  refreshVoiceClipStatus();
-}
-
-function startSession(workout) {
-  let loads = {};
-  for (const block of workout.blocks || []) {
-    for (const ex of block.exercises || []) {
-      const hist = lastLoadForExercise(ex.exercise_id);
-      const prog = progressionFor(ex.exercise_id);
-      if (prog?.load) {
-        loads[ex.exercise_id] = { ...prog.load };
-      } else if (hist?.load) {
-        loads[ex.exercise_id] = { ...hist.load };
-      } else {
-        const full = state.exercises.find((e) => e.id === ex.exercise_id);
-        const onlyBw = (full?.equipment || []).length === 1 && full.equipment[0] === "bodyweight";
-        loads[ex.exercise_id] = onlyBw
-          ? { type: "bodyweight" }
-          : { type: "kg", kg: "" };
+  const active = store.active;
+  const prepared = active
+    ? {
+        workout: active.workout,
+        info: {
+          plan: getPlan(active.plan?.planId) || { name: t("workout") },
+          day: { label: active.plan?.label || active.workout.template?.name || t("workout") },
+          cycle: active.plan?.cycle || 1,
+          dayIndex: active.plan?.dayIndex || 0,
+        },
       }
-    }
+    : prepareToday();
+  if (!prepared) return;
+  const entries = workoutEntries(prepared.workout);
+  const minutes = prepared.workout.estimated_minutes || 60;
+  $("today-card-content").innerHTML = `
+    <p class="eyebrow">${escapeHtml(prepared.info.plan.name)}</p>
+    <h2>${escapeHtml(prepared.info.day.label)}</h2>
+    <div class="today-meta">
+      <span>${escapeHtml(t("about_minutes").replace("{n}", minutes))}</span>
+      <span>${escapeHtml(t("exercise_count").replace("{n}", entries.length))}</span>
+      <span>${escapeHtml(t("cycle_day").replace("{cycle}", prepared.info.cycle).replace("{day}", prepared.info.dayIndex + 1))}</span>
+    </div>`;
+  $("start-workout").disabled = false;
+  $("start-workout").querySelector("span").textContent = t(active ? "resume_workout" : "start_workout");
+  $("preview-count").textContent = t("exercise_count").replace("{n}", entries.length);
+  $("home-preview").innerHTML = entries.map(({ block, exercise }, index) => {
+    const full = fullExercise(exercise.exercise_id);
+    const image = mediaUrl(full);
+    return `<article class="preview-row">
+      <span class="preview-number">${String(index + 1).padStart(2, "0")}</span>
+      ${image ? `<img src="${escapeHtml(image)}" alt="" loading="lazy" />` : ""}
+      <div><strong>${escapeHtml(exercise.name)}</strong><span>${escapeHtml(block.label || block.type)} · ${escapeHtml(exercise.prescription?.sets || 3)} × ${escapeHtml(exercise.prescription?.reps || "—")}</span></div>
+    </article>`;
+  }).join("");
+}
+
+function startWorkout() {
+  if (loadStore().active) {
+    renderGym();
+    return;
   }
-  if (workout.deload) loads = scaleLoadsForDeload(loads);
-  state.swapOpenKey = null;
-  state.session = {
-    id: sessionId(),
-    started_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    completed: false,
-    feel: null,
-    loads,
-    sets: initSetsLog(workout),
-    workout,
+  const prepared = prepareToday();
+  if (!prepared) return;
+  const logs = workoutEntries(prepared.workout).map(({ exercise }) => ({
+    exerciseId: exercise.exercise_id,
+    sets: makeSetRows(exercise),
+    complete: false,
+  }));
+  const store = loadStore();
+  store.active = {
+    id: `workout_${Date.now().toString(36)}`,
+    startedAt: new Date().toISOString(),
+    currentIndex: 0,
+    workout: prepared.workout,
+    plan: {
+      planId: prepared.info.plan.id,
+      dayIndex: prepared.info.dayIndex,
+      cycle: prepared.info.cycle,
+      label: prepared.info.day.label,
+    },
+    logs,
   };
-  persistActiveSession();
-  haptic(25);
-  speakWorkoutStartPrompt();
+  saveStore(store);
+  haptic(20);
+  renderGym();
 }
 
-function formatLoadHint(hist) {
-  if (!hist?.load) return "";
-  if (hist.load.type === "bodyweight") return "Last: BW";
-  if (hist.load.kg !== "" && hist.load.kg != null) return `Last: ${hist.load.kg} kg`;
-  return "";
+function persistActive(active) {
+  const store = loadStore();
+  store.active = active;
+  saveStore(store);
 }
 
-function swapPanelHtml(exerciseId, blockIdx, exIdx) {
-  const key = `${blockIdx}:${exIdx}`;
-  if (state.swapOpenKey !== key) return "";
-  const current = state.exercises.find((e) => e.id === exerciseId);
+function usedExerciseIds(active, except) {
+  return new Set(workoutEntries(active.workout).map(({ exercise }) => exercise.exercise_id).filter((id) => id !== except));
+}
+
+function renderWorkout(active) {
+  const entries = workoutEntries(active.workout);
+  if (!entries.length) return;
+  active.currentIndex = Math.min(active.currentIndex || 0, entries.length - 1);
+  const entry = entries[active.currentIndex];
+  const exercise = entry.exercise;
+  const full = fullExercise(exercise.exercise_id);
+  const log = active.logs[active.currentIndex];
+  const completeCount = active.logs.filter((item) => item.complete).length;
+  const image = mediaUrl(full);
+  const isBodyweight = (full?.equipment || []).length === 1 && full.equipment[0] === "bodyweight";
+
+  $("workout-title").textContent = active.plan?.label || active.workout.template?.name || t("workout");
+  $("workout-progress-label").textContent = `${completeCount}/${entries.length}`;
+  $("workout-progress-bar").style.width = `${(completeCount / entries.length) * 100}%`;
+  $("current-exercise").innerHTML = `
+    <article class="exercise-focus">
+      <div class="focus-art">
+        ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(exercise.name)}" />` : ""}
+        <span class="focus-index">${String(active.currentIndex + 1).padStart(2, "0")}</span>
+      </div>
+      <div class="focus-body">
+        <div class="focus-heading">
+          <div>
+            <p class="eyebrow">${escapeHtml(entry.block.label || entry.block.type)}</p>
+            <h1>${escapeHtml(exercise.name)}</h1>
+          </div>
+          <button type="button" class="soft-button" id="swap-toggle">${escapeHtml(t("swap"))}</button>
+        </div>
+        <p class="exercise-cue">${escapeHtml(exercise.cue_short || full?.cue_short || "")}</p>
+        <a class="demo-link" href="${escapeHtml(demoUrl(full))}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("watch_form"))} ↗</a>
+        <div class="set-table">
+          <div class="set-table-head"><span>${escapeHtml(t("set"))}</span><span>${escapeHtml(t("weight"))}</span><span>${escapeHtml(t("reps"))}</span></div>
+          ${log.sets.map((set, index) => `
+            <div class="set-row">
+              <span>${index + 1}</span>
+              <label><span class="sr-only">${escapeHtml(t("weight"))}</span><input type="${isBodyweight ? "text" : "number"}" inputmode="decimal" data-set-weight="${index}" value="${escapeHtml(isBodyweight && set.weight === "" ? "BW" : set.weight)}" ${isBodyweight ? "readonly" : ""} placeholder="—" /></label>
+              <label><span class="sr-only">${escapeHtml(t("reps"))}</span><input type="number" inputmode="numeric" min="0" data-set-reps="${index}" value="${escapeHtml(set.reps)}" placeholder="${escapeHtml(String(exercise.prescription?.reps || "—"))}" /></label>
+            </div>`).join("")}
+        </div>
+        <div id="swap-panel" class="swap-panel" hidden></div>
+        <button type="button" class="primary-action finish-exercise" id="finish-exercise">
+          <span>${escapeHtml(log.complete ? t("mark_incomplete") : t("finish_exercise"))}</span><span>→</span>
+        </button>
+      </div>
+    </article>`;
+
+  $("exercise-queue").innerHTML = entries.map(({ exercise: item, block }, index) => {
+    const done = active.logs[index]?.complete;
+    return `<button type="button" class="queue-row${index === active.currentIndex ? " is-current" : ""}${done ? " is-complete" : ""}" data-queue-index="${index}">
+      <span class="queue-status">${done ? "✓" : String(index + 1).padStart(2, "0")}</span>
+      <span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(block.label || block.type)}</small></span>
+      <span aria-hidden="true">→</span>
+    </button>`;
+  }).join("");
+  bindWorkout(active);
+}
+
+function bindWorkout(active) {
+  document.querySelectorAll("[data-set-weight]").forEach((input) => input.addEventListener("input", () => {
+    active.logs[active.currentIndex].sets[Number(input.dataset.setWeight)].weight = input.value;
+    persistActive(active);
+  }));
+  document.querySelectorAll("[data-set-reps]").forEach((input) => input.addEventListener("input", () => {
+    active.logs[active.currentIndex].sets[Number(input.dataset.setReps)].reps = input.value;
+    persistActive(active);
+  }));
+  document.querySelectorAll("[data-queue-index]").forEach((button) => button.addEventListener("click", () => {
+    active.currentIndex = Number(button.dataset.queueIndex);
+    persistActive(active);
+    renderWorkout(active);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }));
+  $("finish-exercise").addEventListener("click", () => {
+    const current = active.logs[active.currentIndex];
+    current.complete = !current.complete;
+    haptic(18);
+    if (active.logs.every((log) => log.complete)) {
+      finishWorkout(active);
+      return;
+    }
+    if (current.complete) {
+      const next = active.logs.findIndex((log, index) => index > active.currentIndex && !log.complete);
+      active.currentIndex = next >= 0 ? next : active.logs.findIndex((log) => !log.complete);
+    }
+    persistActive(active);
+    renderWorkout(active);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  $("swap-toggle").addEventListener("click", () => renderSwapPanel(active));
+}
+
+function renderSwapPanel(active) {
+  const entries = workoutEntries(active.workout);
+  const entry = entries[active.currentIndex];
+  const current = fullExercise(entry.exercise.exercise_id);
+  const store = loadStore();
   const candidates = findSwapCandidates(
     current,
     state.exercises,
-    sessionProfile(),
-    usedExerciseIds(exerciseId)
-  );
-  if (candidates.length === 0) {
-    return `<div class="swap-panel"><p class="move-meta">${escapeHtml(t("swap_none"))}</p></div>`;
-  }
-  const items = candidates
-    .map((c) => {
-      const img = mediaUrl(c);
-      return `
-        <button type="button" class="swap-option" data-swap-to="${escapeHtml(c.id)}" data-block-idx="${blockIdx}" data-ex-idx="${exIdx}">
-          ${img ? `<img src="${escapeHtml(img)}" alt="" loading="lazy" />` : ""}
-          <span>
-            <strong>${escapeHtml(c.name)}</strong>
-            <em>${escapeHtml(c.primary_pattern)} · ${escapeHtml(c.skill)}</em>
-          </span>
-        </button>`;
-    })
-    .join("");
-  return `<div class="swap-panel"><p class="swap-panel-label">${escapeHtml(t("swap_with"))}</p>${items}</div>`;
+    profileForGenerator(store.profile),
+    usedExerciseIds(active, current?.id)
+  ).slice(0, 5);
+  const panel = $("swap-panel");
+  panel.hidden = false;
+  panel.innerHTML = candidates.length
+    ? `<p class="eyebrow">${escapeHtml(t("choose_replacement"))}</p>${candidates.map((candidate) => {
+      const image = mediaUrl(candidate);
+      return `<button type="button" class="swap-option" data-swap-id="${escapeHtml(candidate.id)}">
+        ${image ? `<img src="${escapeHtml(image)}" alt="" />` : ""}
+        <span><strong>${escapeHtml(candidate.name)}</strong><small>${escapeHtml(t(candidate.primary_pattern))}</small></span><span>→</span>
+      </button>`;
+    }).join("")}`
+    : `<p>${escapeHtml(t("no_swaps"))}</p>`;
+  panel.querySelectorAll("[data-swap-id]").forEach((button) => button.addEventListener("click", () => {
+    applySwap(active, button.dataset.swapId);
+  }));
 }
 
-function loadControlHtml(exerciseId, blockIdx, exIdx) {
-  const load = state.session?.loads?.[exerciseId] || { type: "kg", kg: "" };
-  const isBw = load.type === "bodyweight";
-  const hist = lastLoadForExercise(exerciseId);
-  const prog = progressionFor(exerciseId);
-  const hint = formatLoadHint(hist);
-  const key = `${blockIdx}:${exIdx}`;
-  const swapOpen = state.swapOpenKey === key;
-  return `
-    <div class="load-row" data-exercise-id="${escapeHtml(exerciseId)}">
-      <div class="load-toggle" role="group" aria-label="Load type">
-        <button type="button" class="load-type${isBw ? "" : " is-active"}" data-load-type="kg">kg</button>
-        <button type="button" class="load-type${isBw ? " is-active" : ""}" data-load-type="bodyweight">BW</button>
-      </div>
-      <label class="load-kg"${isBw ? " hidden" : ""}>
-        <span class="sr-only">Weight kg</span>
-        <input type="number" inputmode="decimal" min="0" step="0.5" placeholder="kg"
-          value="${escapeHtml(isBw ? "" : load.kg ?? "")}" data-load-kg />
-      </label>
-      <button type="button" class="btn-swap${swapOpen ? " is-active" : ""}" data-swap-toggle="${escapeHtml(key)}">${escapeHtml(t("swap"))}</button>
-      ${hint ? `<span class="progress-hint">${escapeHtml(hint)}</span>` : ""}
-    </div>
-    ${prog ? `<p class="progression-tip progression-${escapeHtml(prog.kind)}">${escapeHtml(prog.text)}</p>` : ""}
-    ${swapPanelHtml(exerciseId, blockIdx, exIdx)}
-  `;
-}
-
-function renderWorkout() {
-  const workout = state.session?.workout;
-  const out = $("workout-out");
-  if (!workout) {
-    out.classList.add("empty");
-    out.textContent = "Build a session to preview it here.";
-    return;
-  }
-
-  out.classList.remove("empty");
-  const coverageOk = workout.pattern_coverage?.ok;
-  const feel = state.session.feel;
-
-  const blocksHtml = (workout.blocks || [])
-    .map((block, blockIdx) => {
-      const moves = (block.exercises || [])
-        .map((ex, exIdx) => {
-          const p = ex.prescription || {};
-          const full = state.exercises.find((e) => e.id === ex.exercise_id);
-          const img = full ? mediaUrl(full) : null;
-          const demo = full ? demoUrl(full) : null;
-          const cue = ex.cue_short || full?.cue_short || "";
-          return `
-            <div class="move" data-block-idx="${blockIdx}" data-ex-idx="${exIdx}">
-              ${img ? `<img class="move-art" src="${escapeHtml(img)}" alt="" loading="lazy" />` : ""}
-              <div class="move-body">
-                <p class="move-title">${escapeHtml(ex.name)}</p>
-                <p class="move-meta">${escapeHtml(ex.primary_pattern)} · ${escapeHtml(p.sets ?? "")} × ${escapeHtml(p.reps ?? "")} · rest ${escapeHtml(p.rest_sec ?? "")}s</p>
-                ${cue ? `<p class="move-cue"><span class="cue-label">${escapeHtml(t("cue"))}:</span> ${escapeHtml(cue)}</p>` : ""}
-                ${demo ? `<p class="move-demo"><a class="demo-link" href="${escapeHtml(demo)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t("demo"))} ↗</a></p>` : ""}
-                ${loadControlHtml(ex.exercise_id, blockIdx, exIdx)}
-                ${setLogHtml(ex.exercise_id)}
-                <div class="move-actions">
-                  <button type="button" class="btn-rest" data-rest-sec="${escapeHtml(p.rest_sec ?? 60)}" data-rest-name="${escapeHtml(ex.name)}">${escapeHtml(t("rest_start"))}</button>
-                </div>
-              </div>
-            </div>
-          `;
-        })
-        .join("");
-      return `<section class="block"><h3>${escapeHtml(block.label || block.type)}</h3>${moves}</section>`;
-    })
-    .join("");
-
-  const warnings = (workout.warnings || [])
-    .map((w) => `<p class="move-meta">${escapeHtml(w)}</p>`)
-    .join("");
-
-  const feelButtons = [
-    { value: "good", label: t("feel_good") },
-    { value: "mid", label: t("feel_mid") },
-    { value: "bad", label: t("feel_bad") },
-  ]
-    .map(
-      (opt) =>
-        `<button type="button" class="feel-btn${feel === opt.value ? " is-active" : ""}" data-feel="${opt.value}">${escapeHtml(opt.label)}</button>`
-    )
-    .join("");
-
-  out.innerHTML = `
-    <div class="workout-head">
-      <div>
-        <h2>${escapeHtml(state.session.plan?.dayLabel || workout.template?.name || "Workout")}</h2>
-        <p class="move-meta">${escapeHtml(workout.profile?.goal || "")} · ${escapeHtml(workout.profile?.level || "")} · ~${escapeHtml(workout.estimated_minutes)} min${state.session.plan ? ` · cycle ${escapeHtml(state.session.plan.cycle)}` : ""}${workout.deload || state.session.plan?.deload ? ` · ${escapeHtml(t("deload_week"))}` : ""}</p>
-      </div>
-      <span class="badge ${coverageOk ? "ok" : "warn"}">${coverageOk ? escapeHtml(t("coverage_ok")) : escapeHtml(t("coverage_gaps"))}</span>
-    </div>
-    ${warnings}
-    ${blocksHtml || "<p class='move-meta'>No blocks generated.</p>"}
-    <section class="session-progress">
-      <h3>${escapeHtml(t("session_progress"))}</h3>
-      <p class="move-meta">${escapeHtml(t("session_progress_lede"))}</p>
-      <div class="feel-row" role="group" aria-label="${escapeHtml(t("how_session"))}">
-        <span class="feel-label">${escapeHtml(t("how_session"))}</span>
-        ${feelButtons}
-      </div>
-      <div class="session-actions">
-        <button type="button" class="btn-secondary" id="save-session-btn">${escapeHtml(t("save_progress"))}</button>
-        <button type="button" class="btn-secondary" id="share-session-btn">${escapeHtml(t("share_session"))}</button>
-        <button type="button" class="btn-secondary" id="print-session-btn">${escapeHtml(t("print_session"))}</button>
-        <button type="button" class="btn-primary" id="finish-session-btn">${escapeHtml(t("finish_session"))}</button>
-      </div>
-      <p id="session-save-status" class="status" role="status"></p>
-    </section>
-  `;
-
-  bindSessionControls(out);
-}
-
-function applySwap(blockIdx, exIdx, newExerciseId) {
-  const block = state.session?.workout?.blocks?.[blockIdx];
-  const current = block?.exercises?.[exIdx];
-  const next = state.exercises.find((e) => e.id === newExerciseId);
-  if (!current || !next) return;
-
-  const oldId = current.exercise_id;
-  const rx = next.default_prescription || current.prescription || {};
-  block.exercises[exIdx] = {
-    ...current,
+function applySwap(active, id) {
+  const entries = workoutEntries(active.workout);
+  const entry = entries[active.currentIndex];
+  const next = fullExercise(id);
+  if (!entry || !next) return;
+  const previousPrescription = entry.exercise.prescription || {};
+  entry.block.exercises[entry.exIdx] = {
+    ...entry.exercise,
     exercise_id: next.id,
     name: next.name,
     primary_pattern: next.primary_pattern,
     family_id: next.family_id,
     stance: next.stance,
     cue_short: next.cue_short,
-    prescription: {
-      sets: rx.sets,
-      reps: rx.reps,
-      rest_sec: rx.rest_sec,
-      load: rx.load,
-      notes: rx.notes,
-    },
+    prescription: { ...(next.default_prescription || previousPrescription) },
   };
+  const updated = entry.block.exercises[entry.exIdx];
+  active.logs[active.currentIndex] = {
+    exerciseId: next.id,
+    sets: makeSetRows(updated),
+    complete: false,
+  };
+  persistActive(active);
+  renderWorkout(active);
+}
 
-  if (oldId !== next.id) {
-    const oldLoad = state.session.loads[oldId];
-    delete state.session.loads[oldId];
-    const hist = lastLoadForExercise(next.id);
-    const prog = progressionFor(next.id);
-    state.session.loads[next.id] = prog?.load
-      ? { ...prog.load }
-      : hist?.load
-        ? { ...hist.load }
-        : oldLoad || { type: "kg", kg: "" };
+function advancePlan(store, active) {
+  if (!store.plan || store.plan.planId !== active.plan?.planId || store.plan.dayIndex !== active.plan?.dayIndex) return;
+  const plan = getPlan(store.plan.planId);
+  let dayIndex = (store.plan.dayIndex || 0) + 1;
+  let cycle = store.plan.cycle || 1;
+  if (dayIndex >= plan.days.length) {
+    dayIndex = 0;
+    cycle += 1;
   }
-
-  state.swapOpenKey = null;
-  persistActiveSession();
-  renderWorkout();
+  store.plan = { ...store.plan, dayIndex, cycle };
 }
 
-function bindSessionControls(root) {
-  root.querySelectorAll(".load-row").forEach((row) => {
-    const exerciseId = row.dataset.exerciseId;
-    row.querySelectorAll("[data-load-type]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const type = btn.dataset.loadType;
-        const prev = state.session.loads[exerciseId] || {};
-        state.session.loads[exerciseId] =
-          type === "bodyweight"
-            ? { type: "bodyweight" }
-            : { type: "kg", kg: prev.kg ?? "" };
-        persistActiveSession();
-        renderWorkout();
-      });
-    });
-    const kgInput = row.querySelector("[data-load-kg]");
-    kgInput?.addEventListener("input", () => {
-      const raw = kgInput.value;
-      state.session.loads[exerciseId] = {
-        type: "kg",
-        kg: raw === "" ? "" : Number(raw),
-      };
-      persistActiveSession();
-    });
-  });
-
-  root.querySelectorAll("[data-swap-toggle]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const key = btn.dataset.swapToggle;
-      state.swapOpenKey = state.swapOpenKey === key ? null : key;
-      renderWorkout();
-    });
-  });
-
-  root.querySelectorAll("[data-swap-to]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      applySwap(Number(btn.dataset.blockIdx), Number(btn.dataset.exIdx), btn.dataset.swapTo);
-    });
-  });
-
-  root.querySelectorAll("[data-rest-sec]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      startRestTimer(btn.dataset.restSec, `${t("rest")} · ${btn.dataset.restName || ""}`);
-    });
-  });
-
-
-  root.querySelectorAll("[data-set-toggle]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.setToggle;
-      const idx = Number(btn.dataset.setIdx);
-      if (!state.session.sets?.[id]?.[idx]) return;
-      state.session.sets[id][idx].done = !state.session.sets[id][idx].done;
-      haptic(10);
-      persistActiveSession();
-      renderWorkout();
-    });
-  });
-
-  root.querySelectorAll("[data-feel]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.session.feel = btn.dataset.feel;
-      haptic(15);
-      persistActiveSession();
-      renderWorkout();
-    });
-  });
-
-  $("save-session-btn")?.addEventListener("click", () => {
-    persistActiveSession();
-    persistForm();
-    haptic(12);
-  });
-
-  $("share-session-btn")?.addEventListener("click", () => {
-    shareSession();
-  });
-
-  $("print-session-btn")?.addEventListener("click", () => {
-    printSession();
-  });
-
-  $("finish-session-btn")?.addEventListener("click", () => {
-    if (!state.session.feel) {
-      const status = $("session-save-status");
-      if (status) status.textContent = t("finish_need_feel");
-      return;
-    }
-    const finished = {
-      ...state.session,
-      completed: true,
-      finished_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-    const store = loadStore();
-    store.history = [finished, ...(store.history || [])].slice(0, 50);
-    store.activeSession = null;
-    saveStore(store);
-    advancePlanAfterFinish(finished);
-    state.session = null;
-    state.swapOpenKey = null;
-    stopRestTimer();
-    haptic([30, 40, 30]);
-    const out = $("workout-out");
-    out.classList.remove("empty");
-    const next = currentPlanDay();
-    const nextLine = next
-      ? `Next up: ${escapeHtml(next.day.label)} (cycle ${escapeHtml(next.cycle)}).`
-      : "Build another workout when you’re ready.";
-    out.innerHTML = `
-      <div class="workout-head">
-        <div>
-          <h2>${escapeHtml(t("session_saved"))}</h2>
-          <p class="move-meta">Feel: ${escapeHtml(finished.feel)} · stored on this device</p>
-        </div>
-      </div>
-      <p class="move-meta">${nextLine}</p>
-    `;
-    $("generate-status").textContent = `Finished · ${store.history.length} session(s) in history`;
-    renderPlanCard();
-    renderOverview();
-  });
-}
-
-function renderOverview() {
-  const grid = $("overview-stats");
-  grid.replaceChildren();
+function finishWorkout(active) {
+  const finishedAt = new Date().toISOString();
+  const durationMinutes = Math.max(1, Math.round((Date.parse(finishedAt) - Date.parse(active.startedAt)) / 60000));
   const store = loadStore();
-  const planInfo = currentPlanDay();
-  const stats = [
-    { label: "Exercises", value: state.meta?.count ?? 0 },
-    { label: "Templates", value: state.templates.length },
-    { label: "Logged sessions", value: store.history.length },
-    {
-      label: "Plan day",
-      value: planInfo ? `${planInfo.dayIndex + 1}/${planInfo.plan.days.length}` : "—",
-    },
-  ];
-  for (const s of stats) {
-    const el = document.createElement("div");
-    el.className = "stat";
-    el.innerHTML = `<strong>${escapeHtml(s.value)}</strong><span>${escapeHtml(s.label)}</span>`;
-    grid.appendChild(el);
+  const finished = {
+    id: active.id,
+    finishedAt,
+    workoutName: active.plan?.label || active.workout.template?.name,
+    durationMinutes,
+    exerciseCount: active.logs.filter((log) => log.complete).length,
+    setCount: active.logs.reduce((sum, log) => sum + (log.complete ? log.sets.length : 0), 0),
+    logs: active.logs,
+  };
+  store.history = [finished, ...store.history].slice(0, 30);
+  store.active = null;
+  advancePlan(store, active);
+  saveStore(store);
+  state.prepared = null;
+  haptic([30, 40, 30]);
+  renderSummary(finished);
+}
+
+function renderSummary(summary) {
+  $("workout-view").hidden = true;
+  $("gym-home").hidden = true;
+  const view = $("summary-view");
+  view.hidden = false;
+  view.innerHTML = `
+    <div class="summary-card">
+      <span class="summary-mark">✓</span>
+      <p class="eyebrow">${escapeHtml(t("session_complete"))}</p>
+      <h1>${escapeHtml(t("well_done"))}</h1>
+      <p class="lede">${escapeHtml(t("summary_copy"))}</p>
+      <div class="summary-stats">
+        <div><strong>${summary.durationMinutes}</strong><span>${escapeHtml(t("minutes"))}</span></div>
+        <div><strong>${summary.exerciseCount}</strong><span>${escapeHtml(t("exercises"))}</span></div>
+        <div><strong>${summary.setCount}</strong><span>${escapeHtml(t("sets"))}</span></div>
+      </div>
+      <button type="button" class="primary-action" id="summary-home"><span>${escapeHtml(t("back_to_today"))}</span><span>→</span></button>
+    </div>`;
+  $("summary-home").addEventListener("click", renderGym);
+}
+
+function renderLibrary() {
+  const patterns = [...new Set(state.exercises.map((exercise) => exercise.primary_pattern))].sort();
+  $("library-categories").innerHTML = ["all", ...patterns].map((pattern) =>
+    `<button type="button" class="category-chip${state.libraryPattern === pattern ? " is-active" : ""}" data-library-pattern="${escapeHtml(pattern)}">${escapeHtml(pattern === "all" ? t("all_movements") : t(pattern))}</button>`
+  ).join("");
+  const query = $("library-search").value.trim().toLowerCase();
+  const visible = state.exercises.filter((exercise) => {
+    const matchesPattern = state.libraryPattern === "all" || exercise.primary_pattern === state.libraryPattern;
+    const matchesQuery = !query || [exercise.name, exercise.cue_short, exercise.primary_pattern].join(" ").toLowerCase().includes(query);
+    return matchesPattern && matchesQuery;
+  });
+  $("library-grid").innerHTML = visible.map((exercise) => {
+    const image = mediaUrl(exercise);
+    return `<button type="button" class="library-card" data-library-id="${escapeHtml(exercise.id)}">
+      <div class="library-art">${image ? `<img src="${escapeHtml(image)}" alt="" loading="lazy" />` : ""}</div>
+      <span class="eyebrow">${escapeHtml(t(exercise.primary_pattern))}</span>
+      <strong>${escapeHtml(exercise.name)}</strong>
+      <small>${escapeHtml(exercise.cue_short || "")}</small>
+    </button>`;
+  }).join("") || `<p class="empty-state">${escapeHtml(t("no_exercises"))}</p>`;
+  document.querySelectorAll("[data-library-pattern]").forEach((button) => button.addEventListener("click", () => {
+    state.libraryPattern = button.dataset.libraryPattern;
+    renderLibrary();
+  }));
+  document.querySelectorAll("[data-library-id]").forEach((button) => button.addEventListener("click", () => {
+    renderLibraryDetail(button.dataset.libraryId);
+  }));
+}
+
+function renderLibraryDetail(id) {
+  const exercise = fullExercise(id);
+  if (!exercise) return;
+  const image = mediaUrl(exercise);
+  const sheet = $("library-detail");
+  sheet.hidden = false;
+  sheet.innerHTML = `
+    <button type="button" class="detail-backdrop" data-detail-close aria-label="Close"></button>
+    <article class="detail-card">
+      <button type="button" class="close-button icon-button" data-detail-close>×</button>
+      ${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(exercise.name)}" />` : ""}
+      <p class="eyebrow">${escapeHtml(t(exercise.primary_pattern))}</p>
+      <h2>${escapeHtml(exercise.name)}</h2>
+      <p class="exercise-cue">${escapeHtml(exercise.cue_long || exercise.cue_short || "")}</p>
+      <div class="detail-meta">
+        <span>${escapeHtml(t(exercise.skill))}</span>
+        <span>${escapeHtml((exercise.equipment || []).map((item) => t(item)).join(" · "))}</span>
+      </div>
+      <a class="primary-action link-action" href="${escapeHtml(demoUrl(exercise))}" target="_blank" rel="noopener noreferrer"><span>${escapeHtml(t("watch_form"))}</span><span>↗</span></a>
+    </article>`;
+  sheet.querySelectorAll("[data-detail-close]").forEach((button) => button.addEventListener("click", () => {
+    sheet.hidden = true;
+  }));
+}
+
+function optionHtml(values, selected) {
+  return values.map((value) => `<option value="${escapeHtml(String(value))}"${String(value) === String(selected) ? " selected" : ""}>${escapeHtml(typeof value === "number" ? t("days_count").replace("{n}", value) : t(value))}</option>`).join("");
+}
+
+function settingsChoices(items, selected, attr) {
+  const chosen = new Set(selected || []);
+  return items.map((item) => `<label class="check-choice"><input type="checkbox" ${attr} value="${escapeHtml(item)}"${chosen.has(item) ? " checked" : ""} /><span>${escapeHtml(t(item))}</span></label>`).join("");
+}
+
+function renderSettings() {
+  const profile = loadStore().profile;
+  if (!profile) return;
+  $("settings-goal").innerHTML = optionHtml(GOALS, profile.goal);
+  $("settings-level").innerHTML = optionHtml(LEVELS, profile.level);
+  $("settings-days").innerHTML = optionHtml([2, 3, 4], profile.days);
+  $("settings-equipment").innerHTML = settingsChoices(EQUIPMENT, profile.equipment, "data-settings-equipment");
+  $("settings-constraints").innerHTML = settingsChoices(CONSTRAINTS, profile.constraints, "data-settings-constraint");
+  document.querySelectorAll("[data-language]").forEach((button) => button.classList.toggle("is-active", button.dataset.language === getLang()));
+}
+
+function saveSettings(event) {
+  event.preventDefault();
+  const store = loadStore();
+  const nextDays = Number($("settings-days").value);
+  const nextPlanId = planForDays(nextDays);
+  store.profile = {
+    ...store.profile,
+    goal: $("settings-goal").value,
+    level: $("settings-level").value,
+    days: nextDays,
+    equipment: [...document.querySelectorAll("[data-settings-equipment]:checked")].map((input) => input.value),
+    constraints: [...document.querySelectorAll("[data-settings-constraint]:checked")].map((input) => input.value),
+  };
+  if (!store.profile.equipment.length) store.profile.equipment = ["bodyweight"];
+  if (store.plan?.planId !== nextPlanId) store.plan = { planId: nextPlanId, dayIndex: 0, cycle: 1 };
+  saveStore(store);
+  state.prepared = null;
+  showScreen("gym");
+}
+
+function changeLanguage(lang) {
+  setLang(lang);
+  applyI18n(lang);
+  refreshSwimLanguage();
+  if (loadStore().profile) {
+    renderSettings();
+    showScreen(state.route);
+  } else {
+    renderOnboarding();
   }
-  renderHistory();
-  renderWeeklyReview();
+}
+
+function bindShell() {
+  document.querySelectorAll("[data-route]").forEach((button) => button.addEventListener("click", () => showScreen(button.dataset.route)));
+  $("menu-toggle").addEventListener("click", () => $("app-menu").hidden ? openMenu() : closeMenu());
+  document.querySelectorAll("[data-menu-close]").forEach((element) => element.addEventListener("click", closeMenu));
+  $("start-workout").addEventListener("click", startWorkout);
+  $("workout-home").addEventListener("click", () => {
+    $("workout-view").hidden = true;
+    $("gym-home").hidden = false;
+    renderToday();
+  });
+  $("library-search").addEventListener("input", renderLibrary);
+  $("settings-form").addEventListener("submit", saveSettings);
+  document.querySelectorAll("[data-language]").forEach((button) => button.addEventListener("click", () => changeLanguage(button.dataset.language)));
+}
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
 }
 
 async function init() {
   applyI18n(getLang());
-  initTheme();
+  bindShell();
   registerServiceWorker();
-  document.querySelectorAll("[data-injury]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const key = btn.dataset.injury;
-      if (key === "clear") {
-        $("constraint-checks")?.querySelectorAll('input[type="checkbox"]').forEach((i) => {
-          i.checked = false;
-        });
-        document.querySelectorAll("[data-injury]").forEach((b) => b.classList.remove("is-active"));
-        persistForm();
-        return;
-      }
-      applyInjuryPreset(key);
-    });
-  });
-  $("rest-timer-skip")?.addEventListener("click", () => {
-    stopRestTimer();
-    haptic(10);
-  });
-  $("theme-toggle")?.addEventListener("click", () => {
-    cycleThemeMode();
-  });
-  $("lang-toggle")?.addEventListener("click", () => {
-    const next = setLang(getLang() === "he" ? "en" : "he");
-    applyI18n(next);
-    if (state.session) renderWorkout();
-    else {
-      $("workout-out").classList.add("empty");
-      $("workout-out").textContent = t("workout_empty");
-    }
-    renderPlanCard();
-    renderOverview();
-    renderExerciseList();
-    refreshVoiceClipStatus();
-    applyTheme(currentTheme());
-  });
-
-  document.querySelectorAll(".tab").forEach((btn) => {
-    btn.addEventListener("click", () => setTab(btn.dataset.tab));
-  });
-
-  ["filter-q", "filter-pattern", "filter-skill", "filter-equipment"].forEach((id) => {
-    $(id).addEventListener("input", renderExerciseList);
-    $(id).addEventListener("change", renderExerciseList);
-  });
-
-  $("workout-out").classList.add("empty");
-  $("workout-out").textContent = t("workout_empty");
-  setTab("generate");
-
-  const [exercises, templates, profiles, plans, videos] = await Promise.all([
+  const [exercises, templates, plans, videos] = await Promise.all([
     loadJson("./data/exercises.json"),
     loadJson("./data/templates.json"),
-    loadJson("./data/profiles.json"),
     loadJson("./data/plans.json"),
     loadJson("./data/videos.json").catch(() => ({})),
   ]);
-
   state.exercises = Array.isArray(exercises) ? exercises : exercises.exercises || [];
   state.templates = Array.isArray(templates) ? templates : templates.templates || [];
-  state.profiles = Array.isArray(profiles) ? profiles : profiles.profiles || [];
   state.plans = Array.isArray(plans) ? plans : plans.plans || [];
   state.videos = videos && typeof videos === "object" && !Array.isArray(videos) ? videos : {};
-  state.meta = getLibraryMeta(state.exercises, state.templates, state.profiles);
-  precacheIllustrations();
-
-  fillSelect($("filter-pattern"), uniqueSorted(state.exercises.map((e) => e.primary_pattern)), {
-    blankLabel: t("all_patterns"),
-  });
-  fillSelect(
-    $("filter-equipment"),
-    uniqueSorted(state.exercises.flatMap((e) => e.equipment || [])),
-    { blankLabel: t("any") }
-  );
-  fillSelect(
-    $("template-select"),
-    state.templates.map((tmpl) => ({ value: tmpl.id, label: tmpl.name }))
-  );
-  fillSelect(
-    $("profile-select"),
-    state.profiles.map((p) => ({ value: p.id, label: `${p.name} (${p.level})` })),
-    { blankLabel: t("custom") }
-  );
-  fillSelect(
-    $("plan-select"),
-    state.plans.map((p) => ({ value: p.id, label: p.name })),
-    { blankLabel: t("plan_none") }
-  );
-
-  renderChecks($("equipment-checks"), EQUIPMENT_OPTIONS, new Set(["bodyweight", "dbs", "bands"]));
-  renderChecks($("constraint-checks"), CONSTRAINT_OPTIONS, new Set());
-
-  const store = loadStore();
-  restoreForm(store.form);
-  renderPlanCard();
-
-  renderExerciseList();
-  renderOverview();
   await initSwim();
-
-  $("plan-select")?.addEventListener("change", () => {
-    enrollPlan($("plan-select").value || "");
-    renderPlanCard();
-    renderOverview();
-  });
-  $("build-today-btn")?.addEventListener("click", () => buildTodaysSession());
-  $("clear-plan-btn")?.addEventListener("click", () => {
-    enrollPlan("");
-    $("plan-select").value = "";
-    renderPlanCard();
-    renderOverview();
-  });
-
-  bindBackupControls();
-  bindVoiceClipControls();
-
-  $("profile-select").addEventListener("change", () => {
-    const id = $("profile-select").value;
-    if (!id) return;
-    const profile = state.profiles.find((p) => p.id === id);
-    if (profile) applyProfileToForm(profile);
-    persistForm();
-  });
-
-  ["goal", "level", "minutes", "template-select", "include_power", "include_conditioning"].forEach(
-    (id) => {
-      $(id)?.addEventListener("change", persistForm);
-    }
-  );
-  $("equipment-checks")?.addEventListener("change", persistForm);
-  $("constraint-checks")?.addEventListener("change", persistForm);
-
-  $("generate-form").addEventListener("submit", (event) => {
-    event.preventDefault();
-    const status = $("generate-status");
-    const btn = event.submitter || $("generate-form").querySelector('button[type="submit"]');
-    status.textContent = t("generating");
-    btn.disabled = true;
-    try {
-      const profile = collectProfile();
-      if (profile.equipment.length === 0) profile.equipment = ["bodyweight"];
-      profile.avoid_ids = recentExerciseIds(2);
-      let workout = buildWorkoutFromProfile(
-        profile,
-        $("template-select").value || null,
-        state.exercises,
-        state.templates
-      );
-      workout = applyFamilyAutoProgress(workout, state.exercises, profile, recentFeelByExercise());
-      const enrolled = activePlanState();
-      if (enrolled && isDeloadCycle(enrolled.cycle)) {
-        workout = applyDeloadToWorkout(workout);
-      }
-      startSession(workout);
-      persistForm();
-      renderWorkout();
-      status.textContent = `Seed ${workout.seed} · progress autosaves`;
-    } catch (err) {
-      status.textContent = err.message || "Failed";
-    } finally {
-      btn.disabled = false;
-    }
-  });
-
-  if (store.activeSession?.workout && !store.activeSession.completed) {
-    state.session = store.activeSession;
-    if (state.session?.workout) {
-      state.session.sets = initSetsLog(state.session.workout, state.session.sets);
-    }
-    renderWorkout();
-    setTab("generate");
-    $("generate-status").textContent = t("restored_session");
-  }
+  if (loadStore().profile) showScreen("gym");
+  else renderOnboarding();
 }
 
-init().catch((err) => {
-  $("library-count").textContent = err.message || "Failed to load";
+init().catch((error) => {
+  document.body.innerHTML = `<main class="fatal-error"><h1>Something went wrong.</h1><p>${escapeHtml(error.message || "Failed to load")}</p></main>`;
 });

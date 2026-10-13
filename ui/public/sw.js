@@ -1,5 +1,5 @@
 /* Tziki Gym Bro — static cache for GitHub Pages */
-const CACHE = "tziki-v5";
+const CACHE = "tziki-v6";
 const PRECACHE = [
   "/",
   "/index.html",
@@ -8,13 +8,11 @@ const PRECACHE = [
   "/swim.js",
   "/generator.js",
   "/i18n.js",
-  "/voice-clip.js",
   "/manifest.webmanifest",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
   "/data/exercises.json",
   "/data/templates.json",
-  "/data/profiles.json",
   "/data/plans.json",
   "/data/videos.json",
   "/data/ti-drills.json",

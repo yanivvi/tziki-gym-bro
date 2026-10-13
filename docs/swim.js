@@ -1,3 +1,5 @@
+import { t } from "./i18n.js";
+
 const SWIM_STORE_KEY = "tziki-gym-bro-ti-v1";
 const PHASES = ["Balance", "Streamline", "Propulsion", "Recovery", "Breathing", "Integration"];
 
@@ -76,7 +78,7 @@ function renderBuilder() {
     `<option value="${escapeHtml(preset.id)}">${escapeHtml(preset.name)}</option>`
   ).join("");
   const phaseButtons = ["All", ...PHASES].map((phase) =>
-    `<button type="button" class="chip-btn${phase === state.phase ? " is-active" : ""}" data-ti-phase="${escapeHtml(phase)}">${escapeHtml(phase)}</button>`
+    `<button type="button" class="chip-btn${phase === state.phase ? " is-active" : ""}" data-ti-phase="${escapeHtml(phase)}">${escapeHtml(phase === "All" ? t("all_phases") : t(phase))}</button>`
   ).join("");
   const selectedRows = state.selected.length
     ? state.selected.map((item, index) => {
@@ -90,39 +92,39 @@ function renderBuilder() {
             <span class="move-meta">${escapeHtml(drill.phase)}</span>
           </div>
           <label class="field ti-length-field">
-            <span>Lengths</span>
+            <span>${escapeHtml(t("lengths"))}</span>
             <input type="number" min="1" max="100" value="${escapeHtml(String(item.lengths))}" data-ti-length-index="${escapeHtml(String(index))}" />
           </label>
           <div class="ti-row-actions">
-            <button type="button" class="btn-secondary ti-icon-btn" data-ti-move-up="${escapeHtml(String(index))}" aria-label="Move up">↑</button>
-            <button type="button" class="btn-secondary ti-icon-btn" data-ti-move-down="${escapeHtml(String(index))}" aria-label="Move down">↓</button>
-            <button type="button" class="btn-secondary ti-icon-btn" data-ti-remove="${escapeHtml(String(index))}" aria-label="Remove">×</button>
+            <button type="button" class="btn-secondary ti-icon-btn" data-ti-move-up="${escapeHtml(String(index))}" aria-label="${escapeHtml(t("move_up"))}">↑</button>
+            <button type="button" class="btn-secondary ti-icon-btn" data-ti-move-down="${escapeHtml(String(index))}" aria-label="${escapeHtml(t("move_down"))}">↓</button>
+            <button type="button" class="btn-secondary ti-icon-btn" data-ti-remove="${escapeHtml(String(index))}" aria-label="${escapeHtml(t("remove"))}">×</button>
           </div>
         </div>`;
     }).join("")
-    : `<p class="move-meta">Choose a preset or add drills from the catalog.</p>`;
+    : `<p class="move-meta">${escapeHtml(t("choose_drills"))}</p>`;
 
   root.innerHTML = `
     <div class="ti-builder-grid">
       <section class="plan-card ti-build-card">
         <div class="plan-card-head">
-          <h2>Build an advanced session</h2>
-          <p class="move-meta">Start with a focused preset or compose your own TI progression.</p>
+          <h2>${escapeHtml(t("swim_build_title"))}</h2>
+          <p class="move-meta">${escapeHtml(t("swim_build_copy"))}</p>
         </div>
         <label class="field">
-          <span>Session preset</span>
+          <span>${escapeHtml(t("swim_preset"))}</span>
           <select id="ti-preset">
-            <option value="">Custom session</option>
+            <option value="">${escapeHtml(t("custom_session"))}</option>
             ${presetOptions}
           </select>
         </label>
         <div class="ti-session-settings">
           <label class="field">
-            <span>Session name</span>
-            <input id="ti-session-name" maxlength="80" value="Advanced TI practice" />
+            <span>${escapeHtml(t("session_name"))}</span>
+            <input id="ti-session-name" maxlength="80" value="${escapeHtml(t("default_swim_name"))}" />
           </label>
           <label class="field">
-            <span>Pool length</span>
+            <span>${escapeHtml(t("pool_length"))}</span>
             <select id="ti-pool-length">
               <option value="25">25 m</option>
               <option value="50">50 m</option>
@@ -132,16 +134,16 @@ function renderBuilder() {
         <div id="ti-selected-list" class="ti-selected-list">${selectedRows}</div>
         <div class="ti-build-summary">
           <strong>${escapeHtml(String(state.selected.reduce((sum, item) => sum + safeNumber(item.lengths), 0)))} lengths</strong>
-          <span>Order drills from balance to whole-stroke integration.</span>
+          <span>${escapeHtml(t("selected_drills"))}</span>
         </div>
-        <button type="button" class="btn-primary" id="ti-start-session"${state.selected.length ? "" : " disabled"}>Start swimming session</button>
+        <button type="button" class="btn-primary" id="ti-start-session"${state.selected.length ? "" : " disabled"}>${escapeHtml(t("start_swim"))}</button>
         <p class="status" id="ti-builder-status" role="status"></p>
       </section>
       <section class="ti-catalog">
         <div class="ti-section-head">
           <div>
-            <h2>TI drill catalog</h2>
-            <p class="move-meta">Foundation drills remain useful as calibration for advanced swimmers.</p>
+            <h2>${escapeHtml(t("drill_catalog"))}</h2>
+            <p class="move-meta">${escapeHtml(t("swim_build_copy"))}</p>
           </div>
         </div>
         <div class="ti-phase-filters">${phaseButtons}</div>
@@ -163,15 +165,15 @@ function renderCatalog() {
     const selected = state.selected.some((item) => item.drillId === drill.id);
     return `
       <article class="ti-drill-card${selected ? " is-selected" : ""}">
-        <img class="ti-drill-image" src="${escapeHtml(drillImageUrl(drill))}" alt="${escapeHtml(`Tziki demonstrating ${drill.name}`)}" loading="lazy" />
+        <img class="ti-drill-image" src="${escapeHtml(drillImageUrl(drill))}" alt="${escapeHtml(t("demonstrating").replace("{name}", drill.name))}" loading="lazy" />
         <div class="meta-row">
-          <span class="chip">${escapeHtml(drill.phase)}</span>
+          <span class="chip">${escapeHtml(t(drill.phase))}</span>
           <span class="chip">${escapeHtml(drill.level)}</span>
         </div>
         <h3>${escapeHtml(drill.name)}</h3>
         <p>${escapeHtml(drill.cue)}</p>
         <p class="progress-hint">Progress: ${escapeHtml(drill.progression)}</p>
-        <button type="button" class="${selected ? "btn-secondary" : "btn-primary"}" data-ti-add="${escapeHtml(drill.id)}"${selected ? " disabled" : ""}>${selected ? "Added" : "Add to session"}</button>
+        <button type="button" class="${selected ? "btn-secondary" : "btn-primary"}" data-ti-add="${escapeHtml(drill.id)}"${selected ? " disabled" : ""}>${escapeHtml(selected ? t("added") : t("add"))}</button>
       </article>`;
   }).join("");
 
@@ -245,7 +247,7 @@ function bindBuilder() {
 
 function startSession() {
   if (!state.selected.length) return;
-  const name = document.getElementById("ti-session-name")?.value.trim() || "Advanced TI practice";
+  const name = document.getElementById("ti-session-name")?.value.trim() || t("default_swim_name");
   const poolLength = safeNumber(document.getElementById("ti-pool-length")?.value, 25);
   state.active = {
     startedAt: new Date().toISOString(),
@@ -297,11 +299,11 @@ function renderActiveSession() {
         <button type="button" class="ti-complete-btn" data-ti-complete="${escapeHtml(String(index))}" aria-pressed="${escapeHtml(String(Boolean(item.completed)))}">
           <span>${item.completed ? "✓" : escapeHtml(String(index + 1))}</span>
         </button>
-        <img class="ti-active-image" src="${escapeHtml(drillImageUrl(drill))}" alt="${escapeHtml(`Tziki demonstrating ${drill.name}`)}" />
+        <img class="ti-active-image" src="${escapeHtml(drillImageUrl(drill))}" alt="${escapeHtml(t("demonstrating").replace("{name}", drill.name))}" />
         <div class="ti-active-body">
           <div class="ti-active-title">
             <div>
-              <span class="chip">${escapeHtml(drill.phase)}</span>
+              <span class="chip">${escapeHtml(t(drill.phase))}</span>
               <h3>${escapeHtml(drill.name)}</h3>
             </div>
             <strong>${escapeHtml(String(item.lengths))} × ${escapeHtml(String(state.active.poolLength))} m</strong>
@@ -309,15 +311,15 @@ function renderActiveSession() {
           <p class="move-cue">${escapeHtml(drill.cue)}</p>
           <div class="ti-metrics">
             <label class="field">
-              <span>Average SPL</span>
+              <span>${escapeHtml(t("average_spl"))}</span>
               <input type="number" min="1" max="100" inputmode="numeric" value="${escapeHtml(String(item.spl))}" data-ti-metric="spl" data-ti-index="${escapeHtml(String(index))}" placeholder="e.g. 16" />
             </label>
             <label class="field">
-              <span>RPE (1–10)</span>
+              <span>${escapeHtml(t("rpe"))}</span>
               <input type="number" min="1" max="10" inputmode="numeric" value="${escapeHtml(String(item.rpe))}" data-ti-metric="rpe" data-ti-index="${escapeHtml(String(index))}" placeholder="e.g. 6" />
             </label>
             <label class="field ti-notes-field">
-              <span>Technique note</span>
+              <span>${escapeHtml(t("technique_note"))}</span>
               <input maxlength="160" value="${escapeHtml(item.notes)}" data-ti-metric="notes" data-ti-index="${escapeHtml(String(index))}" placeholder="What changed or clicked?" />
             </label>
           </div>
@@ -328,24 +330,23 @@ function renderActiveSession() {
   root.innerHTML = `
     <div class="workout-head ti-session-head">
       <div>
-        <p class="eyebrow">Active swim</p>
+        <p class="eyebrow">${escapeHtml(t("active_swim"))}</p>
         <h2>${escapeHtml(state.active.name)}</h2>
-        <p class="move-meta">${escapeHtml(String(sessionDistance(state.active)))} m planned · ${escapeHtml(String(state.active.poolLength))} m pool</p>
+        <p class="move-meta">${escapeHtml(t("planned_distance").replace("{n}", sessionDistance(state.active)))} · ${escapeHtml(String(state.active.poolLength))} m</p>
       </div>
-      <button type="button" class="btn-secondary" id="ti-cancel-session">Back to builder</button>
+      <button type="button" class="btn-secondary" id="ti-cancel-session">${escapeHtml(t("back_to_builder"))}</button>
     </div>
     <div class="ti-progress-track"><span style="width:${escapeHtml(String(percent))}%"></span></div>
-    <p class="move-meta">${escapeHtml(String(count))}/${escapeHtml(String(total))} drills complete</p>
+    <p class="move-meta">${escapeHtml(t("drills_complete").replace("{done}", count).replace("{total}", total))}</p>
     <div class="ti-active-list">${items}</div>
     <div class="session-progress">
-      <h3>How was the swim?</h3>
       <div class="feel-row">
         ${["good", "mid", "bad"].map((feel) =>
-          `<button type="button" class="feel-btn${state.active.feeling === feel ? " is-active" : ""}" data-ti-feel="${escapeHtml(feel)}">${escapeHtml(feel)}</button>`
+          `<button type="button" class="feel-btn${state.active.feeling === feel ? " is-active" : ""}" data-ti-feel="${escapeHtml(feel)}">${escapeHtml(t(feel))}</button>`
         ).join("")}
       </div>
       <div class="session-actions">
-        <button type="button" class="btn-primary" id="ti-finish-session">Finish and save</button>
+        <button type="button" class="btn-primary" id="ti-finish-session">${escapeHtml(t("finish_swim"))}</button>
       </div>
       <p class="status" id="ti-session-status" role="status"></p>
     </div>`;
@@ -404,7 +405,7 @@ function finishSession() {
   if (!state.active) return;
   const status = document.getElementById("ti-session-status");
   if (!state.active.feeling) {
-    if (status) status.textContent = "Choose good, mid, or bad before finishing.";
+    if (status) status.textContent = t("choose_swim_feel");
     return;
   }
   const finished = {
@@ -429,7 +430,7 @@ function renderCurriculum() {
     return `
       <div class="ti-phase-step">
         <span>${escapeHtml(String(index + 1))}</span>
-        <strong>${escapeHtml(phase)}</strong>
+        <strong>${escapeHtml(t(phase))}</strong>
         <small>${escapeHtml(String(count))} drills</small>
       </div>`;
   }).join("");
@@ -440,7 +441,7 @@ function renderProgress() {
   if (!root) return;
   const history = loadStore().history;
   if (!history.length) {
-    root.innerHTML = `<p class="move-meta">No completed swims yet. Your SPL, RPE, distance, and notes will appear here.</p>`;
+    root.innerHTML = `<p class="move-meta">${escapeHtml(t("no_swims"))}</p>`;
     return;
   }
   const totalDistance = history.reduce((sum, session) => sum + sessionDistance(session), 0);
@@ -459,7 +460,7 @@ function renderProgress() {
     return `
       <article class="history-item">
         <div>
-          <strong>${escapeHtml(session.name || "TI swim")}</strong>
+          <strong>${escapeHtml(session.name || t("ti_swim"))}</strong>
           <p class="move-meta">${escapeHtml(formatDate(session.finishedAt))} · ${escapeHtml(String(sessionDistance(session)))} m · SPL ${escapeHtml(String(sessionSpl))}</p>
         </div>
         <span class="badge ${session.feeling === "good" ? "ok" : session.feeling === "bad" ? "warn" : ""}">${escapeHtml(session.feeling || "—")}</span>
@@ -467,10 +468,10 @@ function renderProgress() {
   }).join("");
   root.innerHTML = `
     <div class="stat-grid ti-stat-grid">
-      <div class="stat"><strong>${escapeHtml(String(history.length))}</strong><span>Swims</span></div>
-      <div class="stat"><strong>${escapeHtml(String(totalDistance))} m</strong><span>Planned distance</span></div>
-      <div class="stat"><strong>${escapeHtml(String(completed))}</strong><span>Drills completed</span></div>
-      <div class="stat"><strong>${escapeHtml(String(averageSpl))}</strong><span>Average logged SPL</span></div>
+      <div class="stat"><strong>${escapeHtml(String(history.length))}</strong><span>${escapeHtml(t("swims"))}</span></div>
+      <div class="stat"><strong>${escapeHtml(String(totalDistance))} m</strong><span>${escapeHtml(t("planned_total"))}</span></div>
+      <div class="stat"><strong>${escapeHtml(String(completed))}</strong><span>${escapeHtml(t("drills"))}</span></div>
+      <div class="stat"><strong>${escapeHtml(String(averageSpl))}</strong><span>${escapeHtml(t("average_logged_spl"))}</span></div>
     </div>
     <div class="history-list">${rows}</div>`;
 }
@@ -494,4 +495,8 @@ export async function initSwim() {
   state.presets = Array.isArray(data.presets) ? data.presets : [];
   state.active = loadStore().active;
   renderAll();
+}
+
+export function refreshSwimLanguage() {
+  if (state.drills.length) renderAll();
 }

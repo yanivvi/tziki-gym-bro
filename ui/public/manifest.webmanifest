@@ -1,13 +1,13 @@
 {
   "name": "Tziki Gym Bro",
   "short_name": "Tziki",
-  "description": "Functional training library and session generator",
+  "description": "A calm, guided gym and swim companion",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#e8f0f8",
-  "theme_color": "#1a2744",
+  "background_color": "#f7f4ee",
+  "theme_color": "#f7f4ee",
   "lang": "en",
   "icons": [
     {

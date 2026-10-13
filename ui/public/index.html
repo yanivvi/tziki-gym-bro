@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a2744" />
+  <meta name="theme-color" content="#f7f4ee" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="mobile-web-app-capable" content="yes" />
   <title>Tziki Gym Bro</title>
   <script>
     (function () {
       try {
-        var t = localStorage.getItem("gym-trainer-theme");
-        if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-          document.documentElement.setAttribute("data-theme", "dark");
-        }
         var lang = localStorage.getItem("gym-trainer-lang");
         if (lang === "he") {
           document.documentElement.lang = "he";
@@ -25,239 +21,175 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <div id="rest-timer" class="rest-timer" hidden>
-    <div class="rest-timer-inner">
-      <span id="rest-timer-label" data-i18n="rest">Rest</span>
-      <strong id="rest-timer-count">0:00</strong>
-      <button type="button" class="btn-secondary" id="rest-timer-skip" data-i18n="rest_skip">Skip</button>
-    </div>
-  </div>
-  <header class="top">
-    <div class="brand">
-      <p class="brand-mark" data-i18n="slogan">The Exercises are many, but we will win!</p>
-    </div>
-    <div class="top-actions">
-      <nav class="tabs" role="tablist">
-        <button type="button" class="tab" data-tab="library" role="tab" aria-selected="false" data-i18n="tab_library">Library</button>
-        <button type="button" class="tab is-active" data-tab="generate" role="tab" aria-selected="true" data-i18n="tab_generate">Today</button>
-        <button type="button" class="tab" data-tab="swim" role="tab" aria-selected="false" data-i18n="tab_swim">Swim</button>
-        <button type="button" class="tab" data-tab="overview" role="tab" aria-selected="false" data-i18n="tab_overview">Overview</button>
-      </nav>
-      <button type="button" id="lang-toggle" class="theme-toggle" data-i18n="lang_toggle" data-i18n-title="lang_toggle_title" title="Switch to Hebrew">עברית</button>
-      <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false" title="Toggle dark mode" data-i18n="theme_dark">Dark</button>
+  <header class="app-header">
+    <button type="button" class="brand-button" data-route="gym" aria-label="Tziki Gym Bro home">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span>Tziki</span>
+    </button>
+    <div class="header-actions">
+      <button type="button" class="text-button mode-switch" id="swim-shortcut" data-route="swim" data-i18n="swim">Swim</button>
+      <button type="button" class="icon-button" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
     </div>
   </header>
 
-  <main>
-    <section id="panel-library" class="panel" role="tabpanel" hidden>
-      <div class="panel-head">
-        <h1 data-i18n="library_title">Exercise library</h1>
-        <p class="lede" id="library-count" data-i18n="library_loading">Loading…</p>
+  <aside id="app-menu" class="app-menu" hidden>
+    <div class="menu-backdrop" data-menu-close></div>
+    <nav class="menu-sheet" aria-label="App menu">
+      <div class="menu-head">
+        <p class="eyebrow" data-i18n="navigate">Navigate</p>
+        <button type="button" class="icon-button close-button" data-menu-close aria-label="Close menu">×</button>
       </div>
-      <div class="filters">
-        <label class="field">
-          <span data-i18n="search">Search</span>
-          <input id="filter-q" type="search" data-i18n-placeholder="search_ph" placeholder="Name or cue" autocomplete="off" />
-        </label>
-        <label class="field">
-          <span data-i18n="pattern">Pattern</span>
-          <select id="filter-pattern">
-            <option value="" data-i18n="all_patterns">All patterns</option>
-          </select>
-        </label>
-        <label class="field">
-          <span data-i18n="skill">Skill</span>
-          <select id="filter-skill">
-            <option value="" data-i18n="all_skills">All skills</option>
-            <option value="beginner" data-i18n="beginner">Beginner</option>
-            <option value="intermediate" data-i18n="intermediate">Intermediate</option>
-            <option value="advanced" data-i18n="advanced">Advanced</option>
-          </select>
-        </label>
-        <label class="field">
-          <span data-i18n="equipment">Equipment</span>
-          <select id="filter-equipment">
-            <option value="" data-i18n="any">Any</option>
-          </select>
-        </label>
+      <button type="button" class="menu-link" data-route="gym"><span data-i18n="today">Today</span><span>01</span></button>
+      <button type="button" class="menu-link" data-route="library"><span data-i18n="library">Library</span><span>02</span></button>
+      <button type="button" class="menu-link" data-route="swim"><span data-i18n="swim">Swim</span><span>03</span></button>
+      <button type="button" class="menu-link" data-route="settings"><span data-i18n="settings">Settings</span><span>04</span></button>
+    </nav>
+  </aside>
+
+  <main id="app-main">
+    <section id="screen-onboarding" class="screen onboarding-screen" hidden>
+      <div class="onboarding-shell">
+        <div class="onboarding-top">
+          <span class="brand-lockup"><span class="brand-dot"></span> Tziki</span>
+          <span id="onboarding-step-label" class="step-label"></span>
+        </div>
+        <div class="progress-line" aria-hidden="true"><span id="onboarding-progress"></span></div>
+        <div id="onboarding-content" class="onboarding-content"></div>
       </div>
-      <div id="exercise-list" class="exercise-list"></div>
-      <aside id="exercise-detail" class="detail" hidden></aside>
     </section>
 
-    <section id="panel-generate" class="panel is-active" role="tabpanel">
-      <div class="panel-head">
-        <h1 data-i18n="generate_title">Today’s session</h1>
-        <p class="lede" data-i18n="generate_lede">Follow a multi-day plan, or build a one-off session from your equipment and constraints.</p>
-      </div>
-      <section class="plan-card" id="plan-card">
-        <div class="plan-card-head">
-          <h2 data-i18n="plan_title">Training plan</h2>
-          <p class="move-meta" id="plan-desc" data-i18n="plan_desc_empty">Pick a plan to unlock Today’s session.</p>
+    <section id="screen-gym" class="screen gym-screen">
+      <div id="gym-home" class="page-shell home-shell">
+        <div class="home-intro">
+          <p class="eyebrow" id="home-date"></p>
+          <h1 data-i18n="ready_title">Ready when you are.</h1>
+          <p class="lede" data-i18n="ready_lede">Your next session is prepared around your plan.</p>
         </div>
-        <label class="field">
-          <span data-i18n="plan">Plan</span>
-          <select id="plan-select">
-            <option value="" data-i18n="plan_none">No plan — one-off</option>
-          </select>
-        </label>
-        <p class="plan-today" id="plan-today-label" hidden></p>
-        <div class="plan-actions">
-          <button type="button" class="btn-primary" id="build-today-btn" disabled data-i18n="build_today">Build today’s session</button>
-          <button type="button" class="btn-secondary" id="clear-plan-btn" hidden data-i18n="clear_plan">Clear plan</button>
-        </div>
-      </section>
-      <div class="generate-layout">
-        <form id="generate-form" class="generate-form">
-          <label class="field">
-            <span data-i18n="sample_profile">Sample profile</span>
-            <select id="profile-select">
-              <option value="" data-i18n="custom">Custom</option>
-            </select>
-          </label>
-          <label class="field">
-            <span data-i18n="template">Template</span>
-            <select id="template-select"></select>
-          </label>
-          <label class="field">
-            <span data-i18n="goal">Goal</span>
-            <select id="goal">
-              <option value="general_health" data-i18n="general_health">General health</option>
-              <option value="muscle" data-i18n="muscle">Muscle</option>
-              <option value="strength" data-i18n="strength">Strength</option>
-              <option value="fat_loss" data-i18n="fat_loss">Fat loss</option>
-              <option value="athleticism" data-i18n="athleticism">Athleticism</option>
-              <option value="pain_management_support" data-i18n="pain_management_support">Pain-aware support</option>
-            </select>
-          </label>
-          <label class="field">
-            <span data-i18n="level">Level</span>
-            <select id="level">
-              <option value="beginner" data-i18n="beginner">Beginner</option>
-              <option value="intermediate" data-i18n="intermediate">Intermediate</option>
-              <option value="advanced" data-i18n="advanced">Advanced</option>
-            </select>
-          </label>
-          <label class="field">
-            <span data-i18n="minutes">Minutes</span>
-            <select id="minutes">
-              <option value="30">30</option>
-              <option value="40">40</option>
-              <option value="45">45</option>
-              <option value="60" selected>60</option>
-              <option value="75">75</option>
-            </select>
-          </label>
-          <fieldset class="check-set">
-            <legend data-i18n="equipment">Equipment</legend>
-            <div id="equipment-checks" class="checks"></div>
-          </fieldset>
-          <fieldset class="check-set">
-            <legend data-i18n="constraints">Constraints</legend>
-            <div class="injury-presets" role="group" aria-label="Injury presets">
-              <span class="injury-label" data-i18n="injury_presets">Quick limits</span>
-              <button type="button" class="chip-btn" data-injury="knee" data-i18n="injury_knee">Knee</button>
-              <button type="button" class="chip-btn" data-injury="shoulder" data-i18n="injury_shoulder">Shoulder</button>
-              <button type="button" class="chip-btn" data-injury="back" data-i18n="injury_back">Back</button>
-              <button type="button" class="chip-btn" data-injury="wrist" data-i18n="injury_wrist">Wrist</button>
-              <button type="button" class="chip-btn" data-injury="clear" data-i18n="injury_clear">Clear</button>
-            </div>
-            <div id="constraint-checks" class="checks"></div>
-          </fieldset>
-          <div class="flag-row">
-            <label class="check"><input type="checkbox" id="include_power" /> <span data-i18n="include_power">Include power</span></label>
-            <label class="check"><input type="checkbox" id="include_conditioning" /> <span data-i18n="include_conditioning">Include conditioning</span></label>
+        <article id="today-card" class="today-card">
+          <div id="today-card-content" class="today-card-content">
+            <div class="skeleton title-skeleton"></div>
+            <div class="skeleton line-skeleton"></div>
           </div>
-          <button type="submit" class="btn-primary" data-i18n="build_workout">Build workout</button>
-          <p id="generate-status" class="status" role="status"></p>
-        </form>
-        <div id="workout-out" class="workout-out" aria-live="polite"></div>
+          <button type="button" id="start-workout" class="primary-action" disabled>
+            <span data-i18n="start_workout">Start workout</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </article>
+        <section class="preview-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="session_preview">Session preview</p>
+              <h2 data-i18n="whats_ahead">What’s ahead</h2>
+            </div>
+            <span id="preview-count" class="quiet-meta"></span>
+          </div>
+          <div id="home-preview" class="home-preview"></div>
+        </section>
       </div>
+
+      <div id="workout-view" class="workout-view" hidden>
+        <div class="workout-topbar">
+          <button type="button" class="back-button" id="workout-home" aria-label="Back to today">←</button>
+          <div>
+            <p class="eyebrow" data-i18n="in_progress">In progress</p>
+            <strong id="workout-title"></strong>
+          </div>
+          <span id="workout-progress-label" class="quiet-meta"></span>
+        </div>
+        <div class="workout-progress"><span id="workout-progress-bar"></span></div>
+        <div id="current-exercise" class="current-exercise"></div>
+        <section class="queue-section">
+          <div class="section-heading compact">
+            <h2 data-i18n="exercise_queue">Exercise queue</h2>
+            <span class="quiet-meta" data-i18n="tap_to_jump">Tap to jump</span>
+          </div>
+          <div id="exercise-queue" class="exercise-queue"></div>
+        </section>
+      </div>
+
+      <div id="summary-view" class="summary-view" hidden></div>
     </section>
 
-    <section id="panel-swim" class="panel" role="tabpanel" hidden>
-      <div class="panel-head">
-        <p class="eyebrow">Total Immersion</p>
-        <h1 data-i18n="swim_title">Advanced swim practice</h1>
-        <p class="lede" data-i18n="swim_lede">Build focused sessions from the TI drill progression and track technique, effort, and stroke efficiency.</p>
+    <section id="screen-library" class="screen page-shell" hidden>
+      <div class="page-title-row">
+        <div>
+          <p class="eyebrow" data-i18n="explore">Explore</p>
+          <h1 data-i18n="movement_library">Movement library</h1>
+          <p class="lede" data-i18n="library_lede">Discover movements by the way your body trains.</p>
+        </div>
+        <button type="button" class="back-button desktop-back" data-route="gym" aria-label="Back">←</button>
       </div>
-      <div id="ti-curriculum" class="ti-curriculum" aria-label="Total Immersion skill progression"></div>
-      <div id="ti-active" class="workout-out ti-active-session" hidden></div>
+      <label class="search-field">
+        <span class="sr-only" data-i18n="search">Search</span>
+        <span aria-hidden="true">⌕</span>
+        <input id="library-search" type="search" data-i18n-placeholder="search_exercises" placeholder="Search exercises" autocomplete="off" />
+      </label>
+      <div id="library-categories" class="category-strip"></div>
+      <div id="library-grid" class="library-grid"></div>
+      <div id="library-detail" class="detail-sheet" hidden></div>
+    </section>
+
+    <section id="screen-swim" class="screen page-shell swim-screen" hidden>
+      <div class="page-title-row">
+        <div>
+          <p class="eyebrow">Total Immersion</p>
+          <h1 data-i18n="swim_title">Build your swim.</h1>
+          <p class="lede" data-i18n="swim_lede">Compose a focused technique session from the drill progression.</p>
+        </div>
+        <button type="button" class="back-button desktop-back" data-route="gym" aria-label="Back">←</button>
+      </div>
+      <div id="ti-curriculum" class="ti-curriculum"></div>
+      <div id="ti-active" class="ti-active-session" hidden></div>
       <div id="ti-builder"></div>
       <section class="ti-progress-section">
-        <div class="ti-section-head">
+        <div class="section-heading">
           <div>
-            <h2 data-i18n="swim_progress_title">Swimming progress</h2>
-            <p class="lede" data-i18n="swim_progress_lede">Completed TI sessions saved on this device.</p>
+            <p class="eyebrow" data-i18n="swim_progress">Swim progress</p>
+            <h2 data-i18n="recent_swims">Recent swims</h2>
           </div>
         </div>
         <div id="ti-progress"></div>
       </section>
     </section>
 
-    <section id="panel-overview" class="panel" role="tabpanel" hidden>
-      <div class="panel-head">
-        <h1 data-i18n="overview_title">What’s in the box</h1>
-        <p class="lede" data-i18n="overview_lede">Knowledge base → exercise library → session generator. This UI is a preview of those pieces.</p>
-      </div>
-      <div id="overview-stats" class="stat-grid"></div>
-      <div class="weekly-section">
-        <h2 data-i18n="weekly_title">This week</h2>
-        <p class="lede" data-i18n="weekly_lede">Feel trends, pattern volume, and load progress from the last 7 days.</p>
-        <div id="weekly-review" class="weekly-review"></div>
-      </div>
-      <div class="history-section">
-        <h2 data-i18n="history_title">Recent sessions</h2>
-        <p class="lede" data-i18n="history_lede">Finished workouts on this device — used for load suggestions and plan variety.</p>
-        <div id="history-list" class="history-list"></div>
-      </div>
-      <div class="backup-section" id="voice-clip-section">
-        <h2 data-i18n="voice_title">Workout start voice</h2>
-        <p class="lede" data-i18n="voice_lede">Upload or record your own clip. It plays when a workout starts; system Hebrew TTS is the fallback.</p>
-        <p id="voice-clip-status" class="status" role="status" data-i18n="voice_none">No custom clip yet — using spoken TTS.</p>
-        <div class="backup-actions">
-          <label class="btn-secondary backup-import">
-            <span data-i18n="voice_upload">Upload audio</span>
-            <input type="file" id="voice-upload-input" accept="audio/*" hidden />
-          </label>
-          <button type="button" class="btn-secondary" id="voice-record-btn" data-i18n="voice_record">Record</button>
-          <button type="button" class="btn-secondary" id="voice-preview-btn" data-i18n="voice_preview" disabled>Preview</button>
-          <button type="button" class="btn-secondary" id="voice-clear-btn" data-i18n="voice_clear" disabled>Clear</button>
+    <section id="screen-settings" class="screen page-shell settings-screen" hidden>
+      <div class="page-title-row">
+        <div>
+          <p class="eyebrow" data-i18n="preferences">Preferences</p>
+          <h1 data-i18n="settings">Settings</h1>
+          <p class="lede" data-i18n="settings_lede">Keep your training profile current.</p>
         </div>
+        <button type="button" class="back-button desktop-back" data-route="gym" aria-label="Back">←</button>
       </div>
-      <div class="backup-section">
-        <h2 data-i18n="backup_title">Backup</h2>
-        <p class="lede" data-i18n="backup_lede">Progress lives in this browser only. Export a file to keep it safe, or restore on another device.</p>
-        <div class="backup-actions">
-          <button type="button" class="btn-primary" id="export-backup-btn" data-i18n="export_backup">Export backup</button>
-          <label class="btn-secondary backup-import">
-            <span data-i18n="import_backup">Import backup</span>
-            <input type="file" id="import-backup-input" accept="application/json,.json" hidden />
-          </label>
+      <form id="settings-form" class="settings-form">
+        <label class="form-field"><span data-i18n="goal">Goal</span><select id="settings-goal"></select></label>
+        <label class="form-field"><span data-i18n="experience">Experience</span><select id="settings-level"></select></label>
+        <label class="form-field"><span data-i18n="days_week">Days per week</span><select id="settings-days"></select></label>
+        <fieldset class="settings-group">
+          <legend data-i18n="equipment">Equipment</legend>
+          <div id="settings-equipment" class="choice-grid compact-choices"></div>
+        </fieldset>
+        <fieldset class="settings-group">
+          <legend data-i18n="limitations">Limitations</legend>
+          <div id="settings-constraints" class="choice-grid compact-choices"></div>
+        </fieldset>
+        <div class="settings-language">
+          <span data-i18n="language">Language</span>
+          <div class="segmented">
+            <button type="button" data-language="en">English</button>
+            <button type="button" data-language="he">עברית</button>
+          </div>
         </div>
-        <p id="backup-status" class="status" role="status"></p>
-      </div>
-      <div class="overview-copy">
-        <article>
-          <h2 data-i18n="patterns_title">Patterns</h2>
-          <p data-i18n="patterns_body">Push, pull, hinge, squat, lunge, carry, rotate, locomotion, corrective — tagged for substitution and coverage checks.</p>
-        </article>
-        <article>
-          <h2 data-i18n="hierarchy_title">Hierarchy</h2>
-          <p data-i18n="hierarchy_body">Prep and correctives before heavy load; power before strength when both appear; constraints soft-gate risky variations.</p>
-        </article>
-        <article>
-          <h2 data-i18n="sources_title">Sources</h2>
-          <p data-i18n="sources_body">Principles distilled from Athlean-X, FMS/Cook, Boyle, Dan John, McGill, EXOS, and related systems — see knowledge/.</p>
-        </article>
-      </div>
+        <button type="submit" class="primary-action"><span data-i18n="save_changes">Save changes</span><span>→</span></button>
+      </form>
     </section>
   </main>
 

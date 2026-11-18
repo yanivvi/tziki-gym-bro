@@ -48,9 +48,10 @@
         <button type="button" class="icon-button close-button" data-menu-close aria-label="Close menu">×</button>
       </div>
       <button type="button" class="menu-link" data-route="gym"><span data-i18n="today">Today</span><span>01</span></button>
-      <button type="button" class="menu-link" data-route="library"><span data-i18n="library">Library</span><span>02</span></button>
-      <button type="button" class="menu-link" data-route="swim"><span data-i18n="swim">Swim</span><span>03</span></button>
-      <button type="button" class="menu-link" data-route="settings"><span data-i18n="settings">Settings</span><span>04</span></button>
+      <button type="button" class="menu-link" data-route="history"><span data-i18n="history">History</span><span>02</span></button>
+      <button type="button" class="menu-link" data-route="library"><span data-i18n="library">Library</span><span>03</span></button>
+      <button type="button" class="menu-link" data-route="swim"><span data-i18n="swim">Swim</span><span>04</span></button>
+      <button type="button" class="menu-link" data-route="settings"><span data-i18n="settings">Settings</span><span>05</span></button>
     </nav>
   </aside>
 
@@ -105,17 +106,23 @@
           <span id="workout-progress-label" class="quiet-meta"></span>
         </div>
         <div class="workout-progress"><span id="workout-progress-bar"></span></div>
-        <div id="current-exercise" class="current-exercise"></div>
-        <section class="queue-section">
-          <div class="section-heading compact">
-            <h2 data-i18n="exercise_queue">Exercise queue</h2>
-            <span class="quiet-meta" data-i18n="tap_to_jump">Tap to jump</span>
-          </div>
-          <div id="exercise-queue" class="exercise-queue"></div>
-        </section>
+        <div id="workout-board" class="workout-board"></div>
       </div>
 
       <div id="summary-view" class="summary-view" hidden></div>
+    </section>
+
+    <section id="screen-history" class="screen page-shell" hidden>
+      <div class="page-title-row">
+        <div>
+          <p class="eyebrow" data-i18n="history_eyebrow">Log</p>
+          <h1 data-i18n="history">History</h1>
+          <p class="lede" data-i18n="history_lede">Every set from a finished workout, in one table.</p>
+        </div>
+        <button type="button" class="back-button desktop-back" data-route="gym" aria-label="Back">←</button>
+      </div>
+      <p id="history-count" class="quiet-meta"></p>
+      <div id="history-table-wrap" class="history-table-wrap"></div>
     </section>
 
     <section id="screen-library" class="screen page-shell" hidden>
@@ -192,6 +199,21 @@
       </form>
     </section>
   </main>
+
+  <div id="exercise-modal" class="exercise-modal" hidden>
+    <button type="button" class="detail-backdrop" data-modal-close aria-label="Close"></button>
+    <div id="exercise-dialog" class="exercise-dialog" role="dialog" aria-modal="true" tabindex="-1">
+      <button type="button" class="icon-button close-button" data-modal-close aria-label="Close">×</button>
+      <div class="carousel-frame">
+        <button type="button" class="carousel-arrow" id="carousel-prev" aria-label="Previous drill">‹</button>
+        <div id="drill-carousel" class="drill-carousel"></div>
+        <button type="button" class="carousel-arrow" id="carousel-next" aria-label="Next drill">›</button>
+      </div>
+      <p id="carousel-count" class="carousel-count quiet-meta"></p>
+      <div id="modal-detail" class="modal-detail"></div>
+      <button type="button" class="primary-action finish-exercise" id="finish-exercise"><span></span><span aria-hidden="true">→</span></button>
+    </div>
+  </div>
 
   <script src="./app.js" type="module"></script>
 </body>

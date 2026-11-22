@@ -33,6 +33,7 @@
       <span>Tziki</span>
     </button>
     <div class="header-actions">
+      <button type="button" class="text-button mode-switch" id="kb-shortcut" data-route="kettlebell" data-i18n="kettlebell">Kettlebell</button>
       <button type="button" class="text-button mode-switch" id="swim-shortcut" data-route="swim" data-i18n="swim">Swim</button>
       <button type="button" class="icon-button" id="menu-toggle" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span>
@@ -51,7 +52,8 @@
       <button type="button" class="menu-link" data-route="history"><span data-i18n="history">History</span><span>02</span></button>
       <button type="button" class="menu-link" data-route="library"><span data-i18n="library">Library</span><span>03</span></button>
       <button type="button" class="menu-link" data-route="swim"><span data-i18n="swim">Swim</span><span>04</span></button>
-      <button type="button" class="menu-link" data-route="settings"><span data-i18n="settings">Settings</span><span>05</span></button>
+      <button type="button" class="menu-link" data-route="kettlebell"><span data-i18n="kettlebell">Kettlebell</span><span>05</span></button>
+      <button type="button" class="menu-link" data-route="settings"><span data-i18n="settings">Settings</span><span>06</span></button>
     </nav>
   </aside>
 
@@ -165,6 +167,18 @@
         </div>
         <div id="ti-progress"></div>
       </section>
+    </section>
+
+    <section id="screen-kettlebell" class="screen page-shell kb-screen" hidden>
+      <div class="page-title-row" id="kb-heading">
+        <div>
+          <p class="eyebrow" data-i18n="kettlebell">Kettlebell</p>
+          <h1 data-i18n="kb_title">One bell. About twenty minutes.</h1>
+          <p class="lede" data-i18n="kb_lede">The session is already built. Same weight the whole way. Press start and follow the bell.</p>
+        </div>
+        <button type="button" class="back-button desktop-back" data-route="gym" aria-label="Back">←</button>
+      </div>
+      <div id="kb-root"></div>
     </section>
 
     <section id="screen-settings" class="screen page-shell settings-screen" hidden>

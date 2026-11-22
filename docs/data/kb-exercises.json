@@ -1,0 +1,228 @@
+{
+  "exercises": [
+    {
+      "id": "swing",
+      "pattern": "hinge",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Kettlebell swing", "he": "סווינג קטלבל" },
+      "cue": { "en": "Hinge, snap the hips, and float the bell to shoulder height.", "he": "ציר בירך, הצמדת ירכיים, והפעמון עד גובה הכתף." }
+    },
+    {
+      "id": "thruster",
+      "pattern": "full",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Single-arm thruster", "he": "תראסטר ביד אחת" },
+      "cue": { "en": "Rack one bell and squat. Drive up and press it overhead.", "he": "פעמון אחד בכתף, סקוואט, וביציאה לחיצה מעל הראש." }
+    },
+    {
+      "id": "clean_press",
+      "pattern": "push",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Single-arm clean and press", "he": "קלין ולחיצה ביד אחת" },
+      "cue": { "en": "Swing one bell to the shoulder, then press it overhead.", "he": "הנפה לכתף באותה יד, ואז לחיצה מעל הראש." }
+    },
+    {
+      "id": "snatch",
+      "pattern": "hinge",
+      "skill": "high",
+      "unilateral": true,
+      "name": { "en": "Kettlebell snatch", "he": "סנאץ׳ קטלבל" },
+      "cue": { "en": "One motion from between the legs to a locked arm overhead.", "he": "תנועה אחת מבין הרגליים עד יד נעולה מעל הראש." }
+    },
+    {
+      "id": "pistol",
+      "pattern": "squat",
+      "skill": "high",
+      "unilateral": true,
+      "name": { "en": "Pistol squat", "he": "סקוואט פיסטול" },
+      "cue": { "en": "Hold the bell at your chest and squat on one leg.", "he": "הפעמון ליד החזה, סקוואט על רגל אחת." }
+    },
+    {
+      "id": "goblet_squat",
+      "pattern": "squat",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Goblet squat", "he": "סקוואט גביע" },
+      "cue": { "en": "Bell at the chest. Sit between the hips and stand tall.", "he": "הפעמון על החזה, ישיבה בין הירכיים, וחזרה לעמידה." }
+    },
+    {
+      "id": "deadlift",
+      "pattern": "hinge",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Kettlebell deadlift", "he": "דדליפט קטלבל" },
+      "cue": { "en": "Hinge to the bell, stand, and squeeze the glutes.", "he": "ציר אל הפעמון, עמידה, וכיווץ הישבן." }
+    },
+    {
+      "id": "suitcase_carry",
+      "pattern": "carry",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Suitcase carry", "he": "נשיאת מזוודה" },
+      "cue": { "en": "One bell at your side. Walk tall in short steps.", "he": "פעמון אחד לצד הגוף. הליכה זקופה בצעדים קצרים." }
+    },
+    {
+      "id": "shoulder_press",
+      "pattern": "push",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Single-arm shoulder press", "he": "לחיצת כתף ביד אחת" },
+      "cue": { "en": "Press one bell from the shoulder until the arm locks out.", "he": "לחיצת פעמון אחד מהכתף עד נעילת היד." }
+    },
+    {
+      "id": "floor_press",
+      "pattern": "push",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Single-arm floor press", "he": "לחיצת רצפה ביד אחת" },
+      "cue": { "en": "Lie down and press one bell from the chest toward the ceiling.", "he": "שכיבה, ולחיצת פעמון אחד מהחזה אל התקרה." }
+    },
+    {
+      "id": "toe_touch",
+      "pattern": "core",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Overhead toe touch", "he": "נגיעת רגל מעל הראש" },
+      "cue": { "en": "Lock one bell overhead and reach the free hand down your leg.", "he": "נועלים פעמון אחד מעל הראש ומורידים את היד החופשית לאורך הרגל." }
+    },
+    {
+      "id": "one_arm_swing",
+      "pattern": "hinge",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "One-arm swing", "he": "סווינג ביד אחת" },
+      "cue": { "en": "The same swing, with one hand on the handle.", "he": "אותו סווינג, יד אחת על הידית." }
+    },
+    {
+      "id": "turkish_getup",
+      "pattern": "full",
+      "skill": "high",
+      "unilateral": true,
+      "name": { "en": "Turkish get-up", "he": "תרקיש גט-אפ" },
+      "cue": { "en": "From the floor to standing, the bell stays locked overhead.", "he": "מהרצפה לעמידה, והפעמון נשאר נעול מעל הראש." }
+    },
+    {
+      "id": "sumo_high_pull",
+      "pattern": "pull",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Sumo high pull", "he": "סומו היי פול" },
+      "cue": { "en": "Wide stance. Drive up and pull the bell to chin height.", "he": "עמידה רחבה. עלייה ומשיכת הפעמון לגובה הסנטר." }
+    },
+    {
+      "id": "chainsaw_row",
+      "pattern": "pull",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Chainsaw row", "he": "חתירת מסור" },
+      "cue": { "en": "Split stance, torso low. Row the bell hard from the floor.", "he": "עמידה מפוצלת, גו נמוך. חתירה חזקה מהרצפה." }
+    },
+    {
+      "id": "burpee",
+      "pattern": "full",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Burpee over the bell", "he": "בארפי מעל הפעמון" },
+      "cue": { "en": "Chest to the floor, then jump over the bell.", "he": "חזה לרצפה, ואז קפיצה מעל הפעמון." }
+    },
+    {
+      "id": "front_squat",
+      "pattern": "squat",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Front squat", "he": "סקוואט קדמי" },
+      "cue": { "en": "Rack the bell at the shoulder and squat. Elbow stays high.", "he": "הפעמון בכתף, סקוואט, והמרפק נשאר גבוה." }
+    },
+    {
+      "id": "overhead_carry",
+      "pattern": "carry",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Overhead carry", "he": "נשיאה מעל הראש" },
+      "cue": { "en": "Lock the bell overhead and walk. Ribs stay down.", "he": "נעילה מעל הראש והליכה. הצלעות נשארות למטה." }
+    },
+    {
+      "id": "kneeling_windmill",
+      "pattern": "full",
+      "skill": "high",
+      "unilateral": true,
+      "name": { "en": "Kneeling clean to windmill", "he": "קלין כורע לטחנת רוח" },
+      "cue": { "en": "Kneel, clean, press, then hinge and reach under the body.", "he": "כריעה, קלין, לחיצה, ואז ציר והושטת היד מתחת לגוף." }
+    },
+    {
+      "id": "swing_clean",
+      "pattern": "pull",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Swing clean", "he": "סווינג קלין" },
+      "cue": { "en": "Hike the bell and pull it to the rack at your chest.", "he": "הנפה ומשיכה של הפעמון אל הכתף." }
+    },
+    {
+      "id": "american_swing",
+      "pattern": "hinge",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "American swing", "he": "סווינג אמריקאי" },
+      "cue": { "en": "Hinge and swing the bell all the way overhead.", "he": "ציר והנפה של הפעמון עד מעל הראש." }
+    },
+    {
+      "id": "z_press",
+      "pattern": "push",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Single-arm Z press", "he": "לחיצת Z ביד אחת" },
+      "cue": { "en": "Sit tall, legs straight, and press one bell overhead.", "he": "ישיבה זקופה, רגליים ישרות, ולחיצת פעמון אחד." }
+    },
+    {
+      "id": "reverse_crunch",
+      "pattern": "core",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Reverse crunch", "he": "כפיפת בטן הפוכה" },
+      "cue": { "en": "Pin the bell overhead and peel the hips off the floor.", "he": "הפעמון מעל הראש, והרמת האגן מהרצפה." }
+    },
+    {
+      "id": "plank_pass",
+      "pattern": "core",
+      "skill": "standard",
+      "unilateral": false,
+      "name": { "en": "Plank pass-through", "he": "פלאנק העברת פעמון" },
+      "cue": { "en": "Hold a plank and drag the bell under your body.", "he": "פלאנק, וגרירת הפעמון מתחת לגוף." }
+    },
+    {
+      "id": "half_kneeling_press",
+      "pattern": "push",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Half-kneeling press", "he": "לחיצה מחצי כריעה" },
+      "cue": { "en": "One knee down. Press the bell in the opposite hand.", "he": "ברך אחת למטה. לחיצה ביד הנגדית." }
+    },
+    {
+      "id": "renegade_row",
+      "pattern": "pull",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Renegade row", "he": "חתירת רנגד" },
+      "cue": { "en": "Plank on one hand. Row the bell with the other.", "he": "פלאנק על יד אחת. חתירה ביד השנייה." }
+    },
+    {
+      "id": "gorilla_row",
+      "pattern": "pull",
+      "skill": "standard",
+      "unilateral": true,
+      "name": { "en": "Gorilla row", "he": "חתירת גורילה" },
+      "cue": { "en": "Wide hinge. Row the bell, set it down, and row with the other hand.", "he": "ציר רחב. חתירה, הנחה, וחתירה ביד השנייה." }
+    },
+    {
+      "id": "windmill",
+      "pattern": "core",
+      "skill": "high",
+      "unilateral": true,
+      "name": { "en": "Kettlebell windmill", "he": "טחנת רוח" },
+      "cue": { "en": "Bell overhead. Hinge and slide the free hand down the front leg.", "he": "פעמון מעל הראש. ציר, והיד החופשית יורדת לאורך הרגל." }
+    }
+  ]
+}

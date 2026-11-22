@@ -780,6 +780,33 @@ body.is-workout .workout-topbar strong {
 .history-item p { margin: 0.2rem 0 0; color: var(--muted); font-size: 0.72rem; }
 .badge { color: var(--muted); font-size: 0.7rem; }
 
+.kb-plan h2, .kb-done h2 { margin: 0.2rem 0 0.8rem; }
+.kb-callout { margin: 0 0 1rem; padding: 0.9rem 1rem; border-radius: var(--radius-sm); background: var(--accent-soft); color: var(--accent-dark); font-weight: 700; }
+.kb-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem; margin: 1rem 0 0.4rem; }
+.kb-stat { padding: 0.8rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.kb-stat span, .kb-stat strong { display: block; }
+.kb-stat span { color: var(--muted); font-size: 0.68rem; font-weight: 700; }
+.kb-stat strong { font: 500 1.35rem/1.1 var(--font-display); }
+.kb-list { margin-top: 0.5rem; }
+.kb-row { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.75rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+.kb-index { color: var(--muted); font-variant-numeric: tabular-nums; }
+.kb-row strong, .kb-row p { margin: 0; }
+.kb-row p { color: var(--muted); font-size: 0.88rem; }
+.kb-bell-row { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; }
+.kb-actions { display: grid; gap: 0.35rem; margin-top: 1rem; max-width: 420px; }
+.kb-timer { display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; min-height: calc(100dvh - var(--header-h) - 2.5rem); }
+.kb-phase { margin: 0; color: var(--accent); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.kb-clock { margin: 0.15rem 0 0.4rem; font-family: var(--font-display); font-weight: 500; font-size: clamp(5.5rem, 26vw, 11rem); line-height: 0.85; letter-spacing: -0.045em; font-variant-numeric: tabular-nums; }
+.kb-timer.is-rest .kb-clock { color: var(--muted); }
+.kb-timer.is-ready .kb-clock { color: var(--warm); }
+.kb-title { margin: 0; font-family: var(--font-display); font-size: clamp(2rem, 6vw, 3.4rem); font-weight: 500; line-height: 1.05; }
+.kb-cue, .kb-next { margin: 0.45rem 0 0; color: var(--muted); max-width: 38rem; }
+.kb-switch { margin: 0.7rem 0 0; color: var(--accent-dark); font-weight: 700; }
+.kb-progress { height: 4px; margin: 0 0 1rem; overflow: hidden; border-radius: 999px; background: var(--line); }
+.kb-progress span { display: block; height: 100%; background: var(--accent); }
+.kb-stop { min-height: 48px; padding-inline: 1.2rem; }
+.kb-done { padding-top: 1rem; }
+
 .fatal-error { width: min(680px, 100%); margin: 15vh auto; padding: 2rem; text-align: center; }
 .skeleton { border-radius: 8px; background: rgba(255,255,255,0.14); animation: pulse 1.2s infinite alternate; }
 .title-skeleton { width: 50%; height: 50px; margin-bottom: 1rem; }
@@ -833,6 +860,7 @@ body.is-workout .workout-topbar strong {
   .ti-active-body { grid-column: 2; }
   .ti-active-title { display: block; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
+  .kb-stats { grid-template-columns: 1fr 1fr; }
   .summary-stats strong { font-size: 1.55rem; }
 }
 

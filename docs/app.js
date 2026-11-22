@@ -4,6 +4,7 @@ import {
   hashString,
 } from "./generator.js";
 import { applyI18n, getLang, setLang, t } from "./i18n.js";
+import { initKettlebell, refreshKettlebellLanguage } from "./kb.js";
 import { initSwim, refreshSwimLanguage } from "./swim.js";
 
 const STORE_KEY = "tziki-gym-bro-v2";
@@ -277,7 +278,7 @@ function showScreen(route) {
   state.route = route;
   if (route !== "gym") closeExercise();
   document.body.classList.remove("is-workout");
-  ["gym", "library", "swim", "settings", "history"].forEach((name) => {
+  ["gym", "library", "swim", "kettlebell", "settings", "history"].forEach((name) => {
     const screen = $(`screen-${name}`);
     if (screen) screen.hidden = name !== route;
   });
@@ -286,6 +287,7 @@ function showScreen(route) {
   if (route === "library") renderLibrary();
   if (route === "settings") renderSettings();
   if (route === "history") renderHistory();
+  if (route === "kettlebell") refreshKettlebellLanguage();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -1129,6 +1131,7 @@ function changeLanguage(lang) {
   setLang(lang);
   applyI18n(lang);
   refreshSwimLanguage();
+  refreshKettlebellLanguage();
   if (loadStore().profile) {
     renderSettings();
     showScreen(state.route);
@@ -1209,6 +1212,7 @@ async function init() {
   state.plans = Array.isArray(plans) ? plans : plans.plans || [];
   state.videos = videos && typeof videos === "object" && !Array.isArray(videos) ? videos : {};
   await initSwim();
+  await initKettlebell();
   if (loadStore().profile) showScreen("gym");
   else renderOnboarding();
 }
